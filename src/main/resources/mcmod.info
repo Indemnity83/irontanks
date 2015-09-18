@@ -1,0 +1,16 @@
+[
+{
+  "modid": "irontanks",
+  "name": "IronTanks",
+  "description": "Expanding Buildcraft tanks similarly to the way IronChests expanded vanilla chests.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/indemnity83/IronTanks",
+  "updateUrl": "",
+  "authorList": ["Indemnity83"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
