@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'forge'
 
 version = "dev"
-group= "com.indemnity83"
+group= "com.indemnity83.irontank"
 archivesBaseName = "IronTanks"
 
 minecraft {
