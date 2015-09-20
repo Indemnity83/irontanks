@@ -16,15 +16,25 @@ buildscript {
 }
 
 apply plugin: 'forge'
-
-version = "dev"
-group= "com.indemnity83.irontank"
-archivesBaseName = "IronTanks"
+apply plugin: 'curseforge'
 
 minecraft {
     version = "1.7.10-10.13.2.1291"
     runDir = "eclipse"
 }
+
+curse {
+    projectId = '236226'
+    apiKey = "${System.getenv().CURSE_API_KEY}"
+    releaseType = 'alpha'
+
+    relatedProject 'buildcraft'
+}
+
+version = "dev"
+group= "com.indemnity83.irontank"
+archivesBaseName = "IronTanks"
+version = "${minecraft.version}-$version.${System.getenv().TRAVIS_BUILD_NUMBER}"
 
 repositories {
     ivy {

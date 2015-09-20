@@ -1,7 +1,16 @@
 ## Welcome to Iron Tanks!
-[All versions are available here](#)
+***
 
-[Minecraft Forums page](http://www.minecraftforum.net/topic/#)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Indemnity83/irontank/blob/master/LICENSE.txt)  
+[![Latest Stable Version](https://img.shields.io/badge/stable-unknown-lightgrey.svg)](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks/files) [![Build Status](https://travis-ci.org/indemnity83/irontank.svg?branch=master)](https://travis-ci.org/indemnity83/irontank)  
+[![Latest Stable Version](https://img.shields.io/badge/unstable-dev-orange.svg)](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks/files) [![Build Status](https://travis-ci.org/Indemnity83/irontank.svg?branch=develop)](https://travis-ci.org/Indemnity83/irontank)
+
+## Index
+ ***
+
+[All versions are available here](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks)
+
+[Minecraft Forums page](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/2528297-iron-tanks)
 
 [Compiling Iron Tanks](#compiling-iron-tanks) - For those that want the latest unreleased features.
 
