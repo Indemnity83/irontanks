@@ -19,7 +19,7 @@ apply plugin: 'forge'
 apply plugin: 'curseforge'
 
 minecraft {
-    version = "1.7.10-10.13.2.1291"
+    version = "1.7.10-10.13.4.1448-1.7.10"
     runDir = "eclipse"
 }
 
@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    compile name: "buildcraft", version: "7.0.23", classifier: "dev"
+    compile name: "buildcraft", version: "7.0.24", classifier: "dev"
 }
 
 processResources
