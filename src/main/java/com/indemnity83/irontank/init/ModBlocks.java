@@ -15,12 +15,12 @@ public class ModBlocks {
 	
 	public static void init()
 	{
-		GameRegistry.registerBlock(ironTank, "ironTank");
-		GameRegistry.registerBlock(goldTank, "goldTank");
-		GameRegistry.registerBlock(diamondTank, "diamondTank");
-		GameRegistry.registerBlock(obsidianTank, "obsidianTank");
-		GameRegistry.registerBlock(copperTank, "copperTank");
-		GameRegistry.registerBlock(silverTank, "silverTank");
+		GameRegistry.registerBlock(ironTank, ironTank.getInternalName());
+		GameRegistry.registerBlock(goldTank, goldTank.getInternalName());
+		GameRegistry.registerBlock(diamondTank, diamondTank.getInternalName());
+		GameRegistry.registerBlock(obsidianTank, obsidianTank.getInternalName());
+		GameRegistry.registerBlock(copperTank, copperTank.getInternalName());
+		GameRegistry.registerBlock(silverTank, silverTank.getInternalName());
 	}
 
 }

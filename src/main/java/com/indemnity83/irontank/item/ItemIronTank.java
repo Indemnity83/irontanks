@@ -20,13 +20,13 @@ public class ItemIronTank extends Item
 	@Override
     public String getUnlocalizedName()
     {
-        return String.format("item.%s%s", Reference.MODID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        return String.format("item.%s%s", Reference.MODID.toLowerCase() + ":", getInternalName());
     }
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return String.format("item.%s%s", Reference.MODID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        return String.format("item.%s%s", Reference.MODID.toLowerCase() + ":", getInternalName());
     }
     
     @Override
@@ -39,5 +39,11 @@ public class ItemIronTank extends Item
     protected String getUnwrappedUnlocalizedName(String unlocalizedName)
     {
         return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+    }
+    
+	
+	public String getInternalName()
+    {
+    	return getUnwrappedUnlocalizedName(super.getUnlocalizedName());
     }
 }

@@ -48,5 +48,10 @@ public class BlockIronTank extends BlockTank {
 			return super.getIconAbsolute(side, metadata);
 		}
 	}
+	
+	public String getInternalName()
+    {
+		return this.blockName;
+    }
 
 }

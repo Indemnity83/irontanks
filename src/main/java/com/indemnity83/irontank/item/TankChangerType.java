@@ -41,21 +41,6 @@ public enum TankChangerType {
     {
         return from == this.source;
     }
-
-	public ItemTankChanger buildItem()
-    {
-        item = new ItemTankChanger(this);
-        GameRegistry.registerItem(item, itemName);
-        return item;
-    }
-	
-	public static void buildItems()
-    {
-        for (TankChangerType type : values())
-        {
-            type.buildItem();
-        }
-    }
 	
 	public String getItemName() 
 	{
