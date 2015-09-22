@@ -15,3 +15,6 @@ tile.diamondTank.name=Diamond Tank
 tile.obsidianTank.name=Obsidian Tank
 tile.copperTank.name=Copper Tank
 tile.silverTank.name=Silver Tank
+
+# Misc localizations
+itemGroup.irontank=Iron Tanks
