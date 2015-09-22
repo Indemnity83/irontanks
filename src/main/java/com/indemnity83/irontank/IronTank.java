@@ -4,6 +4,7 @@ import com.indemnity83.irontank.block.TileIronTank;
 import com.indemnity83.irontank.handler.ConfigurationHandler;
 import com.indemnity83.irontank.init.ModBlocks;
 import com.indemnity83.irontank.init.ModItems;
+import com.indemnity83.irontank.init.ModRecipies;
 import com.indemnity83.irontank.proxy.IProxy;
 import com.indemnity83.irontank.reference.Reference;
 import com.indemnity83.irontank.utility.LogHelper;
@@ -39,6 +40,7 @@ public class IronTank
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+    	ModRecipies.init();
     	LogHelper.info("Initialization Complete!");
     }
     

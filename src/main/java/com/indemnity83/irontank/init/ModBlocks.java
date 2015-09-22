@@ -1,17 +1,18 @@
 package com.indemnity83.irontank.init;
 
 import com.indemnity83.irontank.block.BlockIronTank;
+import com.indemnity83.irontank.block.IronTankType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
 	
-	public static final BlockIronTank copperTank = new BlockIronTank("copperTank", 27);
-	public static final BlockIronTank silverTank = new BlockIronTank("silverTank", 32);
-	public static final BlockIronTank ironTank = new BlockIronTank("ironTank", 43);
-	public static final BlockIronTank goldTank = new BlockIronTank("goldTank", 48);
-	public static final BlockIronTank diamondTank = new BlockIronTank("diamondTank", 64);
-	public static final BlockIronTank obsidianTank = new BlockIronTank("obsidianTank", 64);
+	public static final BlockIronTank copperTank = new BlockIronTank(IronTankType.COPPER);
+	public static final BlockIronTank silverTank = new BlockIronTank(IronTankType.SILVER);
+	public static final BlockIronTank ironTank = new BlockIronTank(IronTankType.IRON);
+	public static final BlockIronTank goldTank = new BlockIronTank(IronTankType.GOLD);
+	public static final BlockIronTank diamondTank = new BlockIronTank(IronTankType.DIAMOND);
+	public static final BlockIronTank obsidianTank = new BlockIronTank(IronTankType.OBSIDIAN);
 	
 	public static void init()
 	{

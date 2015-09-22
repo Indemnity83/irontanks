@@ -7,6 +7,10 @@ import static com.indemnity83.irontank.block.IronTankType.IRON;
 import static com.indemnity83.irontank.block.IronTankType.OBSIDIAN;
 import static com.indemnity83.irontank.block.IronTankType.SILVER;
 import static com.indemnity83.irontank.block.IronTankType.GLASS;
+
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
 import com.indemnity83.irontank.block.IronTankType;
@@ -14,14 +18,14 @@ import com.indemnity83.irontank.block.IronTankType;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum TankChangerType {
-	IRONGOLD(IRON, GOLD, "ironGoldUpgrade", "mmm", "msm", "mmm"),
-	GOLDDIAMOND(GOLD, DIAMOND, "goldDiamondUpgrade", "mmm", "msm", "mmm"),
-    COPPERSILVER(COPPER, SILVER, "copperSilverUpgrade", "mmm", "msm", "mmm"),
-    SILVERGOLD(SILVER, GOLD, "silverGoldUpgrade", "mmm", "msm", "mmm"),
-    COPPERIRON(COPPER, IRON, "copperIronUpgrade", "mmm", "msm", "mmm"),
-    GLASSIRON(GLASS, IRON, "glassIronUpgrade", "mmm", "msm", "mmm"),
-    GLASSCOPPER(GLASS, COPPER, "glassCopperUpgrade", "mmm", "msm", "mmm"),
-    DIAMONDOBSIDIAN(DIAMOND, OBSIDIAN, "diamondObsidianUpgrade", "mmm", "msm", "mmm");
+	IRONGOLD(IRON, GOLD, "ironGoldUpgrade", "tgt", "gsg", "tgt"),
+	GOLDDIAMOND(GOLD, DIAMOND, "goldDiamondUpgrade", "ggg", "tst", "ggg"),
+    COPPERSILVER(COPPER, SILVER, "copperSilverUpgrade", "tgt", "gsg", "tgt"),
+    SILVERGOLD(SILVER, GOLD, "silverGoldUpgrade", "ggg", "tst", "ggg"),
+    COPPERIRON(COPPER, IRON, "copperIronUpgrade", "ggg", "tst", "ggg"),
+    GLASSIRON(GLASS, IRON, "glassIronUpgrade", "tgt", "gsg", "tgt"),
+    GLASSCOPPER(GLASS, COPPER, "glassCopperUpgrade", "ggg", "tst", "ggg"),
+    DIAMONDOBSIDIAN(DIAMOND, OBSIDIAN, "diamondObsidianUpgrade", "tgt", "gsg", "tgt");
 	
 	private IronTankType source;
 	private IronTankType target;
@@ -45,6 +49,18 @@ public enum TankChangerType {
 	public String getItemName() 
 	{
 		return this.itemName;
+	}
+
+	public Object[] getRecipe() {
+		return recipe;
+	}
+
+	public List<String> getSourceMats() {
+		return source.getMatList();
+	}
+
+	public List<String> getTargetMats() {
+		return target.getMatList();
 	}
 
 }

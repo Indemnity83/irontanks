@@ -1,5 +1,6 @@
 package com.indemnity83.irontank.item;
 
+import com.indemnity83.irontank.block.IronTankType;
 import com.indemnity83.irontank.reference.Reference;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,7 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemIronTank extends Item 
+public abstract class ItemIronTank extends Item 
 {
 
 	public ItemIronTank() 
@@ -46,4 +47,7 @@ public class ItemIronTank extends Item
     {
     	return getUnwrappedUnlocalizedName(super.getUnlocalizedName());
     }
+
+	public abstract void addRecipe();
+
 }
