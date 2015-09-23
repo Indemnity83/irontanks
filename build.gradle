@@ -28,7 +28,7 @@ import java.util.regex.Pattern
 loadProperties()
 ext.repo = Grgit.open(project.file('.'))
 
-version = version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
+version = project.mcversion + '-' + version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
 if (project.hasProperty('buildQualifier') && project.buildQualifier != 'release') {
 	version = project.version + '-' + project.buildQualifier
 }
