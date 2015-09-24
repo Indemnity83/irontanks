@@ -40,7 +40,9 @@ public class BlockIronTank extends BlockTank {
 	}
 
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileIronTank(this.tankVolume);
+		TileIronTank tile = new TileIronTank();
+		tile.setCapacity(this.tankVolume);
+		return tile;
 	}
 	
 	@SideOnly(Side.CLIENT)

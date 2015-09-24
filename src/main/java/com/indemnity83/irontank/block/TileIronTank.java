@@ -8,17 +8,13 @@ import buildcraft.core.lib.fluids.Tank;
 import buildcraft.factory.TileTank;
 
 public class TileIronTank extends TileTank {
-
-	private int tankVolume;
 	
-	public TileIronTank(int tankVolume) {
-		super();
-		this.tankVolume = tankVolume;
+	public void setCapacity(int tankVolume) {
+		this.tank.setCapacity(FluidContainerRegistry.BUCKET_VOLUME * tankVolume);
 	}
 	
-	public void initialize() {
-		super.initialize();
-		this.tank.setCapacity(FluidContainerRegistry.BUCKET_VOLUME * tankVolume);
+	public int getCapacity() {
+		return this.tank.getCapacity();
 	}
 
 }
