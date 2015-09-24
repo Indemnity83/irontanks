@@ -7,6 +7,7 @@ item.irontank:ironGoldUpgrade.name=Iron to Gold Tank Upgrade;
 item.irontank:silverGoldUpgrade.name=Silver to Gold Tank Upgrade
 item.irontank:glassCopperUpgrade.name=Glass to Copper Tank Upgrade
 item.irontank:glassIronUpgrade.name=Glass to Iron Tank Upgrade
+item.irontank:silverDiamondUpgrade.name=Silver to Diamond Tank Upgrade
 
 # Block localizations
 tile.ironTank.name=Iron Tank

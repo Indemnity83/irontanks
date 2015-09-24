@@ -21,6 +21,7 @@ public class ModRecipies {
 		ModItems.glassIronUpgrade.addRecipe();
 		ModItems.glassCopperUpgrade.addRecipe();
 		ModItems.diamondObsidianUpgrade.addRecipe();
+		ModItems.silverDiamondUpgrade.addRecipe();
 		
 		// Block Recipes
 		ModBlocks.copperTank.addRecipe();
