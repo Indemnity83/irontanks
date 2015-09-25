@@ -6,6 +6,9 @@ branches:
   only:
     - master
     - develop
+    - /^(?i:release).*$/
+    - /^(?i:support).*$/
+    - /^(?i:hotfix)-.*$/
 
 install: ./gradlew setupCIWorkspace -S
 script: ./gradlew build curse
