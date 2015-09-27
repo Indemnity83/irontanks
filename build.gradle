@@ -33,7 +33,7 @@ if (project.hasProperty('buildQualifier') && project.buildQualifier != 'release'
 	version = project.version + '-' + project.buildQualifier
 }
 group= "com.indemnity83.irontank"
-archivesBaseName = "IronTanks"
+archivesBaseName = "irontank"
 
 minecraft {
     version = project.mcversion + "-" + project.forgeversion
@@ -71,7 +71,7 @@ processResources
         include 'mcmod.info'
 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':version_major + '.' + version_minor + '.' + version_patch + ' build ' + getBuildNumber(), 'mcversion':project.minecraft.version
     }
 
     // copy everything else, thats not the mcmod.info
@@ -198,6 +198,11 @@ def buildQualifies() {
 
   if (log.contains("BREAKING")) {
     println "commit lists a breaking change we are go for upload!"
+    return true
+  }
+
+  if (log.contains("FORCE PUBLISH")) {
+    println "commit requests a force publish we are go for upload!"
     return true
   }
 
