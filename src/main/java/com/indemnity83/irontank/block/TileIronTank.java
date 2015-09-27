@@ -1,5 +1,6 @@
 package com.indemnity83.irontank.block;
 
+import com.indemnity83.irontank.item.ItemTankChanger;
 import com.indemnity83.irontank.utility.LogHelper;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,6 +37,20 @@ public class TileIronTank extends TileTank {
 	public void writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
 		data.setInteger("type", type.ordinal());
+	}
+
+	public TileIronTank applyUpgradeItem(ItemTankChanger itemTankChanger) {
+		if (!itemTankChanger.getType().canUpgrade(this.getType()))
+        {
+            return null;
+        }
+		
+		TileIronTank newEntity = new TileIronTank();
+		newEntity.setCapacity(itemTankChanger.getType().getTarget().getTankVolume());
+		newEntity.setType(itemTankChanger.getType().getTarget());
+		newEntity.tank.setFluid(this.tank.getFluid());
+		
+		return newEntity;
 	}
 
 }

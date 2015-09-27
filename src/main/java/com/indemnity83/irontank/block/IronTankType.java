@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
+import com.indemnity83.irontank.init.ModBlocks;
 import com.indemnity83.irontank.item.ItemTankChanger;
 import com.indemnity83.irontank.item.TankChangerType;
 
@@ -23,7 +24,6 @@ public enum IronTankType{
 	
 	private int size;
 	private String blockName;
-	private BlockIronTank block;
 	private ArrayList<String> matList;
 	private ArrayList<String> recipeList;
 
@@ -58,6 +58,19 @@ public enum IronTankType{
 
 	public int getTankVolume() {
 		return size;
+	}
+	
+	@SuppressWarnings("finally")
+	public BlockIronTank getBlock() {
+		BlockIronTank block = null;
+		try {
+			block = (BlockIronTank) ModBlocks.class.getField(blockName).get(null);
+		} catch (Exception e) {
+			// unpossible
+			e.printStackTrace();
+		} finally {
+			return block;
+		}
 	}
 
 }

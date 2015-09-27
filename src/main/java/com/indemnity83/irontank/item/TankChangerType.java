@@ -64,4 +64,8 @@ public enum TankChangerType {
 		return target.getMatList();
 	}
 
+	public IronTankType getTarget() {
+		return this.target;
+	}
+
 }
