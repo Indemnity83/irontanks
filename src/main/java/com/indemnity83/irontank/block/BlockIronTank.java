@@ -42,6 +42,7 @@ public class BlockIronTank extends BlockTank {
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		TileIronTank tile = new TileIronTank();
 		tile.setCapacity(this.tankVolume);
+		tile.setType(this.type);
 		return tile;
 	}
 	
@@ -86,5 +87,20 @@ public class BlockIronTank extends BlockTank {
 			}
         }
 	}
+	
+	@Override
+    public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
+    {
+       TileEntity worldTile = world.getTileEntity(x, y, z);
+       if (worldTile instanceof TileIronTank)
+       {
+    	   TileIronTank tile = (TileIronTank) worldTile;
+    	   if (tile.getType().isExplosionResistant())
+           {
+               return 10000f;
+           }
+       }
+       return super.getExplosionResistance(par1Entity, world, x, y, z, explosionX, explosionY, explosionZ);
+    }
 
 }
