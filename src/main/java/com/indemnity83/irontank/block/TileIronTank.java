@@ -39,18 +39,4 @@ public class TileIronTank extends TileTank {
 		data.setInteger("type", type.ordinal());
 	}
 
-	public TileIronTank applyUpgradeItem(ItemTankChanger itemTankChanger) {
-		if (!itemTankChanger.getType().canUpgrade(this.getType()))
-        {
-            return null;
-        }
-		
-		TileIronTank newEntity = new TileIronTank();
-		newEntity.setCapacity(itemTankChanger.getType().getTarget().getTankVolume());
-		newEntity.setType(itemTankChanger.getType().getTarget());
-		newEntity.tank.setFluid(this.tank.getFluid());
-		
-		return newEntity;
-	}
-
 }
