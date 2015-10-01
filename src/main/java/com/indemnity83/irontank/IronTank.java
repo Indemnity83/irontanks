@@ -1,12 +1,12 @@
 package com.indemnity83.irontank;
 
-import com.indemnity83.irontank.block.TileIronTank;
 import com.indemnity83.irontank.handler.ConfigurationHandler;
 import com.indemnity83.irontank.init.ModBlocks;
 import com.indemnity83.irontank.init.ModItems;
 import com.indemnity83.irontank.init.ModRecipies;
 import com.indemnity83.irontank.proxy.IProxy;
 import com.indemnity83.irontank.reference.Reference;
+import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.LogHelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;
