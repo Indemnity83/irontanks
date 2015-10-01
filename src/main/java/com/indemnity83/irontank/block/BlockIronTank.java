@@ -12,6 +12,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.indemnity83.irontank.creativetab.IronTankTabs;
 import com.indemnity83.irontank.init.ModBlocks;
+import com.indemnity83.irontank.reference.Reference;
 import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
 
@@ -87,5 +88,16 @@ public class BlockIronTank extends BlockTank {
 			}
         }
 	}
+	
+	@Override
+    public String getUnlocalizedName()
+    {
+        return String.format("tile.%s%s", Reference.MODID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+    }
+	
+	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+    {
+        return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+    }
 
 }

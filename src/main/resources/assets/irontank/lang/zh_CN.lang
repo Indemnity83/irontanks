@@ -10,12 +10,12 @@ item.irontank:glassIronUpgrade.name=储罐升级：玻璃>铁
 item.irontank:silverDiamondUpgrade.name=储罐升级：银>钻石
 
 # Block localizations
-tile.ironTank.name=铁储罐
-tile.goldTank.name=金储罐
-tile.diamondTank.name=钻石储罐
-tile.obsidianTank.name=黑曜石储罐
-tile.copperTank.name=铜储罐
-tile.silverTank.name=银储罐
+tile.irontank:ironTank.name=铁储罐
+tile.irontank:goldTank.name=金储罐
+tile.irontank:diamondTank.name=钻石储罐
+tile.irontank:obsidianTank.name=黑曜石储罐
+tile.irontank:copperTank.name=铜储罐
+tile.irontank:silverTank.name=银储罐
 
 # Misc localizations
 itemGroup.irontank=铁储罐
