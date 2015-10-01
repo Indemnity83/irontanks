@@ -58,7 +58,7 @@ public class ItemTankChanger extends ItemIronTank {
 		TileTank curTankTile;
 		if (worldTile != null && worldTile instanceof TileIronTank) {
 			curTankTile = (TileTank) worldTile;
-			if (!getType().canUpgrade(((TileIronTank) curTankTile).getType())) {
+			if (!getType().canUpgrade(((TileIronTank) curTankTile).type)) {
 				return false;
 			}
 		} else if (worldTile != null && worldTile instanceof TileTank) {
@@ -70,9 +70,7 @@ public class ItemTankChanger extends ItemIronTank {
 			return false;
 		}
 
-		TileIronTank newIronTankTile = new TileIronTank();
-		newIronTankTile.setCapacity(getType().getTarget().getTankVolume());
-		newIronTankTile.setType(getType().getTarget());
+		TileIronTank newIronTankTile = new TileIronTank(getType().getTarget());
 		newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
 
 		world.setBlock(X, Y, Z, getType().getTarget().getBlock());

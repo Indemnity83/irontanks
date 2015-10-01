@@ -10,25 +10,20 @@ import buildcraft.core.lib.fluids.Tank;
 import buildcraft.factory.TileTank;
 
 public class TileIronTank extends TileTank {
-	
-	private IronTankType type;
-	
-	public void setCapacity(int tankVolume) {
-		this.tank.setCapacity(FluidContainerRegistry.BUCKET_VOLUME * tankVolume);
-	}
-	
-	public int getCapacity() {
-		return this.tank.getCapacity();
+
+	public IronTankType type;
+
+	public TileIronTank() {
+		this(IronTankType.IRON);
 	}
 
-	public void setType(IronTankType type) {
+	public TileIronTank(IronTankType type) {
 		this.type = type;
+
+		int capacity = FluidContainerRegistry.BUCKET_VOLUME * type.getTankVolume();
+		this.tank.setCapacity(capacity);
 	}
-	
-	public IronTankType getType() {
-		return this.type;
-	}
-	
+
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
 		this.type = IronTankType.values()[data.getInteger("type")];
