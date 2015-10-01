@@ -1,5 +1,6 @@
-package com.indemnity83.irontank.block;
+package com.indemnity83.irontank.tile;
 
+import com.indemnity83.irontank.block.IronTankType;
 import com.indemnity83.irontank.item.ItemTankChanger;
 import com.indemnity83.irontank.utility.LogHelper;
 

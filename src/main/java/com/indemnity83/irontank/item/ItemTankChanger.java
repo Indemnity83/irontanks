@@ -10,8 +10,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import buildcraft.factory.TileTank;
 
 import com.indemnity83.irontank.block.IronTankType;
-import com.indemnity83.irontank.block.TileIronTank;
 import com.indemnity83.irontank.creativetab.IronTankTabs;
+import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
