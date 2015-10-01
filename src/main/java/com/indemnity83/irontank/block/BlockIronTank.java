@@ -38,6 +38,7 @@ public class BlockIronTank extends BlockTank {
 		
 		this.setBlockName(this.blockName);
 		this.setCreativeTab(IronTankTabs.MainTab);
+		this.setResistance(type.getResistance());
 	}
 
 	public TileEntity createNewTileEntity(World world, int metadata) {
@@ -86,20 +87,5 @@ public class BlockIronTank extends BlockTank {
 			}
         }
 	}
-	
-	@Override
-    public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
-    {
-       TileEntity worldTile = world.getTileEntity(x, y, z);
-       if (worldTile instanceof TileIronTank)
-       {
-    	   TileIronTank tile = (TileIronTank) worldTile;
-    	   if (tile.type.isExplosionResistant())
-           {
-               return 10000f;
-           }
-       }
-       return super.getExplosionResistance(par1Entity, world, x, y, z, explosionX, explosionY, explosionZ);
-    }
 
 }

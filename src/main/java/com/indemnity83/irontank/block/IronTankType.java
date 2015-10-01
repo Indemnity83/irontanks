@@ -14,25 +14,27 @@ import com.indemnity83.irontank.item.TankChangerType;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum IronTankType{
-	IRON(32, "ironTank", Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("tgtg0gtgt", "gggt4tggg")),  //1
-    GOLD(48, "goldTank", Arrays.asList("ingotGold"), Arrays.asList("tgtg1gtgt", "gggt5tggg")),						//2
-    DIAMOND(64, "diamondTank", Arrays.asList("gemDiamond"), Arrays.asList("gggt2tggg", "gggg5gttt")),				//3
-    COPPER(27, "copperTank", Arrays.asList("ingotCopper"), Arrays.asList("tgtg0gtgt")),								//4
-    SILVER(43, "silverTank", Arrays.asList("ingotSilver"), Arrays.asList("tgtg4gtgt", "gggt1tggg")),				//5
-    OBSIDIAN(64, "obsidianTank", Arrays.asList("obsidian"), Arrays.asList("tgtg3gtgt")),							//6
-    GLASS(0, "", Arrays.asList("blockGlass"), Arrays.asList("")), ;													//0
+	IRON(32, "ironTank", Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("tgtg0gtgt", "gggt4tggg"), 25/3F),  //1
+    GOLD(48, "goldTank", Arrays.asList("ingotGold"), Arrays.asList("tgtg1gtgt", "gggt5tggg"), 25/3F),						//2
+    DIAMOND(64, "diamondTank", Arrays.asList("gemDiamond"), Arrays.asList("gggt2tggg", "gggg5gttt"), 25/3F),				//3
+    COPPER(27, "copperTank", Arrays.asList("ingotCopper"), Arrays.asList("tgtg0gtgt"), 25/3F),								//4
+    SILVER(43, "silverTank", Arrays.asList("ingotSilver"), Arrays.asList("tgtg4gtgt", "gggt1tggg"), 25/3F),				//5
+    OBSIDIAN(64, "obsidianTank", Arrays.asList("obsidian"), Arrays.asList("tgtg3gtgt"), 6000000.0F),							//6
+    GLASS(0, "", Arrays.asList("blockGlass"), Arrays.asList(""), 0f), ;													//0
 	
 	private int size;
 	private String blockName;
 	private ArrayList<String> matList;
 	private ArrayList<String> recipeList;
+	private float resistance;
 
-	IronTankType(int size, String name, List<String> mats, List<String> recipes)
+	IronTankType(int size, String name, List<String> mats, List<String> recipes, float resistance)
     {
         this.size = size;
         this.blockName = name;
         this.matList = new ArrayList<String>();
         this.recipeList = new ArrayList<String>();
+        this.resistance = resistance;
         
         matList.addAll(mats);
         recipeList.addAll(recipes);
@@ -41,11 +43,10 @@ public enum IronTankType{
 	public String getBlockName() {
 		return this.blockName;
 	}
-	
-	public boolean isExplosionResistant()
-    {
-        return this == OBSIDIAN;
-    }
+
+	public float getResistance() {
+		return this.resistance;
+	}
 	
 	public List<String> getRecipes() {
 		return recipeList;
