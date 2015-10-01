@@ -1,0 +1,21 @@
+# Item localizations
+item.irontank:copperIronUpgrade.name=Улучшение из медной в железную цистерну
+item.irontank:copperSilverUpgrade.name=Улучшение из медной в серебряную цистерну
+item.irontank:diamondObsidianUpgrade.name=Улучшение из алмазной в обсидиановую цистерну
+item.irontank:goldDiamondUpgrade.name=Улучшение из золотой в алмазную цистерну
+item.irontank:ironGoldUpgrade.name=Улучшение из железной в золотую цистерну
+item.irontank:silverGoldUpgrade.name=Улучшение из серебряной в золотую цистерну
+item.irontank:glassCopperUpgrade.name=Улучшение из стеклянной в медную цистерну
+item.irontank:glassIronUpgrade.name=Улучшение из стеклянной в железную цистерну
+item.irontank:silverDiamondUpgrade.name=Улучшение из серебряной в алмазную цистерну
+
+# Block localizations
+tile.ironTank.name=Железная цистерна
+tile.goldTank.name=Золотая цистерна
+tile.diamondTank.name=Алмазная цистерна
+tile.obsidianTank.name=Обсидиановая цистерна
+tile.copperTank.name=Медная цистерна
+tile.silverTank.name=Серебряная цистерна
+
+# Misc localizations
+itemGroup.irontank=Iron Tanks
