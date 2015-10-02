@@ -9,7 +9,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import buildcraft.factory.TileTank;
 
-import com.indemnity83.irontank.block.IronTankType;
+import com.indemnity83.irontank.block.TankType;
 import com.indemnity83.irontank.creativetab.IronTankTabs;
 import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
@@ -38,8 +38,8 @@ public class ItemTankChanger extends ItemIronTank {
 
 	@Override
 	public void addRecipe() {
-		for (String sourceMat : type.source.getMatList()) {
-			for (String targetMat : type.target.getMatList()) {
+		for (String sourceMat : type.source.materials) {
+			for (String targetMat : type.target.materials) {
 				Object oSourceMat = MaterialHelper.translateOreName(sourceMat);
 				Object oTargetMat = MaterialHelper.translateOreName(targetMat);
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.recipe, 's', oSourceMat, 't', oTargetMat, 'g', "blockGlass"));
@@ -63,7 +63,7 @@ public class ItemTankChanger extends ItemIronTank {
 			}
 		} else if (worldTile != null && worldTile instanceof TileTank) {
 			curTankTile = (TileTank) worldTile;
-			if (!getType().canUpgrade(IronTankType.GLASS)) {
+			if (!getType().canUpgrade(TankType.GLASS)) {
 				return false;
 			}
 		} else {

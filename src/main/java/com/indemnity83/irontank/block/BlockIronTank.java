@@ -28,18 +28,18 @@ public class BlockIronTank extends BlockTank {
 	private int tankVolume;
 	private String blockName;
 	private IIcon textureStackedSide;
-	private IronTankType type;
+	private TankType type;
 	
-	public BlockIronTank(IronTankType type) {
+	public BlockIronTank(TankType type) {
 		super();
 		
 		this.type = type;
-		this.tankVolume = type.getTankVolume();
-		this.blockName = type.getBlockName();
+		this.tankVolume = type.capacity;
+		this.blockName = type.name;
 		
 		this.setBlockName(this.blockName);
 		this.setCreativeTab(IronTankTabs.MainTab);
-		this.setResistance(type.getResistance());
+		this.setResistance(type.resistance);
 	}
 
 	public TileEntity createNewTileEntity(World world, int metadata) {
@@ -69,10 +69,10 @@ public class BlockIronTank extends BlockTank {
 	
 	public void addRecipe() 
 	{
-		for (String recipe : type.getRecipes())
+		for (String recipe : type.recipes)
         {
 			String[] recipeSplit = new String[] { recipe.substring(0, 3), recipe.substring(3, 6), recipe.substring(6, 9) };
-			for (String material : type.getMatList()) {
+			for (String material : type.materials) {
 				Object targetMaterial = MaterialHelper.translateOreName(material);
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), recipeSplit, 
 						't', targetMaterial, 

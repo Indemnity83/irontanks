@@ -1,19 +1,19 @@
 package com.indemnity83.irontank.item;
 
-import static com.indemnity83.irontank.block.IronTankType.COPPER;
-import static com.indemnity83.irontank.block.IronTankType.DIAMOND;
-import static com.indemnity83.irontank.block.IronTankType.GOLD;
-import static com.indemnity83.irontank.block.IronTankType.IRON;
-import static com.indemnity83.irontank.block.IronTankType.OBSIDIAN;
-import static com.indemnity83.irontank.block.IronTankType.SILVER;
-import static com.indemnity83.irontank.block.IronTankType.GLASS;
+import static com.indemnity83.irontank.block.TankType.COPPER;
+import static com.indemnity83.irontank.block.TankType.DIAMOND;
+import static com.indemnity83.irontank.block.TankType.GOLD;
+import static com.indemnity83.irontank.block.TankType.IRON;
+import static com.indemnity83.irontank.block.TankType.OBSIDIAN;
+import static com.indemnity83.irontank.block.TankType.SILVER;
+import static com.indemnity83.irontank.block.TankType.GLASS;
 
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
-import com.indemnity83.irontank.block.IronTankType;
+import com.indemnity83.irontank.block.TankType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -40,12 +40,12 @@ public enum TankChangerType {
 	/**
 	 * IronTankType that this changer will work on
 	 */
-	public final IronTankType source;
+	public final TankType source;
 
 	/**
 	 * IronTankType that tank should be changed to on activation
 	 */
-	public final IronTankType target;
+	public final TankType target;
 
 	/**
 	 * The internal name of the changer type
@@ -64,11 +64,11 @@ public enum TankChangerType {
 	 * @param from type to be checked
 	 * @return true if upgrade is allowed
 	 */
-	public boolean canUpgrade(IronTankType from) {
+	public boolean canUpgrade(TankType from) {
 		return from == this.source;
 	}
 	
-	private TankChangerType(IronTankType source, IronTankType target, String itemName, String... recipe) {
+	private TankChangerType(TankType source, TankType target, String itemName, String... recipe) {
 		this.source = source;
 		this.target = target;
 		this.name = itemName;

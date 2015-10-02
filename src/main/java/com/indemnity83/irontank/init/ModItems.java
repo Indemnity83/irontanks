@@ -1,12 +1,12 @@
 package com.indemnity83.irontank.init;
 
-import static com.indemnity83.irontank.block.IronTankType.COPPER;
-import static com.indemnity83.irontank.block.IronTankType.DIAMOND;
-import static com.indemnity83.irontank.block.IronTankType.GLASS;
-import static com.indemnity83.irontank.block.IronTankType.GOLD;
-import static com.indemnity83.irontank.block.IronTankType.IRON;
-import static com.indemnity83.irontank.block.IronTankType.OBSIDIAN;
-import static com.indemnity83.irontank.block.IronTankType.SILVER;
+import static com.indemnity83.irontank.block.TankType.COPPER;
+import static com.indemnity83.irontank.block.TankType.DIAMOND;
+import static com.indemnity83.irontank.block.TankType.GLASS;
+import static com.indemnity83.irontank.block.TankType.GOLD;
+import static com.indemnity83.irontank.block.TankType.IRON;
+import static com.indemnity83.irontank.block.TankType.OBSIDIAN;
+import static com.indemnity83.irontank.block.TankType.SILVER;
 
 import com.indemnity83.irontank.item.ItemIronTank;
 import com.indemnity83.irontank.item.ItemTankChanger;

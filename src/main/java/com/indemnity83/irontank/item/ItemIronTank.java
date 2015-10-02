@@ -1,6 +1,6 @@
 package com.indemnity83.irontank.item;
 
-import com.indemnity83.irontank.block.IronTankType;
+import com.indemnity83.irontank.block.TankType;
 import com.indemnity83.irontank.reference.Reference;
 
 import cpw.mods.fml.relauncher.Side;
