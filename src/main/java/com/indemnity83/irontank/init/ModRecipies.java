@@ -1,6 +1,6 @@
 package com.indemnity83.irontank.init;
 
-import com.indemnity83.irontank.block.BlockIronTank;
+import com.indemnity83.irontank.block.BlockExtendedTank;
 import com.indemnity83.irontank.item.ItemTankChanger;
 import com.indemnity83.irontank.item.TankChangerType;
 

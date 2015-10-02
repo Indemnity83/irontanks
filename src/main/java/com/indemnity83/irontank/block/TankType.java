@@ -63,10 +63,10 @@ public enum TankType{
 	 * @return block associated with this tank type
 	 */
 	@SuppressWarnings("finally")
-	public BlockIronTank getBlock() {
-		BlockIronTank block = null;
+	public BlockExtendedTank getBlock() {
+		BlockExtendedTank block = null;
 		try {
-			block = (BlockIronTank) ModBlocks.class.getField(name).get(null);
+			block = (BlockExtendedTank) ModBlocks.class.getField(name).get(null);
 		} catch (Exception e) {
 			// unpossible
 			e.printStackTrace();
