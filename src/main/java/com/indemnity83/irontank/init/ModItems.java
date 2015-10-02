@@ -15,7 +15,7 @@ import com.indemnity83.irontank.item.TankChangerType;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems {
-	
+
 	public static final ItemGeneric ironGoldUpgrade = new ItemTankChanger(TankChangerType.IRONGOLD);
 	public static final ItemGeneric goldDiamondUpgrade = new ItemTankChanger(TankChangerType.GOLDDIAMOND);
 	public static final ItemGeneric copperSilverUpgrade = new ItemTankChanger(TankChangerType.COPPERSILVER);
@@ -25,9 +25,8 @@ public class ModItems {
 	public static final ItemGeneric glassCopperUpgrade = new ItemTankChanger(TankChangerType.GLASSCOPPER);
 	public static final ItemGeneric diamondObsidianUpgrade = new ItemTankChanger(TankChangerType.DIAMONDOBSIDIAN);
 	public static final ItemGeneric silverDiamondUpgrade = new ItemTankChanger(TankChangerType.SILVERDIAMOND);
-	
-	public static void init()
-	{
+
+	public static void init() {
 		GameRegistry.registerItem(ironGoldUpgrade, TankChangerType.IRONGOLD.name);
 		GameRegistry.registerItem(goldDiamondUpgrade, TankChangerType.GOLDDIAMOND.name);
 		GameRegistry.registerItem(copperSilverUpgrade, TankChangerType.COPPERSILVER.name);

@@ -16,8 +16,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * Defines a type of tank.
  * 
- * Tank definitions include all variables required to create a tank block. A given tank type can have multiple crafting
- * recipes and multiple primary crafting materials 
+ * Tank definitions include all variables required to create a tank block. A
+ * given tank type can have multiple crafting recipes and multiple primary
+ * crafting materials
  * 
  * @author Kyle Klaus
  *
@@ -74,7 +75,7 @@ public enum TankType{
 			return block;
 		}
 	}
-	
+
 	TankType(int capacity, String name, List<String> materials, List<String> recipes, float resistance) {
 		this.capacity = capacity;
 		this.name = name;
