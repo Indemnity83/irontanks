@@ -17,23 +17,16 @@ import com.indemnity83.irontank.utility.MaterialHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemTankChanger extends ItemIronTank {
-	
-	TankChangerType type;
 
-	public ItemTankChanger(TankChangerType type)
-	{
+	public final TankChangerType type;
+
+	public ItemTankChanger(TankChangerType type) {
 		super();
-		
+
 		this.type = type;
-		
+
 		this.setUnlocalizedName(type.name);
-		this.setCreativeTab(IronTankTabs.MainTab);
 		this.setMaxStackSize(1);
-	}
-	
-	public TankChangerType getTankChangerType() 
-	{
-		return type;
 	}
 
 	@Override
@@ -42,7 +35,8 @@ public class ItemTankChanger extends ItemIronTank {
 			for (String targetMat : type.target.materials) {
 				Object oSourceMat = MaterialHelper.translateOreName(sourceMat);
 				Object oTargetMat = MaterialHelper.translateOreName(targetMat);
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.recipe, 's', oSourceMat, 't', oTargetMat, 'g', "blockGlass"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.recipe, 's', oSourceMat, 't',
+						oTargetMat, 'g', "blockGlass"));
 			}
 		}
 	}
@@ -58,31 +52,27 @@ public class ItemTankChanger extends ItemIronTank {
 		TileTank curTankTile;
 		if (worldTile != null && worldTile instanceof TileIronTank) {
 			curTankTile = (TileTank) worldTile;
-			if (!getType().canUpgrade(((TileIronTank) curTankTile).type)) {
+			if (!type.canUpgrade(((TileIronTank) curTankTile).type)) {
 				return false;
 			}
 		} else if (worldTile != null && worldTile instanceof TileTank) {
 			curTankTile = (TileTank) worldTile;
-			if (!getType().canUpgrade(TankType.GLASS)) {
+			if (!type.canUpgrade(TankType.GLASS)) {
 				return false;
 			}
 		} else {
 			return false;
 		}
 
-		TileIronTank newIronTankTile = new TileIronTank(getType().target);
+		TileIronTank newIronTankTile = new TileIronTank(type.target);
 		newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
 
-		world.setBlock(X, Y, Z, getType().target.getBlock());
+		world.setBlock(X, Y, Z, type.target.getBlock());
 		world.setTileEntity(X, Y, Z, newIronTankTile);
 
 		stack.stackSize = 0;
 
 		return true;
-	}
-
-	public TankChangerType getType() {
-		return this.type;
 	}
 
 }
