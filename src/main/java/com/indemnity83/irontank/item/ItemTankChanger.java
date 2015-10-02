@@ -16,7 +16,7 @@ import com.indemnity83.irontank.utility.MaterialHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ItemTankChanger extends ItemIronTank {
+public class ItemTankChanger extends ItemGeneric {
 
 	public final TankChangerType type;
 

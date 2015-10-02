@@ -8,7 +8,7 @@ import static com.indemnity83.irontank.block.TankType.IRON;
 import static com.indemnity83.irontank.block.TankType.OBSIDIAN;
 import static com.indemnity83.irontank.block.TankType.SILVER;
 
-import com.indemnity83.irontank.item.ItemIronTank;
+import com.indemnity83.irontank.item.ItemGeneric;
 import com.indemnity83.irontank.item.ItemTankChanger;
 import com.indemnity83.irontank.item.TankChangerType;
 
@@ -16,26 +16,26 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems {
 	
-	public static final ItemIronTank ironGoldUpgrade = new ItemTankChanger(TankChangerType.IRONGOLD);
-	public static final ItemIronTank goldDiamondUpgrade = new ItemTankChanger(TankChangerType.GOLDDIAMOND);
-	public static final ItemIronTank copperSilverUpgrade = new ItemTankChanger(TankChangerType.COPPERSILVER);
-	public static final ItemIronTank silverGoldUpgrade = new ItemTankChanger(TankChangerType.SILVERGOLD);
-	public static final ItemIronTank copperIronUpgrade = new ItemTankChanger(TankChangerType.COPPERIRON);
-	public static final ItemIronTank glassIronUpgrade = new ItemTankChanger(TankChangerType.GLASSIRON);
-	public static final ItemIronTank glassCopperUpgrade = new ItemTankChanger(TankChangerType.GLASSCOPPER);
-	public static final ItemIronTank diamondObsidianUpgrade = new ItemTankChanger(TankChangerType.DIAMONDOBSIDIAN);
-	public static final ItemIronTank silverDiamondUpgrade = new ItemTankChanger(TankChangerType.SILVERDIAMOND);
+	public static final ItemGeneric ironGoldUpgrade = new ItemTankChanger(TankChangerType.IRONGOLD);
+	public static final ItemGeneric goldDiamondUpgrade = new ItemTankChanger(TankChangerType.GOLDDIAMOND);
+	public static final ItemGeneric copperSilverUpgrade = new ItemTankChanger(TankChangerType.COPPERSILVER);
+	public static final ItemGeneric silverGoldUpgrade = new ItemTankChanger(TankChangerType.SILVERGOLD);
+	public static final ItemGeneric copperIronUpgrade = new ItemTankChanger(TankChangerType.COPPERIRON);
+	public static final ItemGeneric glassIronUpgrade = new ItemTankChanger(TankChangerType.GLASSIRON);
+	public static final ItemGeneric glassCopperUpgrade = new ItemTankChanger(TankChangerType.GLASSCOPPER);
+	public static final ItemGeneric diamondObsidianUpgrade = new ItemTankChanger(TankChangerType.DIAMONDOBSIDIAN);
+	public static final ItemGeneric silverDiamondUpgrade = new ItemTankChanger(TankChangerType.SILVERDIAMOND);
 	
 	public static void init()
 	{
-		GameRegistry.registerItem(ironGoldUpgrade, ironGoldUpgrade.getInternalName());
-		GameRegistry.registerItem(goldDiamondUpgrade, goldDiamondUpgrade.getInternalName());
-		GameRegistry.registerItem(copperSilverUpgrade, copperSilverUpgrade.getInternalName());
-		GameRegistry.registerItem(silverGoldUpgrade, silverGoldUpgrade.getInternalName());
-		GameRegistry.registerItem(copperIronUpgrade, copperIronUpgrade.getInternalName());
-		GameRegistry.registerItem(glassIronUpgrade, glassIronUpgrade.getInternalName());
-		GameRegistry.registerItem(glassCopperUpgrade, glassCopperUpgrade.getInternalName());
-		GameRegistry.registerItem(diamondObsidianUpgrade, diamondObsidianUpgrade.getInternalName());
-		GameRegistry.registerItem(silverDiamondUpgrade, silverDiamondUpgrade.getInternalName());
+		GameRegistry.registerItem(ironGoldUpgrade, TankChangerType.IRONGOLD.name);
+		GameRegistry.registerItem(goldDiamondUpgrade, TankChangerType.GOLDDIAMOND.name);
+		GameRegistry.registerItem(copperSilverUpgrade, TankChangerType.COPPERSILVER.name);
+		GameRegistry.registerItem(silverGoldUpgrade, TankChangerType.SILVERGOLD.name);
+		GameRegistry.registerItem(copperIronUpgrade, TankChangerType.COPPERIRON.name);
+		GameRegistry.registerItem(glassIronUpgrade, TankChangerType.GLASSIRON.name);
+		GameRegistry.registerItem(glassCopperUpgrade, TankChangerType.GLASSCOPPER.name);
+		GameRegistry.registerItem(diamondObsidianUpgrade, TankChangerType.DIAMONDOBSIDIAN.name);
+		GameRegistry.registerItem(silverDiamondUpgrade, TankChangerType.SILVERDIAMOND.name);
 	}
 }
