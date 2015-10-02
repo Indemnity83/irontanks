@@ -26,7 +26,7 @@ public class ItemTankChanger extends ItemIronTank {
 		
 		this.type = type;
 		
-		this.setUnlocalizedName(type.getItemName());
+		this.setUnlocalizedName(type.name);
 		this.setCreativeTab(IronTankTabs.MainTab);
 		this.setMaxStackSize(1);
 	}
@@ -38,11 +38,11 @@ public class ItemTankChanger extends ItemIronTank {
 
 	@Override
 	public void addRecipe() {
-		for (String sourceMat : type.getSourceMats()) {
-			for (String targetMat : type.getTargetMats()) {
+		for (String sourceMat : type.source.getMatList()) {
+			for (String targetMat : type.target.getMatList()) {
 				Object oSourceMat = MaterialHelper.translateOreName(sourceMat);
 				Object oTargetMat = MaterialHelper.translateOreName(targetMat);
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.getRecipe(), 's', oSourceMat, 't', oTargetMat, 'g', "blockGlass"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.recipe, 's', oSourceMat, 't', oTargetMat, 'g', "blockGlass"));
 			}
 		}
 	}
@@ -70,10 +70,10 @@ public class ItemTankChanger extends ItemIronTank {
 			return false;
 		}
 
-		TileIronTank newIronTankTile = new TileIronTank(getType().getTarget());
+		TileIronTank newIronTankTile = new TileIronTank(getType().target);
 		newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
 
-		world.setBlock(X, Y, Z, getType().getTarget().getBlock());
+		world.setBlock(X, Y, Z, getType().target.getBlock());
 		world.setTileEntity(X, Y, Z, newIronTankTile);
 
 		stack.stackSize = 0;
