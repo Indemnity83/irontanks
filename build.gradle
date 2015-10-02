@@ -203,7 +203,7 @@ task echoLastChange << {
 }
 
 def buildQualifies() {
-  if (project.buildQualifier == 'release') {
+  if (project.buildQualifier == 'release' || project.buildQualifier == 'beta') {
     println "buildQualifier is ${buildQualifier} we are go for upload!"
     return true
   }
