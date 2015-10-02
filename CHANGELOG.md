@@ -1,5 +1,6 @@
 <a name="1.0.0"></a>
-# 1.0.0 (2015-09-27)
+# 1.0.0 (2015-10-02)
+
 
 ### Bug Fixes
 
@@ -8,8 +9,14 @@
 * Fluid in tanks now persists between game sessions 3858b6c
 * Obsidian tanks are not destroyed by TNT or creeper blasts f397f4e
 * Tank upgrade items perform an in place upgrade of tank a1adf5d
+* **gui:** Remove extraneous GUI configuration ed8b191
 
 ### Features
 
 * Add recipes for blocks and items a273f1c
 * Implemented basic items and blocks 570e191
+* **i18n:** Add German translation fb5550e
+* **i18n:** Add Pirate translation c031a12
+* **i18n:** Add Russian af55841
+* **i18n:** Add Simplified Chinese 960e151
+* **i18n:** Add Spanish translation 1bb4866
