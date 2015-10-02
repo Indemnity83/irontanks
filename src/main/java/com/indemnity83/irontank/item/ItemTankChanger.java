@@ -10,8 +10,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import buildcraft.factory.TileTank;
 
 import com.indemnity83.irontank.block.IronTankType;
-import com.indemnity83.irontank.block.TileIronTank;
 import com.indemnity83.irontank.creativetab.IronTankTabs;
+import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -46,49 +46,40 @@ public class ItemTankChanger extends ItemIronTank {
 			}
 		}
 	}
-	
-    @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int X, int Y, int Z, int side, float hitX, float hitY, float hitZ)
-    {
-        if (world.isRemote) return false;
-        TileEntity worldTile = world.getTileEntity(X, Y, Z);
-        TileIronTank newIronTankTile;
-        if (worldTile != null && worldTile instanceof TileIronTank)
-        {
-        	TileIronTank ironTankTile = (TileIronTank) worldTile;
-        	newIronTankTile = ironTankTile.applyUpgradeItem(this);
-            if (newIronTankTile == null)
-            {
-                return false;
-            }
-            
-        }
-        else if (worldTile != null && worldTile instanceof TileTank)
-        {
-        	TileTank curTankTile = (TileTank) worldTile;
-        	if (!getType().canUpgrade(IronTankType.GLASS))
-            {
-                return false;
-            }
-    		
-        	newIronTankTile = new TileIronTank();
-        	newIronTankTile.setCapacity(getType().getTarget().getTankVolume());
-        	newIronTankTile.setType(getType().getTarget());
-        	newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
 
-        }
-        else
-        {
-            return false;
-        }
+	@Override
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int X, int Y, int Z, int side,
+			float hitX, float hitY, float hitZ) {
+		if (world.isRemote) {
+			return false;
+		}
 
-        world.setBlock(X, Y, Z, getType().getTarget().getBlock());
-        world.setTileEntity(X, Y, Z, newIronTankTile);
-        
-        stack.stackSize = 0;
-        
-        return true;
-    }
+		TileEntity worldTile = world.getTileEntity(X, Y, Z);
+		TileTank curTankTile;
+		if (worldTile != null && worldTile instanceof TileIronTank) {
+			curTankTile = (TileTank) worldTile;
+			if (!getType().canUpgrade(((TileIronTank) curTankTile).type)) {
+				return false;
+			}
+		} else if (worldTile != null && worldTile instanceof TileTank) {
+			curTankTile = (TileTank) worldTile;
+			if (!getType().canUpgrade(IronTankType.GLASS)) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+		TileIronTank newIronTankTile = new TileIronTank(getType().getTarget());
+		newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
+
+		world.setBlock(X, Y, Z, getType().getTarget().getBlock());
+		world.setTileEntity(X, Y, Z, newIronTankTile);
+
+		stack.stackSize = 0;
+
+		return true;
+	}
 
 	public TankChangerType getType() {
 		return this.type;

@@ -54,10 +54,28 @@ repositories {
         name "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
     }
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven {
+      name = "chickenbones"
+      url = "http://chickenbones.net/maven/"
+    }
 }
 
 dependencies {
-    compile name: "buildcraft", version: "7.0.24", classifier: "dev"
+    // Buildcraft
+    compile name: "buildcraft", version: "7.1.6", classifier: "dev"
+
+    // NEI
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.111:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.111:src"
+
+    // Waila
+    compile "mcp.mobius.waila:Waila:1.5.10_1.7.10"
 }
 
 processResources
@@ -185,7 +203,7 @@ task echoLastChange << {
 }
 
 def buildQualifies() {
-  if (project.buildQualifier == 'release') {
+  if (project.buildQualifier == 'release' || project.buildQualifier == 'beta') {
     println "buildQualifier is ${buildQualifier} we are go for upload!"
     return true
   }

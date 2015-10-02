@@ -12,6 +12,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.indemnity83.irontank.creativetab.IronTankTabs;
 import com.indemnity83.irontank.init.ModBlocks;
+import com.indemnity83.irontank.reference.Reference;
+import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -37,12 +39,11 @@ public class BlockIronTank extends BlockTank {
 		
 		this.setBlockName(this.blockName);
 		this.setCreativeTab(IronTankTabs.MainTab);
+		this.setResistance(type.getResistance());
 	}
 
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		TileIronTank tile = new TileIronTank();
-		tile.setCapacity(this.tankVolume);
-		tile.setType(this.type);
+		TileIronTank tile = new TileIronTank(this.type);
 		return tile;
 	}
 	
@@ -89,18 +90,14 @@ public class BlockIronTank extends BlockTank {
 	}
 	
 	@Override
-    public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
+    public String getUnlocalizedName()
     {
-       TileEntity worldTile = world.getTileEntity(x, y, z);
-       if (worldTile instanceof TileIronTank)
-       {
-    	   TileIronTank tile = (TileIronTank) worldTile;
-    	   if (tile.getType().isExplosionResistant())
-           {
-               return 10000f;
-           }
-       }
-       return super.getExplosionResistance(par1Entity, world, x, y, z, explosionX, explosionY, explosionZ);
+        return String.format("tile.%s%s", Reference.MODID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+    }
+	
+	protected String getUnwrappedUnlocalizedName(String unlocalizedName)
+    {
+        return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
     }
 
 }
