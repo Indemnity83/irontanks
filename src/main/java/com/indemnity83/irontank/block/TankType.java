@@ -24,7 +24,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  *
  */
 public enum TankType{
-	IRON(32, "ironTank", Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("tgtg0gtgt", "gggt4tggg"), 25/3F),
+    IRON(32, "ironTank", Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("tgtg0gtgt", "gggt4tggg"), 25/3F),
     GOLD(48, "goldTank", Arrays.asList("ingotGold"), Arrays.asList("tgtg1gtgt", "gggt5tggg"), 25/3F),
     DIAMOND(64, "diamondTank", Arrays.asList("gemDiamond"), Arrays.asList("gggt2tggg", "gggg5gttt"), 25/3F),
     COPPER(27, "copperTank", Arrays.asList("ingotCopper"), Arrays.asList("tgtg0gtgt"), 25/3F),
