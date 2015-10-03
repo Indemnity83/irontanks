@@ -1,15 +1,24 @@
-## Welcome to IronTanks!
-[All versions are available here](#)
+## Welcome to Iron Tanks!
+***
 
-[Minecraft Forums page](http://www.minecraftforum.net/topic/#)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Indemnity83/irontank/blob/master/LICENSE.txt)  
+[![Latest Stable Version](https://img.shields.io/badge/stable-unknown-lightgrey.svg)](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks/files) [![Build Status](https://travis-ci.org/indemnity83/irontank.svg?branch=master)](https://travis-ci.org/indemnity83/irontank)  
+[![Latest Stable Version](https://img.shields.io/badge/unstable-dev-orange.svg)](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks/files) [![Build Status](https://travis-ci.org/Indemnity83/irontank.svg?branch=develop)](https://travis-ci.org/Indemnity83/irontank)
 
-[Compiling IronTanks](#compiling-irontanks) - For those that want the latest unreleased features.
+## Index
+ ***
+
+[All versions are available here](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks)
+
+[Minecraft Forums page](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/2528297-iron-tanks)
+
+[Compiling Iron Tanks](#compiling-iron-tanks) - For those that want the latest unreleased features.
 
 [Contributing](#contributing) - For those that want to help out.
 
-[FAQ](https://github.com/indemnity83/IronTanks/wiki/Frequently-Asked-Questions) - For those that have questions.
+[FAQ](https://github.com/indemnity83/irontank/wiki/Frequently-Asked-Questions) - For those that have questions.
 
-### Compiling IronTanks
+### Compiling Iron Tanks
 IMPORTANT: Please report any issues you have as there might be some problems with the documentation.
 Also make sure you know EXACTLY what you're doing before proceeding!  We are not responsible if your computer crashes, becomes corrupted, etc. :see_no_evil:
 ***
@@ -19,14 +28,14 @@ Also make sure you know EXACTLY what you're doing before proceeding!  We are not
 
 [Setup Git](#setup-git)
 
-[Setup IronTanks](#setup-irontanks)
+[Setup Iron Tanks](#setup-iron-tanks)
 
-[Compile IronTanks](#compile-irontanks)
+[Compile Iron Tanks](#compile-iron-tanks)
 
 [Updating Your Repository](#updating-your-repository)
 
 #### Setup Java
-The Java JDK is used to compile IronTanks.
+The Java JDK is used to compile Iron Tanks.
 
 1. Download and install the Java JDK.
 	* [Windows/Mac download link](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).  Scroll down, accept the `Oracle Binary Code License Agreement for Java SE`, and download it (if you have a 64-bit OS, please download the 64-bit version).
@@ -46,7 +55,7 @@ The Java JDK is used to compile IronTanks.
 3. Open up your command line and run `javac`.  If it spews out a bunch of possible options and the usage, then you're good to go.  If not, either try the steps again or check the [FAQ](https://github.com/pahimar/Equivalent-Exchange-3/wiki/Frequently-Asked-Questions).
 
 #### Setup Gradle
-Gradle is used to execute the various build tasks when compiling IronTanks.
+Gradle is used to execute the various build tasks when compiling Iron Tanks.
 
 1. Download and install Gradle.
 	* [Windows/Mac download link](http://www.gradle.org/downloads).  You only need the binaries, but choose whatever flavor you want.
@@ -64,32 +73,32 @@ Gradle is used to execute the various build tasks when compiling IronTanks.
 3. Open up your command line and run `gradle`.  If it says "Welcome to Gradle [version].", then you're good to go.  If not, either try the steps again or check the [FAQ](https://github.com/pahimar/Equivalent-Exchange-3/wiki/Frequently-Asked-Questions).
 
 #### Setup Git
-Git is used to clone IronTanks and update your local copy.
+Git is used to clone Iron Tanks and update your local copy.
 
 1. Download and install Git [here](http://git-scm.com/download/).
-	* *Optional*: Download and install a Git GUI client, such as Github for Windows/Mac, SmartGitHg, TortoiseGit, etc.  A nice list is available [here](http://git-scm.com/downloads/guis).
+    * *Optional*: Download and install a Git GUI client, such as Github for Windows/Mac, SmartGitHg, TortoiseGit, etc.  A nice list is available [here](http://git-scm.com/downloads/guis).
 
-#### Setup IronTanks
+#### Setup Iron Tanks
 This section assumes that you're using the command-line version of Git.
 
 1. Open up your command line.
-2. Navigate to a place where you want to download IronTanks's source (eg `C:\Github`) by executing `cd [folder location]`.  If choosing a location other than `C:\Github`, just remember that when following the instructions.
-3. Execute `git clone https://github.com/indemnity83/IronTanks.git`.  This will download IronTanks's source into an `IronTanks` folder
-such as `C:\Github\IronTanks`.
+2. Navigate to a place where you want to download Iron Tank's source (eg `C:\Github`) by executing `cd [folder location]`.  If choosing a location other than `C:\Github`, just remember that when following the instructions.
+3. Execute `git clone https://github.com/indemnity83/irontank.git`.  This will download Iron Tank's source into an `irontank` folder
+such as `C:\Github\irontank`.
 4. Right now, you should have a directory that looks something like:
 
 ***
-	Github
-	\-IronTanks
-		\-IronTanks's files (should have `build.gradle`)
+    Github
+    \-irontank
+        \-irontank's files (should have `build.gradle`)
 ***
 
-#### Compile IronTanks
-1. Execute `gradle setupCiWorkspace` in order to set up Forge and download the necessary libraries to build IronTanks.  This might take some time, please be patient :watch:.
-	* You will generally only have to do this when the Forge version in `build.properties` changes.
+#### Compile Iron Tanks
+1. Execute `gradle setupCiWorkspace` in order to set up Forge and download the necessary libraries to build Iron Tanks.  This might take some time, please be patient :watch:.
+    * You will generally only have to do this when the Forge version in `build.properties` changes.
 2. Execute `gradle build`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
     * If you see `BUILD FAILED`, check the error output (it should be right around `BUILD FAILED`), fix everything (if possible), and try again.
-3. Navigate to `C:\Github\IronTanks\build\libs`.
+3. Navigate to `C:\Github\irontank\build\libs`.
     *  You should see a `.jar` file named `IronTanks-x.y.z-#.jar`, where x.y.z is the Minecraft version number and # is the mod version.
 		* NOTE: `null` means that you are missing a `build_number` value in `build.properties` or that your CI environment is set up incorrectly-it is totally safe to ignore.
 4. Copy the jar into your Minecraft mods folder, and you are done!
@@ -98,7 +107,7 @@ such as `C:\Github\IronTanks`.
 In order to get the most up-to-date builds, you'll have to periodically update your local repository.
 
 1. Open up your command line.
-2. Navigate to wherever you cloned IronTanks in the console.
+2. Navigate to wherever you cloned irontank in the console.
 3. Make sure you have not made any changes to the local repository, or else there might be issues with Git.
 	* If there are local changes, try reverting them to the status that they were when you last updated your repository by executing `git reset HEAD --hard`.
 4. Execute `git pull master`.  This pulls all commits from the official repository that do not yet exist on your local repository and updates it.
@@ -128,11 +137,11 @@ When you finish up your change you'll want to [squash](http://davidwalsh.name/sq
 6. Click `Send pull request`, and wait for feedback!
 
 #### Creating an Issue
-IronTanks crashes every time :bomb:?  Have a suggestion?  Found a :bug:?  Create an issue now!
+Iron Tanks crashes every time :bomb:?  Have a suggestion?  Found a :bug:?  Create an issue now!
 
-1. Make sure your issue hasn't already been answered or fixed by [searching for it](https://github.com/indemnity83/IronTanks/search?q=&type=Issues).  Also think about whether your issue is a valid one before submitting it.
-	* Please do not open an issue to ask a question about how to use the mod - this kind of thing is for the [wiki](https://github.com/indemnity83/IronTanks/wiki) or [forums](http://www.minecraftforum.net/topic/#).
-2. Go to [the issues page](http://github.com/indemnity83/IronTanks/issues).
+1. Make sure your issue hasn't already been answered or fixed by [searching for it](https://github.com/indemnity83/irontank/search?q=&type=Issues).  Also think about whether your issue is a valid one before submitting it.
+    * Please do not open an issue to ask a question about how to use the mod - this kind of thing is for the [wiki](https://github.com/indemnity83/irontank/wiki) or [forums](http://www.minecraftforum.net/topic/#).
+2. Go to [the issues page](http://github.com/indemnity83/irontank/issues).
 3. Click `New Issue` right below `Star` and `Fork`.
 4. Enter your Issue's title (something that summarizes your issue), and then create a detailed description ("Hey indemnity83, could you add/change xxx?" or "Hey, found an exploit: stuff").
 	* If you are reporting a bug report from an unofficial version, make sure you include the following:
