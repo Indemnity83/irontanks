@@ -52,6 +52,16 @@ public class BlockExtendedTank extends BlockTank {
 		super.registerBlockIcons(par1IconRegister);
 		textureStackedSide = par1IconRegister.registerIcon("irontank:" + type.name + "/side_stacked");
 	}
+	
+	@SuppressWarnings({"all"})
+	@Override
+	public IIcon getIconAbsolute(IBlockAccess iblockaccess, int i, int j, int k, int side, int metadata) {
+		if (side >= 2 && iblockaccess.getBlock(i, j - 1, k) instanceof BlockTank) {
+			return textureStackedSide;
+		} else {
+			return super.getIconAbsolute(side, metadata);
+		}
+	}
 
 	public void addRecipe() {
 		for (String recipe : type.recipes) {
