@@ -1,7 +1,7 @@
 package com.indemnity83.irontank.init;
 
 import com.indemnity83.irontank.block.BlockExtendedTank;
-import com.indemnity83.irontank.block.TankType;
+import com.indemnity83.irontank.reference.TankType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 

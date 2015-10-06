@@ -1,4 +1,4 @@
-package com.indemnity83.irontank.block;
+package com.indemnity83.irontank.reference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.List;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
+import com.indemnity83.irontank.block.BlockExtendedTank;
 import com.indemnity83.irontank.init.ModBlocks;
 import com.indemnity83.irontank.item.ItemTankChanger;
-import com.indemnity83.irontank.item.TankChangerType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 

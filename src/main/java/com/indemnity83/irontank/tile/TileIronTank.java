@@ -1,7 +1,7 @@
 package com.indemnity83.irontank.tile;
 
-import com.indemnity83.irontank.block.TankType;
 import com.indemnity83.irontank.item.ItemTankChanger;
+import com.indemnity83.irontank.reference.TankType;
 import com.indemnity83.irontank.utility.LogHelper;
 
 import net.minecraft.nbt.NBTTagCompound;

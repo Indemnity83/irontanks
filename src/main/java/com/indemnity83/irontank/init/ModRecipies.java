@@ -2,7 +2,7 @@ package com.indemnity83.irontank.init;
 
 import com.indemnity83.irontank.block.BlockExtendedTank;
 import com.indemnity83.irontank.item.ItemTankChanger;
-import com.indemnity83.irontank.item.TankChangerType;
+import com.indemnity83.irontank.reference.TankChangerType;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;

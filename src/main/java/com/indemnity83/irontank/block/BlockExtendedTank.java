@@ -13,6 +13,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import com.indemnity83.irontank.creativetab.IronTankTabs;
 import com.indemnity83.irontank.init.ModBlocks;
 import com.indemnity83.irontank.reference.Reference;
+import com.indemnity83.irontank.reference.TankType;
 import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
 

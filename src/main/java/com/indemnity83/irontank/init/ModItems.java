@@ -1,16 +1,16 @@
 package com.indemnity83.irontank.init;
 
-import static com.indemnity83.irontank.block.TankType.COPPER;
-import static com.indemnity83.irontank.block.TankType.DIAMOND;
-import static com.indemnity83.irontank.block.TankType.GLASS;
-import static com.indemnity83.irontank.block.TankType.GOLD;
-import static com.indemnity83.irontank.block.TankType.IRON;
-import static com.indemnity83.irontank.block.TankType.OBSIDIAN;
-import static com.indemnity83.irontank.block.TankType.SILVER;
+import static com.indemnity83.irontank.reference.TankType.COPPER;
+import static com.indemnity83.irontank.reference.TankType.DIAMOND;
+import static com.indemnity83.irontank.reference.TankType.GLASS;
+import static com.indemnity83.irontank.reference.TankType.GOLD;
+import static com.indemnity83.irontank.reference.TankType.IRON;
+import static com.indemnity83.irontank.reference.TankType.OBSIDIAN;
+import static com.indemnity83.irontank.reference.TankType.SILVER;
 
 import com.indemnity83.irontank.item.ItemGeneric;
 import com.indemnity83.irontank.item.ItemTankChanger;
-import com.indemnity83.irontank.item.TankChangerType;
+import com.indemnity83.irontank.reference.TankChangerType;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
