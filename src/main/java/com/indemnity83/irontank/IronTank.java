@@ -16,7 +16,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = Reference.MODID, name = Reference.MODNAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.MODNAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class IronTank {
 
 	@Mod.Instance(Reference.MODID)
