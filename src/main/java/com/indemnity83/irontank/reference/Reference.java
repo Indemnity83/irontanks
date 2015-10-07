@@ -3,7 +3,8 @@ package com.indemnity83.irontank.reference;
 public class Reference {
 
 	public static final String MODID = "irontank";
-	public static final String VERSION = "beta";
+	public static final String VERSION = "@VERSION@";
+	public static final String BUILD = "@BUILD@";
 	public static final String MODNAME = "Iron Tanks";
 	public static final String SERVER_PROXY_CLASS = "com.indemnity83.irontank.proxy.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "com.indemnity83.irontank.proxy.ClientProxy";
