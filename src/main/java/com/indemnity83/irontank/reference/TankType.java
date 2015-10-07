@@ -58,24 +58,6 @@ public enum TankType{
 	 */
 	public final float resistance;
 
-	/**
-	 * Get the block associated with this tank type
-	 * 
-	 * @return block associated with this tank type
-	 */
-	@SuppressWarnings("finally")
-	public BlockExtendedTank getBlock() {
-		BlockExtendedTank block = null;
-		try {
-			block = (BlockExtendedTank) ModBlocks.class.getField(name).get(null);
-		} catch (Exception e) {
-			// unpossible
-			e.printStackTrace();
-		} finally {
-			return block;
-		}
-	}
-
 	TankType(int capacity, String name, List<String> materials, List<String> recipes, float resistance) {
 		this.capacity = capacity;
 		this.name = name;

@@ -1,5 +1,6 @@
 package com.indemnity83.irontank.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import buildcraft.factory.TileTank;
 
 import com.indemnity83.irontank.creativetab.IronTankTabs;
+import com.indemnity83.irontank.reference.Reference;
 import com.indemnity83.irontank.reference.TankChangerType;
 import com.indemnity83.irontank.reference.TankType;
 import com.indemnity83.irontank.tile.TileIronTank;
@@ -68,7 +70,7 @@ public class ItemTankChanger extends ItemGeneric {
 		TileIronTank newIronTankTile = new TileIronTank(type.target);
 		newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
 
-		world.setBlock(X, Y, Z, type.target.getBlock());
+		world.setBlock(X, Y, Z, Block.getBlockFromName(Reference.MODID + ":" + type.target.name));
 		world.setTileEntity(X, Y, Z, newIronTankTile);
 
 		stack.stackSize = 0;
