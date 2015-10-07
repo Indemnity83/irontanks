@@ -157,6 +157,8 @@ def loadProperties() {
 		}
 	}
 
+  project.ext["buildQualifier"] = "beta"
+
 	def String branch = getBranch()
     if (branch == "master") {
       project.ext["buildQualifier"] = "release"
@@ -165,8 +167,6 @@ def loadProperties() {
     if (branch == "release" || branch == "support") {
       project.ext["buildQualifier"] = "alpha"
     }
-
-    project.ext["buildQualifier"] = "beta"
 }
 
 def getBuildNumber() {
