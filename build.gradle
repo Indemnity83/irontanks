@@ -25,11 +25,11 @@ apply plugin: 'com.moowork.node'
 import org.ajoberstar.grgit.*
 import java.util.regex.Pattern
 
-loadProperties()
 ext.repo = Grgit.open(project.file('.'))
+loadProperties()
 
 version = project.mcversion + '-' + version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber()
-if (project.hasProperty('buildQualifier') && project.buildQualifier != 'release') {
+if (project.buildQualifier != 'release') {
 	version = project.version + '-' + project.buildQualifier
 }
 group= "com.indemnity83.irontank"
@@ -38,9 +38,12 @@ archivesBaseName = "irontank"
 minecraft {
     version = project.mcversion + "-" + project.forgeversion
     runDir = "eclipse"
+
+    replace '@VERSION@', version_major + '.' + version_minor + '.' + version_patch
+    replace '@BUILD_NUMBER@', getBuildNumber()
 }
 
-curse.enabled = buildQualifies()
+curse.enabled = isInteresting()
 curse {
     projectId = '236226'
     apiKey = "${System.getenv().CURSE_API_KEY}"
@@ -89,7 +92,7 @@ processResources
         include 'mcmod.info'
 
         // replace version and mcversion
-        expand 'version':version_major + '.' + version_minor + '.' + version_patch + ' build ' + getBuildNumber(), 'mcversion':project.minecraft.version
+        expand 'version':version_major + '.' + version_minor + '.' + version_patch + '.' + getBuildNumber(), 'mcversion':project.minecraft.version
     }
 
     // copy everything else, thats not the mcmod.info
@@ -153,10 +156,25 @@ def loadProperties() {
 			project.ext[property.getKey()] = property.getValue()
 		}
 	}
+
+	def String branch = getBranch()
+    if (branch == "master") {
+      project.ext["buildQualifier"] = "release"
+    }
+
+    if (branch == "release" || branch == "support") {
+      project.ext["buildQualifier"] = "alpha"
+    }
+
+    project.ext["buildQualifier"] = "beta"
 }
 
 def getBuildNumber() {
 	return "$System.env.BUILD_NUMBER" != "null" ? "$System.env.BUILD_NUMBER" : "${repo.head().abbreviatedId}"
+}
+
+def getBranch() {
+    return "$System.env.BUILD_BRANCH" != "null" ? "$System.env.BUILD_BRANCH" : "${repo.getBranch().getCurrent().getName()}"
 }
 
 def saveVersion() {
@@ -202,28 +220,24 @@ task echoLastChange << {
   println repo.log(maxCommits: 1).fullMessage.get(0)
 }
 
-def buildQualifies() {
-  if (project.buildQualifier == 'release' || project.buildQualifier == 'beta') {
-    println "buildQualifier is ${buildQualifier} we are go for upload!"
-    return true
-  }
-
+def isInteresting() {
   def String log = repo.log(maxCommits: 1).fullMessage.get(0).toString()
   if (log.startsWith("fix") || log.startsWith("feat")) {
-    println "commit is \"${repo.log(maxCommits: 1).shortMessage.get(0).toString()}\" we are go for upload!"
+    println "commit is \"${repo.log(maxCommits: 1).shortMessage.get(0).toString()}\", that sounds interesting..."
     return true
   }
 
   if (log.contains("BREAKING")) {
-    println "commit lists a breaking change we are go for upload!"
+    println "commit lists a breaking change, this is interesting..."
     return true
   }
 
-  if (log.contains("FORCE PUBLISH")) {
-    println "commit requests a force publish we are go for upload!"
+  def String branch = getBranch()
+  if (branch == "master" || branch.startsWith("release")) {
+    println "building " + getBranch() + ", this is interesting..."
     return true
   }
 
-  println "Build doesn't qualify to be uploaded"
+  println "Build is boring"
   return false
 }

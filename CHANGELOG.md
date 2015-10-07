@@ -1,3 +1,14 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/indemnity83/irontank/compare/1.0.0...v1.0.1) (2015-10-07)
+
+
+### Bug Fixes
+
+* **block:** Stacked tank textures now update properly ([6a21a07](https://github.com/indemnity83/irontank/commit/6a21a07))
+* Add specific dependency requirement on BuildCraft|Factory v7 ([9842144](https://github.com/indemnity83/irontank/commit/9842144)), closes [#15](https://github.com/indemnity83/irontank/issues/15)
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2015-10-02)
 

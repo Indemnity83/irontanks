@@ -1,7 +1,7 @@
 package com.indemnity83.irontank.creativetab;
 
 import com.indemnity83.irontank.reference.Reference;
-import com.indemnity83.irontank.block.IronTankType;
+import com.indemnity83.irontank.reference.TankType;
 import com.indemnity83.irontank.init.ModBlocks;
 
 import net.minecraft.block.Block;

@@ -1,7 +1,7 @@
 package com.indemnity83.irontank.tile;
 
-import com.indemnity83.irontank.block.IronTankType;
 import com.indemnity83.irontank.item.ItemTankChanger;
+import com.indemnity83.irontank.reference.TankType;
 import com.indemnity83.irontank.utility.LogHelper;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,22 +12,22 @@ import buildcraft.factory.TileTank;
 
 public class TileIronTank extends TileTank {
 
-	public IronTankType type;
+	public TankType type;
 
 	public TileIronTank() {
-		this(IronTankType.IRON);
+		this(TankType.IRON);
 	}
 
-	public TileIronTank(IronTankType type) {
+	public TileIronTank(TankType type) {
 		this.type = type;
 
-		int capacity = FluidContainerRegistry.BUCKET_VOLUME * type.getTankVolume();
+		int capacity = FluidContainerRegistry.BUCKET_VOLUME * type.capacity;
 		this.tank.setCapacity(capacity);
 	}
 
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
-		this.type = IronTankType.values()[data.getInteger("type")];
+		this.type = TankType.values()[data.getInteger("type")];
 	}
 
 	public void writeToNBT(NBTTagCompound data) {

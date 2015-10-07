@@ -1,5 +1,6 @@
 package com.indemnity83.irontank.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -9,40 +10,36 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import buildcraft.factory.TileTank;
 
-import com.indemnity83.irontank.block.IronTankType;
 import com.indemnity83.irontank.creativetab.IronTankTabs;
+import com.indemnity83.irontank.reference.Reference;
+import com.indemnity83.irontank.reference.TankChangerType;
+import com.indemnity83.irontank.reference.TankType;
 import com.indemnity83.irontank.tile.TileIronTank;
 import com.indemnity83.irontank.utility.MaterialHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ItemTankChanger extends ItemIronTank {
-	
-	TankChangerType type;
+public class ItemTankChanger extends ItemGeneric {
 
-	public ItemTankChanger(TankChangerType type)
-	{
+	public final TankChangerType type;
+
+	public ItemTankChanger(TankChangerType type) {
 		super();
-		
+
 		this.type = type;
-		
-		this.setUnlocalizedName(type.getItemName());
-		this.setCreativeTab(IronTankTabs.MainTab);
+
+		this.setUnlocalizedName(type.name);
 		this.setMaxStackSize(1);
-	}
-	
-	public TankChangerType getTankChangerType() 
-	{
-		return type;
 	}
 
 	@Override
 	public void addRecipe() {
-		for (String sourceMat : type.getSourceMats()) {
-			for (String targetMat : type.getTargetMats()) {
+		for (String sourceMat : type.source.materials) {
+			for (String targetMat : type.target.materials) {
 				Object oSourceMat = MaterialHelper.translateOreName(sourceMat);
 				Object oTargetMat = MaterialHelper.translateOreName(targetMat);
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.getRecipe(), 's', oSourceMat, 't', oTargetMat, 'g', "blockGlass"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), type.recipe, 's', oSourceMat, 't',
+						oTargetMat, 'g', "blockGlass"));
 			}
 		}
 	}
@@ -58,31 +55,27 @@ public class ItemTankChanger extends ItemIronTank {
 		TileTank curTankTile;
 		if (worldTile != null && worldTile instanceof TileIronTank) {
 			curTankTile = (TileTank) worldTile;
-			if (!getType().canUpgrade(((TileIronTank) curTankTile).type)) {
+			if (!type.canUpgrade(((TileIronTank) curTankTile).type)) {
 				return false;
 			}
 		} else if (worldTile != null && worldTile instanceof TileTank) {
 			curTankTile = (TileTank) worldTile;
-			if (!getType().canUpgrade(IronTankType.GLASS)) {
+			if (!type.canUpgrade(TankType.GLASS)) {
 				return false;
 			}
 		} else {
 			return false;
 		}
 
-		TileIronTank newIronTankTile = new TileIronTank(getType().getTarget());
+		TileIronTank newIronTankTile = new TileIronTank(type.target);
 		newIronTankTile.tank.setFluid(curTankTile.tank.getFluid());
 
-		world.setBlock(X, Y, Z, getType().getTarget().getBlock());
+		world.setBlock(X, Y, Z, Block.getBlockFromName(Reference.MODID + ":" + type.target.name));
 		world.setTileEntity(X, Y, Z, newIronTankTile);
 
 		stack.stackSize = 0;
 
 		return true;
-	}
-
-	public TankChangerType getType() {
-		return this.type;
 	}
 
 }

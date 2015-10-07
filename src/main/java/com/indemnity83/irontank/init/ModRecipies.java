@@ -1,17 +1,16 @@
 package com.indemnity83.irontank.init;
 
-import com.indemnity83.irontank.block.BlockIronTank;
+import com.indemnity83.irontank.block.BlockExtendedTank;
 import com.indemnity83.irontank.item.ItemTankChanger;
-import com.indemnity83.irontank.item.TankChangerType;
+import com.indemnity83.irontank.reference.TankChangerType;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModRecipies {
-	
-	public static void init() 
-	{
+
+	public static void init() {
 		// Item Recipes
 		ModItems.ironGoldUpgrade.addRecipe();
 		ModItems.goldDiamondUpgrade.addRecipe();
@@ -22,7 +21,7 @@ public class ModRecipies {
 		ModItems.glassCopperUpgrade.addRecipe();
 		ModItems.diamondObsidianUpgrade.addRecipe();
 		ModItems.silverDiamondUpgrade.addRecipe();
-		
+
 		// Block Recipes
 		ModBlocks.copperTank.addRecipe();
 		ModBlocks.silverTank.addRecipe();
@@ -31,5 +30,5 @@ public class ModRecipies {
 		ModBlocks.diamondTank.addRecipe();
 		ModBlocks.obsidianTank.addRecipe();
 	}
-	
+
 }
