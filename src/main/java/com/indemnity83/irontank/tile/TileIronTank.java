@@ -21,18 +21,24 @@ public class TileIronTank extends TileTank {
 	public TileIronTank(TankType type) {
 		this.type = type;
 
-		int capacity = FluidContainerRegistry.BUCKET_VOLUME * type.capacity;
-		this.tank.setCapacity(capacity);
+		this.setCapacityFromType();
 	}
 
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
 		this.type = TankType.values()[data.getInteger("type")];
+
+		this.setCapacityFromType();
 	}
 
 	public void writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
 		data.setInteger("type", type.ordinal());
+	}
+
+	public void setCapacityFromType() {
+		int capacity = FluidContainerRegistry.BUCKET_VOLUME * type.capacity;
+		this.tank.setCapacity(capacity);
 	}
 
 }
