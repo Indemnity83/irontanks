@@ -98,7 +98,7 @@ def getGitVersion()
 	def maj = matcher[0][1]
 	def min = matcher[0][2]
 	def rev = matcher[0][3]
-	def bn = System.getenv("PROMOTED_NUMBER") ?: System.getenv("BUILD_NUMBER") ?: "dev"
+	def bn = System.getenv("PROMOTED_NUMBER") ?: System.getenv("BUILD_NUMBER") ?: matcher[0][4].toString()
 
 	out['IronTanks.build.major.number'] = maj.toString()
 	out['IronTanks.build.minor.number'] = min.toString()
