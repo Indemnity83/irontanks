@@ -44,7 +44,7 @@ repositories {
     }
     maven {
         name "Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
+        url "https://www.mobiusstrip.eu/maven"
     }
     maven {
       name = "chickenbones"
@@ -54,7 +54,7 @@ repositories {
 
 dependencies {
     // Buildcraft
-    compile name: "buildcraft", version: "7.1.6", classifier: "dev"
+    compile name: "buildcraft", version: "7.1.22", classifier: "dev"
 
     // NEI
     compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
