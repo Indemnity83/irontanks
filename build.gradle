@@ -20,6 +20,7 @@ apply plugin: 'forge'
 apply plugin: 'curseforge'
 
 def versionInfo = getGitVersion()
+def gitLog = getGitLog()
 
 minecraft {
     version = "1.7.10-10.13.4.1448-1.7.10"
@@ -30,7 +31,8 @@ curse {
     apiKey = System.getenv("CURSE_API_KEY")
     projectId = '236226'
     releaseType = 'beta'
-    changelog = 'Empty'
+    changelog = gitLog['message']
+    relatedProject 'buildcraft': 'requiredLibrary'
 }
 
 version = "${project.minecraft.version}-${versionInfo['IronTanks.version']}"
@@ -106,4 +108,21 @@ def getGitVersion()
 	out['IronTanks.version' ] = "${maj}.${min}.${rev}.${bn}".toString()
 
 	return out
+}
+
+def getGitLog()
+{
+	def out = [:]
+
+	// call git command.
+	def outStream = new ByteArrayOutputStream()
+	def result = exec {
+		executable = 'git'
+		args = [ 'log', '--format=short', '-n 1', 'HEAD']
+		standardOutput = outStream
+	}
+
+	out['message'] = outStream.toString().trim()
+
+    return out
 }
