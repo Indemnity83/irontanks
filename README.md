@@ -1,0 +1,1 @@
+This branch contains the src and rendered assets for Iron Tanks. This is so the images can be referenced in other places (like the wiki) and stored with the mod repository; but without mucking up the other branches commit history (and automatic versioning). 
