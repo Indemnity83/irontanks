@@ -1,14 +1,14 @@
 ## Welcome to Iron Tanks!
-***
 
-[![License](https://img.shields.io/github/license/indemnity83/irontank.svg)](https://github.com/Indemnity83/irontank/blob/master/LICENSE.txt)  
-[![Latest Stable Version](https://img.shields.io/github/release/indemnity83/irontank.svg)](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks/files) [![Build Status](https://travis-ci.org/Indemnity83/irontank.svg?branch=master)](https://travis-ci.org/indemnity83/irontank)  
-[![Latest Stable Version](https://img.shields.io/badge/unstable-dev-orange.svg)](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks/files) [![Build Status](https://travis-ci.org/Indemnity83/irontank.svg?branch=develop)](https://travis-ci.org/Indemnity83/irontank)
+![logo](https://media-elerium.cursecdn.com/avatars/26/707/635796125683158307.png)
+
+[![Latest Stable Version](https://img.shields.io/github/release/Indemnity83/irontank.svg)](https://minecraft.curseforge.com/projects/iron-tanks/files) [![Build Status](https://travis-ci.org/Indemnity83/irontank.svg?branch=master)](https://travis-ci.org/Indemnity83/irontank) [![License](https://img.shields.io/github/license/indemnity83/irontank.svg)](https://github.com/Indemnity83/irontank/blob/master/LICENSE.txt) 
+
+
 
 ## Index
- ***
 
-[All versions are available here](http://minecraft.curseforge.com/mc-mods/236226-iron-tanks)
+[All versions are available here](https://minecraft.curseforge.com/projects/iron-tanks)
 
 [Minecraft Forums page](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2536391-iron-tank-1-0-0)
 
@@ -21,7 +21,7 @@
 ### Compiling Iron Tanks
 IMPORTANT: Please report any issues you have as there might be some problems with the documentation.
 Also make sure you know EXACTLY what you're doing before proceeding!  We are not responsible if your computer crashes, becomes corrupted, etc. :see_no_evil:
-***
+
 [Setup Java](#setup-java)
 
 [Setup Gradle](#setup-gradle)
@@ -87,11 +87,11 @@ This section assumes that you're using the command-line version of Git.
 such as `C:\Github\irontank`.
 4. Right now, you should have a directory that looks something like:
 
-***
+```
     Github
     \-irontank
         \-irontank's files (should have `build.gradle`)
-***
+```
 
 #### Compile Iron Tanks
 1. Execute `gradle setupCiWorkspace` in order to set up Forge and download the necessary libraries to build Iron Tanks.  This might take some time, please be patient :watch:.
@@ -113,7 +113,7 @@ In order to get the most up-to-date builds, you'll have to periodically update y
 4. Execute `git pull master`.  This pulls all commits from the official repository that do not yet exist on your local repository and updates it.
 
 ### Contributing
-***
+
 #### Submitting a PR
 So you found a :bug: in the code?  Think you can make it more efficient :dash:?  Want to help in general?  Great!
 
@@ -152,9 +152,9 @@ Iron Tanks crashes every time :bomb:?  Have a suggestion?  Found a :bug:?  Creat
 5. Click `Submit new issue`, and wait for feedback! :boom:
 
 ### Licence
-***
+
 This software is licensed under the MIT license
 
 ### Acknowledgements
-***
+
 Shamelessly based this README off [pahimar's version](https://github.com/pahimar/Equivalent-Exchange-3).
