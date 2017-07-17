@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.common.blocks;
 
 import buildcraft.api.transport.pipe.ICustomPipeConnection;
+import buildcraft.factory.block.BlockTank;
 import buildcraft.factory.tile.TileTank;
 import com.indemnity83.irontanks.IronTanks;
 import net.minecraft.block.Block;
@@ -114,7 +115,8 @@ public class BlockIronTank extends Block implements ICustomPipeConnection, ITile
     }
 
     private boolean positionIsTank(IBlockAccess world, BlockPos position) {
-        return world.getBlockState(position).getBlock() instanceof BlockIronTank;
+        Block block = world.getBlockState(position).getBlock();
+        return block instanceof BlockIronTank || block instanceof BlockTank;
     }
 
     /**
