@@ -1,6 +1,6 @@
 package com.indemnity83.irontanks.common.blocks;
 
-import buildcraft.factory.BCFactoryBlocks;
+import buildcraft.api.BCBlocks;
 import com.indemnity83.irontanks.common.entities.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -49,7 +49,7 @@ public enum IronTankType implements IStringSerializable {
                             new ItemStack(blockIronTank, 1, type.ordinal()), recipeSplit,
                             'M', mainMaterial,
                             'G', "blockGlass",
-                            'T', BCFactoryBlocks.tank, // BuildCraft Tank
+                            'T', BCBlocks.FACTORY_TANK, // BuildCraft Tank
                             '0', new ItemStack(blockIronTank, 1, 0), // Copper Tank
                             '1', new ItemStack(blockIronTank, 1, 1), // Iron Tank
                             '2', new ItemStack(blockIronTank, 1, 2), // Silver Tank
