@@ -1,0 +1,63 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "stacked": {
+      "true": {
+        "model": "irontanks:iron_tank_stacked"
+      },
+      "false": {
+        "model": "irontanks:iron_tank"
+      }
+    },
+    "variant": {
+      "copper": {
+        "textures": {
+          "particle": "irontanks:blocks/coppertank/side",
+          "end": "irontanks:blocks/coppertank/end",
+          "side": "irontanks:blocks/coppertank/side",
+          "side_stacked": "irontanks:blocks/coppertank/side_stacked"
+        }
+      },
+      "iron": {
+        "textures": {
+          "particle": "irontanks:blocks/irontank/side",
+          "end": "irontanks:blocks/irontank/end",
+          "side": "irontanks:blocks/irontank/side",
+          "side_stacked": "irontanks:blocks/irontank/side_stacked"
+        }
+      },
+      "silver": {
+        "textures": {
+          "particle": "irontanks:blocks/silvertank/side",
+          "end": "irontanks:blocks/silvertank/end",
+          "side": "irontanks:blocks/silvertank/side",
+          "side_stacked": "irontanks:blocks/silvertank/side_stacked"
+        }
+      },
+      "gold": {
+        "textures": {
+          "particle": "irontanks:blocks/goldtank/side",
+          "end": "irontanks:blocks/goldtank/end",
+          "side": "irontanks:blocks/goldtank/side",
+          "side_stacked": "irontanks:blocks/goldtank/side_stacked"
+        }
+      },
+      "diamond": {
+        "textures": {
+          "particle": "irontanks:blocks/diamondtank/side",
+          "end": "irontanks:blocks/diamondtank/end",
+          "side": "irontanks:blocks/diamondtank/side",
+          "side_stacked": "irontanks:blocks/diamondtank/side_stacked"
+        }
+      },
+      "obsidian": {
+        "textures": {
+          "particle": "irontanks:blocks/obsidiantank/side",
+          "end": "irontanks:blocks/obsidiantank/end",
+          "side": "irontanks:blocks/obsidiantank/side",
+          "side_stacked": "irontanks:blocks/obsidiantank/side_stacked"
+        }
+      }
+    }
+  }
+}

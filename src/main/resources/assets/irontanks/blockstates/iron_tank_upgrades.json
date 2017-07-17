@@ -1,0 +1,56 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "variant": {
+      "copper_iron_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/copper_iron_upgrade"
+        }
+      },
+      "copper_silver_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/copper_silver_upgrade"
+        }
+      },
+      "diamond_obsidian_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/diamond_obsidian_upgrade"
+        }
+      },
+      "glass_copper_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/glass_copper_upgrade"
+        }
+      },
+      "glass_iron_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/glass_iron_upgrade"
+        }
+      },
+      "gold_diamond_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/gold_diamond_upgrade"
+        }
+      },
+      "iron_gold_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/iron_gold_upgrade"
+        }
+      },
+      "silver_diamond_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/silver_diamond_upgrade"
+        }
+      },
+      "silver_gold_tank_upgrade": {
+        "textures": {
+          "layer0": "irontanks:items/silver_gold_upgrade"
+        }
+      }
+    }
+  }
+}

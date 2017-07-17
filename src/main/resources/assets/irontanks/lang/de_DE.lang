@@ -1,0 +1,18 @@
+# Item localizations
+item.irontanks.copper_iron_tank_upgrade.name=Kupfer zu Eisenbehälter Upgrade
+item.irontanks.copper_silver_tank_upgrade.name=Kupfer zu Silberbehälter Upgrade
+item.irontanks.diamond_obsidian_tank_upgrade.name=Diamant zu Obsidiantbehälter Upgrade
+item.irontanks.gold_diamond_tank_upgrade.name=Gold zu Diamantbehälter Upgrade
+item.irontanks.iron_gold_tank_upgrade.name=Eisen zu Goldbehälter Upgrade
+item.irontanks.silver_gold_tank_upgrade.name=Silber zu Goldbehälter Upgrade
+item.irontanks.glass_copper_tank_upgrade.name=Glas zu Kupferbehälter Upgrade
+item.irontanks.glass_iron_tank_upgrade.name=Glas zu Eisenbehälter Upgrade
+item.irontanks.silver_diamond_tank_upgrade.name=Silber zu Diamantbehälter Upgrade
+
+# Block localizations
+tile.irontanks.tank.iron.name=Eisenbehälter
+tile.irontanks.tank.gold.name=Goldbehälter
+tile.irontanks.tank.diamond.name=Diamantbehälter
+tile.irontanks.tank.obsidian.name=Obsidiantbehälter
+tile.irontanks.tank.copper.name=Kupferbehälter
+tile.irontanks.tank.silver.name=Silberbehälter

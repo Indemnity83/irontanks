@@ -1,0 +1,18 @@
+# Item localizations
+item.irontanks.copper_iron_tank_upgrade.name=Улучшение из медной в железную цистерну
+item.irontanks.copper_silver_tank_upgrade.name=Улучшение из медной в серебряную цистерну
+item.irontanks.diamond_obsidian_tank_upgrade.name=Улучшение из алмазной в обсидиановую цистерну
+item.irontanks.gold_diamond_tank_upgrade.name=Улучшение из золотой в алмазную цистерну
+item.irontanks.iron_gold_tank_upgrade.name=Улучшение из железной в золотую цистерну
+item.irontanks.silver_gold_tank_upgrade.name=Улучшение из серебряной в золотую цистерну
+item.irontanks.glass_copper_tank_upgrade.name=Улучшение из стеклянной в медную цистерну
+item.irontanks.glass_iron_tank_upgrade.name=Улучшение из стеклянной в железную цистерну
+item.irontanks.silver_diamond_tank_upgrade.name=Улучшение из серебряной в алмазную цистерну
+
+# Block localizations
+tile.irontanks.iron_tank.name=Железная цистерна
+tile.irontanks.gold_tank.name=Золотая цистерна
+tile.irontanks.diamond_tank.name=Алмазная цистерна
+tile.irontanks.obsidian_tank.name=Обсидиановая цистерна
+tile.irontanks.copper_tank.name=Медная цистерна
+tile.irontanks.silver_tank.name=Серебряная цистерна
