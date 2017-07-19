@@ -1,13 +1,20 @@
 package com.indemnity83.irontanks.common.tiles;
 
+import net.minecraftforge.fluids.Fluid;
+
 public abstract class TileTank extends buildcraft.factory.tile.TileTank {
 
+    /**
+     * Get the capacity of the tank in buckets.
+     *
+     * @return int capacity in buckets
+     */
     abstract int getCapacity();
 
     TileTank() {
         super();
 
-        this.tank.setCapacity(getCapacity());
+        this.tank.setCapacity(getCapacity() * Fluid.BUCKET_VOLUME);
     }
 
     // This method is actually implemented in TileTank
