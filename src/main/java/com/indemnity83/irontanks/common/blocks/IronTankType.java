@@ -15,6 +15,7 @@ import java.util.Collections;
 
 public enum IronTankType implements IStringSerializable {
 
+    GLASS(16, null, Collections.EMPTY_LIST, Collections.EMPTY_LIST),
     COPPER(27, TileEntityCopperTank.class, Collections.singleton("ingotCopper"), Collections.singleton("GGGMTMGGG")),
     IRON(32, TileEntityIronTank.class, Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("GMGMTMGMG", "GGGM0MGGG")),
     SILVER(43, TileEntitySilverTank.class, Collections.singleton("ingotSilver"), Arrays.asList("GMGM0MGMG", "GGGM1MGGG")),

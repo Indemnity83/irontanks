@@ -10,6 +10,15 @@
       }
     },
     "variant": {
+      "glass": {
+        "comment": "This is just here to suppress a warning that the glass variant has no blockstate, it's never actually used",
+        "textures": {
+          "particle": "buildcraftfactory:blocks/tank/side",
+          "end": "buildcraftfactory:blocks/tank/end",
+          "side": "buildcraftfactory:blocks/tank/side",
+          "side_stacked": "buildcraftfactory:blocks/tank/side_joined_below"
+        }
+      },
       "copper": {
         "textures": {
           "particle": "irontanks:blocks/coppertank/side",
