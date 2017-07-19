@@ -1,7 +1,7 @@
 package com.indemnity83.irontanks.common.blocks;
 
 import buildcraft.api.BCBlocks;
-import com.indemnity83.irontanks.common.entities.*;
+import com.indemnity83.irontanks.common.tiles.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,12 +16,12 @@ import java.util.Collections;
 public enum IronTankType implements IStringSerializable {
 
     GLASS(0, 16, null, Collections.EMPTY_LIST, Collections.EMPTY_LIST),
-    COPPER(1, 27, TileEntityCopperTank.class, Collections.singleton("ingotCopper"), Collections.singleton("GGGMTMGGG")),
-    IRON(2, 32, TileEntityIronTank.class, Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("GMGMTMGMG", "GGGM0MGGG")),
-    SILVER(3, 43, TileEntitySilverTank.class, Collections.singleton("ingotSilver"), Arrays.asList("GMGM0MGMG", "GGGM1MGGG")),
-    GOLD(4, 48, TileEntityGoldTank.class, Collections.singleton("ingotGold"), Arrays.asList("GMGM1MGMG", "GGGM2MGGG")),
-    DIAMOND(5, 64, TileEntityDiamondTank.class, Collections.singleton("gemDiamond"), Arrays.asList("GGGG2GMMM", "GGGM3MGGG")),
-    OBSIDIAN(6, 64, TileEntityObsidianTank.class, Collections.singleton("obsidian"), Collections.singleton("MMMM4MMMM"));
+    COPPER(1, 27, TileCopperTank.class, Collections.singleton("ingotCopper"), Collections.singleton("GGGMTMGGG")),
+    IRON(2, 32, TileIronTank.class, Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("GMGMTMGMG", "GGGM0MGGG")),
+    SILVER(3, 43, TileSilverTank.class, Collections.singleton("ingotSilver"), Arrays.asList("GMGM0MGMG", "GGGM1MGGG")),
+    GOLD(4, 48, TileGoldTank.class, Collections.singleton("ingotGold"), Arrays.asList("GMGM1MGMG", "GGGM2MGGG")),
+    DIAMOND(5, 64, TileDiamondTank.class, Collections.singleton("gemDiamond"), Arrays.asList("GGGG2GMMM", "GGGM3MGGG")),
+    OBSIDIAN(6, 64, TileObsidianTank.class, Collections.singleton("obsidian"), Collections.singleton("MMMM4MMMM"));
 
     public static final IronTankType VALUES[] = values();
     public final String name;
@@ -29,10 +29,10 @@ public enum IronTankType implements IStringSerializable {
     public final int capacity;
     private final Collection<String> materials;
     private final Collection<String> recipes;
-    public final Class<? extends TileEntityTank> tileEntity;
+    public final Class<? extends TileTank> tileEntity;
     public final String tileEntityId;
 
-    IronTankType(int metaValue, int capacity, Class<? extends TileEntityTank> tileEntity, Collection<String> materials, Collection<String> recipes) {
+    IronTankType(int metaValue, int capacity, Class<? extends TileTank> tileEntity, Collection<String> materials, Collection<String> recipes) {
         this.capacity = capacity;
         this.name = this.name().toLowerCase();
         this.tileEntity = tileEntity;
@@ -82,17 +82,17 @@ public enum IronTankType implements IStringSerializable {
     public TileEntity makeEntity() {
         switch (this) {
             case IRON:
-                return new TileEntityIronTank();
+                return new TileIronTank();
             case GOLD:
-                return new TileEntityGoldTank();
+                return new TileGoldTank();
             case DIAMOND:
-                return new TileEntityDiamondTank();
+                return new TileDiamondTank();
             case COPPER:
-                return new TileEntityCopperTank();
+                return new TileCopperTank();
             case SILVER:
-                return new TileEntitySilverTank();
+                return new TileSilverTank();
             case OBSIDIAN:
-                return new TileEntityObsidianTank();
+                return new TileObsidianTank();
             default:
                 return null;
         }

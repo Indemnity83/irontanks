@@ -1,12 +1,10 @@
-package com.indemnity83.irontanks.common.entities;
+package com.indemnity83.irontanks.common.tiles;
 
-import buildcraft.factory.tile.TileTank;
-
-public abstract class TileEntityTank extends TileTank {
+public abstract class TileTank extends buildcraft.factory.tile.TileTank {
 
     abstract int getCapacity();
 
-    TileEntityTank() {
+    TileTank() {
         super();
 
         this.tank.setCapacity(getCapacity());

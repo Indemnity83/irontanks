@@ -3,7 +3,6 @@ package com.indemnity83.irontanks.common;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.BlockIronTank;
 import com.indemnity83.irontanks.common.blocks.IronTankType;
-import com.indemnity83.irontanks.common.entities.*;
 import com.indemnity83.irontanks.common.items.ItemIronTank;
 import com.indemnity83.irontanks.common.items.TankChangerType;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

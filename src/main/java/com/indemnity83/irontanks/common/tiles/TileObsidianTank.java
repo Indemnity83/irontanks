@@ -1,8 +1,8 @@
-package com.indemnity83.irontanks.common.entities;
+package com.indemnity83.irontanks.common.tiles;
 
 import com.indemnity83.irontanks.common.blocks.IronTankType;
 
-public class TileEntityObsidianTank extends TileEntityTank {
+public class TileObsidianTank extends TileTank {
     int getCapacity() {
         return IronTankType.OBSIDIAN.capacity;
     }
