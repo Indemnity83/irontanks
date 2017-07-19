@@ -19,7 +19,8 @@ public final class Content {
         GameRegistry.register(ironTankBlock);
         GameRegistry.register(ironTankItemBlock);
 
-        for(IronTankType type : IronTankType.VALUES) {
+        for (IronTankType type : IronTankType.VALUES) {
+            if (type.tileEntity == null) continue;
             GameRegistry.registerTileEntity(type.tileEntity, type.tileEntityId);
         }
     }
