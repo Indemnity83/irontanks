@@ -29,13 +29,14 @@ public enum IronTankType implements IStringSerializable {
     public final int capacity;
     private final Collection<String> materials;
     private final Collection<String> recipes;
-    private final Class<? extends TileEntityIronTank> tileEntity;
+    public final Class<? extends TileEntityTank> tileEntity;
+    public final String tileEntityId;
 
-    IronTankType(int metaValue, int capacity, Class<? extends TileEntityIronTank> tileEntity, Collection<String> materials, Collection<String> recipes) {
-        this.metaValue = metaValue;
+    IronTankType(int metaValue, int capacity, Class<? extends TileEntityTank> tileEntity, Collection<String> materials, Collection<String> recipes) {
         this.capacity = capacity;
-        this.tileEntity = tileEntity;
         this.name = this.name().toLowerCase();
+        this.tileEntity = tileEntity;
+        this.tileEntityId = this.name + "_tank_tile_entity";
         this.materials = materials;
         this.recipes = recipes;
     }

@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.common;
 
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.BlockIronTank;
+import com.indemnity83.irontanks.common.blocks.IronTankType;
 import com.indemnity83.irontanks.common.entities.*;
 import com.indemnity83.irontanks.common.items.ItemIronTank;
 import com.indemnity83.irontanks.common.items.TankChangerType;
@@ -19,12 +20,9 @@ public final class Content {
         GameRegistry.register(ironTankBlock);
         GameRegistry.register(ironTankItemBlock);
 
-        GameRegistry.registerTileEntity(TileEntityCopperTank.class, "copper_tank_tile_entity");
-        GameRegistry.registerTileEntity(TileEntityDiamondTank.class, "diamond_tank_tile_entity");
-        GameRegistry.registerTileEntity(TileEntityGoldTank.class, "gold_tank_tile_entity");
-        GameRegistry.registerTileEntity(TileEntityIronTank.class, "iron_tank_tile_entity");
-        GameRegistry.registerTileEntity(TileEntityObsidianTank.class, "obsidian_tank_tile_entity");
-        GameRegistry.registerTileEntity(TileEntitySilverTank.class, "silver_tank_tile_entity");
+        for(IronTankType type : IronTankType.VALUES) {
+            GameRegistry.registerTileEntity(type.tileEntity, type.tileEntityId);
+        }
     }
 
     public static void registerItems() {
