@@ -58,7 +58,7 @@ public class ItemTankChanger extends Item {
 
             // If the item cannot upgrade the clicked tank, exit early
         } else {
-            if (clickedBlockState != Content.ironTankBlock.getStateFromMeta(IronTankType.valueOf(this.type.upgradeFrom.getName().toUpperCase()).ordinal())) {
+            if (clickedBlockState != Content.ironTankBlock.getStateFromMeta(IronTankType.valueOf(this.type.upgradeFrom.getName().toUpperCase()).metaValue)) {
                 return EnumActionResult.PASS;
             }
         }

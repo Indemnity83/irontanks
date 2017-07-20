@@ -64,7 +64,7 @@ public class BlockIronTank extends Block implements ICustomPipeConnection, ITile
      * Convert the given metadata into a BlockState for this Block
      */
     public int getMetaFromState(IBlockState blockState) {
-        return blockState.getValue(VARIANT).ordinal();
+        return blockState.getValue(VARIANT).metaValue;
     }
 
     /**
@@ -72,7 +72,7 @@ public class BlockIronTank extends Block implements ICustomPipeConnection, ITile
      * returns the metadata of the dropped item based on the old metadata of the block.
      */
     public int damageDropped(IBlockState blockState) {
-        return blockState.getValue(VARIANT).ordinal();
+        return blockState.getValue(VARIANT).metaValue;
     }
 
     @Override

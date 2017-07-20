@@ -15,22 +15,24 @@ import java.util.Collections;
 
 public enum IronTankType implements IStringSerializable {
 
-    GLASS(16, null, Collections.EMPTY_LIST, Collections.EMPTY_LIST),
-    COPPER(27, TileEntityCopperTank.class, Collections.singleton("ingotCopper"), Collections.singleton("GGGMTMGGG")),
-    IRON(32, TileEntityIronTank.class, Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("GMGMTMGMG", "GGGM0MGGG")),
-    SILVER(43, TileEntitySilverTank.class, Collections.singleton("ingotSilver"), Arrays.asList("GMGM0MGMG", "GGGM1MGGG")),
-    GOLD(48, TileEntityGoldTank.class, Collections.singleton("ingotGold"), Arrays.asList("GMGM1MGMG", "GGGM2MGGG")),
-    DIAMOND(64, TileEntityDiamondTank.class, Collections.singleton("gemDiamond"), Arrays.asList("GGGG2GMMM", "GGGM3MGGG")),
-    OBSIDIAN(64, TileEntityObsidianTank.class, Collections.singleton("obsidian"), Collections.singleton("MMMM4MMMM"));
+    GLASS(0, 16, null, Collections.EMPTY_LIST, Collections.EMPTY_LIST),
+    COPPER(1, 27, TileEntityCopperTank.class, Collections.singleton("ingotCopper"), Collections.singleton("GGGMTMGGG")),
+    IRON(2, 32, TileEntityIronTank.class, Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("GMGMTMGMG", "GGGM0MGGG")),
+    SILVER(3, 43, TileEntitySilverTank.class, Collections.singleton("ingotSilver"), Arrays.asList("GMGM0MGMG", "GGGM1MGGG")),
+    GOLD(4, 48, TileEntityGoldTank.class, Collections.singleton("ingotGold"), Arrays.asList("GMGM1MGMG", "GGGM2MGGG")),
+    DIAMOND(5, 64, TileEntityDiamondTank.class, Collections.singleton("gemDiamond"), Arrays.asList("GGGG2GMMM", "GGGM3MGGG")),
+    OBSIDIAN(6, 64, TileEntityObsidianTank.class, Collections.singleton("obsidian"), Collections.singleton("MMMM4MMMM"));
 
     public static final IronTankType VALUES[] = values();
     public final String name;
+    public final int metaValue;
     public final int capacity;
     private final Collection<String> materials;
     private final Collection<String> recipes;
     private final Class<? extends TileEntityIronTank> tileEntity;
 
-    IronTankType(int capacity, Class<? extends TileEntityIronTank> tileEntity, Collection<String> materials, Collection<String> recipes) {
+    IronTankType(int metaValue, int capacity, Class<? extends TileEntityIronTank> tileEntity, Collection<String> materials, Collection<String> recipes) {
+        this.metaValue = metaValue;
         this.capacity = capacity;
         this.tileEntity = tileEntity;
         this.name = this.name().toLowerCase();
@@ -47,15 +49,15 @@ public enum IronTankType implements IStringSerializable {
                     Object mainMaterial = translateOreName(material);
 
                     GameRegistry.addRecipe(new ShapedOreRecipe(
-                            new ItemStack(blockIronTank, 1, type.ordinal()), recipeSplit,
+                            new ItemStack(blockIronTank, 1, type.metaValue), recipeSplit,
                             'M', mainMaterial,
                             'G', "blockGlass",
                             'T', BCBlocks.FACTORY_TANK, // BuildCraft Tank
-                            '0', new ItemStack(blockIronTank, 1, 0), // Copper Tank
-                            '1', new ItemStack(blockIronTank, 1, 1), // Iron Tank
-                            '2', new ItemStack(blockIronTank, 1, 2), // Silver Tank
-                            '3', new ItemStack(blockIronTank, 1, 3), // Gold Tank
-                            '4', new ItemStack(blockIronTank, 1, 4) // Diamond Tank
+                            '0', new ItemStack(blockIronTank, 1, COPPER.metaValue),
+                            '1', new ItemStack(blockIronTank, 1, IRON.metaValue),
+                            '2', new ItemStack(blockIronTank, 1, SILVER.metaValue),
+                            '3', new ItemStack(blockIronTank, 1, GOLD.metaValue),
+                            '4', new ItemStack(blockIronTank, 1, DIAMOND.metaValue)
                     ));
                 }
             }
