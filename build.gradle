@@ -30,7 +30,7 @@ minecraft {
 curse {
     apiKey = System.getenv("CURSE_API_KEY")
     projectId = '236226'
-    releaseType = 'beta'
+    releaseType = 'release'
     changelog = gitLog['message']
     relatedProject 'buildcraft': 'requiredLibrary'
 }
