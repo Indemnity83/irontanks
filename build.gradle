@@ -38,7 +38,7 @@ curseforge {
     apiKey = System.getenv("CURSE_API_KEY") ?: 'no-key'
     project {
         id = '236226'
-        releaseType = 'beta'
+        releaseType = 'release'
         changelog = gitLog['message']
         relations {
             requiredLibrary 'buildcraft'
