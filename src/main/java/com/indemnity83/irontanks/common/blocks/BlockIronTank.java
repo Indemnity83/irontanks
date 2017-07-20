@@ -56,7 +56,7 @@ public class BlockIronTank extends Block implements ICustomPipeConnection, ITile
      */
     public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (IronTankType tankType : IronTankType.values()) {
-            list.add(new ItemStack(itemIn, 1, tankType.ordinal()));
+            if(tankType.isValidForCreativeMode()) list.add(new ItemStack(itemIn, 1, tankType.ordinal()));
         }
     }
 
