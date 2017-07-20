@@ -2,8 +2,8 @@
 
 <p align="center">
 <a href="https://travis-ci.org/Indemnity83/irontank"><img src="https://travis-ci.org/Indemnity83/irontank.svg" alt="Build Status"></a>
-<a href=""><img src="https://img.shields.io/badge/downloads-112%20K-green.svg"></a>
-<a href="https://minecraft.curseforge.com/projects/iron-tanks/files"><img src="https://img.shields.io/github/release/Indemnity83/irontank.svg" alt="Latest Stable Version"></a>
+<a href="https://minecraft.curseforge.com/projects/iron-tanks/files"><img src="https://img.shields.io/badge/downloads-112%20K-green.svg"></a>
+<a href="https://minecraft.curseforge.com/projects/iron-tanks/files/latest"><img src="https://img.shields.io/github/release/Indemnity83/irontank.svg" alt="Latest Stable Version"></a>
 <a href="https://github.com/Indemnity83/irontank/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/indemnity83/irontank.svg" alt="License"></a>
 </p>
 
