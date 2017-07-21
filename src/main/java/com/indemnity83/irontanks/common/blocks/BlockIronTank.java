@@ -14,6 +14,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -56,8 +57,17 @@ public class BlockIronTank extends Block implements ICustomPipeConnection, ITile
      */
     public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (IronTankType tankType : IronTankType.values()) {
-            if(tankType.isValidForCreativeMode()) list.add(new ItemStack(itemIn, 1, tankType.ordinal()));
+            if (tankType.isValidForCreativeMode()) list.add(new ItemStack(itemIn, 1, tankType.ordinal()));
         }
+    }
+
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof com.indemnity83.irontanks.common.tiles.TileTank) {
+            com.indemnity83.irontanks.common.tiles.TileTank tileBC = (com.indemnity83.irontanks.common.tiles.TileTank) tile;
+            tileBC.onPlacedBy(placer, stack);
+        }
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
     }
 
     /**
