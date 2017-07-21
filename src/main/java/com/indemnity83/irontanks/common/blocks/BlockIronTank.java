@@ -14,6 +14,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -68,6 +70,14 @@ public class BlockIronTank extends Block implements ICustomPipeConnection, ITile
             tileBC.onPlacedBy(placer, stack);
         }
         super.onBlockPlacedBy(world, pos, state, placer, stack);
+    }
+
+    public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+        if (world.getBlockState(pos).getValue(VARIANT).isExplosionResistant()) {
+            return 10000F;
+        }
+
+        return super.getExplosionResistance(world, pos, exploder, explosion);
     }
 
     /**

@@ -102,4 +102,5 @@ public enum IronTankType implements IStringSerializable {
     public boolean isValidForCreativeMode() {
         return this != GLASS;
     }
+    public boolean isExplosionResistant() { return this == OBSIDIAN; }
 }
