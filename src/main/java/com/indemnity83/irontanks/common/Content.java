@@ -34,6 +34,10 @@ public final class Content {
             ModelLoader.setCustomModelResourceLocation(type.item, 0, new ModelResourceLocation(new ResourceLocation(IronTanks.MODID, "iron_tank_upgrades"), "variant=" + type.itemName));
         }
 
+        for (IronTankType type : IronTankType.VALUES) {
+            ModelLoader.setCustomModelResourceLocation(Content.ironTankItemBlock, type.metaValue, new ModelResourceLocation(Content.ironTankItemBlock.getRegistryName(), "stacked=false,variant=" + type.name));
+        }
+
     }
 
 
