@@ -31,11 +31,10 @@ public class IronTanks {
      */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        proxy.preInit(event);
-
         Content.registerBlocks();
         Content.registerItems();
-        Content.registerRenders();
+
+        proxy.preInit(event);
     }
 
     /**
@@ -46,9 +45,9 @@ public class IronTanks {
      */
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        proxy.init(event);
-
         IronTankType.registerRecipes(Content.ironTankBlock);
+
+        proxy.init(event);
     }
 
     /**
