@@ -1,4 +1,5 @@
 {
+  "parent": "block/cube",
   "elements": [
     {
       "from": [2, 0, 2],

@@ -19,7 +19,7 @@ public class ClientProxy extends CommonProxy {
         Item tankItem = Item.getItemFromBlock(Content.ironTankBlock);
 
         for (IronTankType type : IronTankType.VALUES) {
-            ModelLoader.setCustomModelResourceLocation(tankItem, type.metaValue, new ModelResourceLocation(Content.ironTankItemBlock.getRegistryName(), "variant=" + type.name));
+            ModelLoader.setCustomModelResourceLocation(tankItem, type.metaValue, new ModelResourceLocation(tankItem.getRegistryName(), "stacked=false,variant=" + type.name));
         }
 
         for (TankChangerType type : TankChangerType.VALUES) {
