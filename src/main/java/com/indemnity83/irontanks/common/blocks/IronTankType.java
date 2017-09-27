@@ -27,7 +27,7 @@ public enum IronTankType implements IStringSerializable {
     public final String name;
     public final int metaValue;
     public final int capacity;
-    private final Collection<String> materials;
+    public final Collection<String> materials;
     private final Collection<String> recipes;
     public final Class<? extends TileTank> tileEntity;
     public final String tileEntityId;
