@@ -29,8 +29,8 @@ compileJava {
 }
 
 minecraft {
-    version = "1.11.2-13.20.0.2299"
-    mappings = "snapshot_20170519"
+    version = "1.11.2-13.20.1.2386"
+    mappings = "snapshot_20170612"
     runDir = "run"
 }
 
@@ -58,7 +58,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.mod-buildcraft:buildcraft:7.99.6"
+    compile "com.mod-buildcraft:buildcraft:7.99.7"
 }
 
 processResources
