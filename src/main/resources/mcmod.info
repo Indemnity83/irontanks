@@ -1,14 +1,13 @@
 [
 {
-  "modid": "IronTank",
+  "modid": "irontanks",
   "name": "Iron Tank",
   "description": "New tanks with larger sizes, with in-place upgrade items.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://github.com/indemnity83/irontank",
-  "updateUrl": "",
+  "url": "https://github.com/indemnity83/irontanks",
   "authorList": ["Indemnity83"],
-  "credits": "",
+  "credits": "Based very strongly on the Iron Chest code base.",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
