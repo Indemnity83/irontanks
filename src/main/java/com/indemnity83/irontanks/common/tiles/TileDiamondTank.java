@@ -4,6 +4,6 @@ import com.indemnity83.irontanks.common.blocks.IronTankType;
 
 public class TileDiamondTank extends TileTank {
     int getCapacity() {
-        return IronTankType.IRON.capacity;
+        return IronTankType.DIAMOND.capacity;
     }
 }
