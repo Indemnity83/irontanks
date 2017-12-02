@@ -2,9 +2,9 @@ package com.indemnity83.irontanks.common.items;
 
 import buildcraft.factory.block.BlockTank;
 import buildcraft.factory.tile.TileTank;
-import com.indemnity83.irontanks.common.Content;
 import com.indemnity83.irontanks.common.blocks.BlockIronTank;
 import com.indemnity83.irontanks.common.blocks.IronTankType;
+import com.indemnity83.irontanks.common.core.IronTankBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +24,7 @@ public class ItemTankChanger extends Item {
         this.type = type;
         this.setMaxStackSize(1);
         this.setUnlocalizedName("irontanks." + type.itemName);
+        this.setRegistryName(type.itemName);
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
@@ -51,14 +52,13 @@ public class ItemTankChanger extends Item {
         // If the item cannot upgrade a normal buildcraft tank, exit early
         IBlockState clickedBlockState = world.getBlockState(pos);
         if (this.type.canUpgrade(IronTankType.GLASS)) {
-            if (!(clickedBlockState.getBlock() instanceof BlockTank))
-            {
+            if (!(clickedBlockState.getBlock() instanceof BlockTank)) {
                 return EnumActionResult.PASS;
             }
 
             // If the item cannot upgrade the clicked tank, exit early
         } else {
-            if (clickedBlockState != Content.ironTankBlock.getStateFromMeta(IronTankType.valueOf(this.type.upgradeFrom.getName().toUpperCase()).metaValue)) {
+            if (clickedBlockState != IronTankBlocks.ironTankBlock.getStateFromMeta(IronTankType.valueOf(this.type.upgradeFrom.getName().toUpperCase()).metaValue)) {
                 return EnumActionResult.PASS;
             }
         }
@@ -69,7 +69,7 @@ public class ItemTankChanger extends Item {
 
         newTank.tank.setFluid(oldTank.tank.getFluid());
 
-        IBlockState iblockstate = Content.ironTankBlock.getDefaultState().withProperty(BlockIronTank.VARIANT, this.type.upgradeTo);
+        IBlockState iblockstate = IronTankBlocks.ironTankBlock.getDefaultState().withProperty(BlockIronTank.VARIANT, this.type.upgradeTo);
 
         world.setTileEntity(pos, newTank);
         world.setBlockState(pos, iblockstate, 3);

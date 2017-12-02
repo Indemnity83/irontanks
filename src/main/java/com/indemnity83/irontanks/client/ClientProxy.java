@@ -2,8 +2,8 @@ package com.indemnity83.irontanks.client;
 
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.CommonProxy;
-import com.indemnity83.irontanks.common.Content;
 import com.indemnity83.irontanks.common.blocks.IronTankType;
+import com.indemnity83.irontanks.common.core.IronTankBlocks;
 import com.indemnity83.irontanks.common.items.TankChangerType;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
 
-        Item tankItem = Item.getItemFromBlock(Content.ironTankBlock);
+        Item tankItem = Item.getItemFromBlock(IronTankBlocks.ironTankBlock);
 
         for (IronTankType type : IronTankType.VALUES) {
             ModelLoader.setCustomModelResourceLocation(tankItem, type.metaValue, new ModelResourceLocation(tankItem.getRegistryName(), "stacked=false,variant=" + type.name));

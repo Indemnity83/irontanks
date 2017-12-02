@@ -1,8 +1,6 @@
 package com.indemnity83.irontanks;
 
 import com.indemnity83.irontanks.common.CommonProxy;
-import com.indemnity83.irontanks.common.Content;
-import com.indemnity83.irontanks.common.blocks.IronTankType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -31,9 +29,6 @@ public class IronTanks {
      */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        Content.registerBlocks();
-        Content.registerItems();
-
         proxy.preInit(event);
     }
 
@@ -45,8 +40,6 @@ public class IronTanks {
      */
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        IronTankType.registerRecipes(Content.ironTankBlock);
-
         proxy.init(event);
     }
 

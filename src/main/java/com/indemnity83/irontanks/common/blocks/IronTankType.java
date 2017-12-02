@@ -1,13 +1,9 @@
 package com.indemnity83.irontanks.common.blocks;
 
-import buildcraft.api.BCBlocks;
 import com.indemnity83.irontanks.common.tiles.*;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,7 +24,7 @@ public enum IronTankType implements IStringSerializable {
     public final int metaValue;
     public final int capacity;
     public final Collection<String> materials;
-    private final Collection<String> recipes;
+    public final Collection<String> recipes;
     public final Class<? extends TileTank> tileEntity;
     public final String tileEntityId;
 
@@ -40,30 +36,6 @@ public enum IronTankType implements IStringSerializable {
         this.tileEntityId = this.name + "_tank_tile_entity";
         this.materials = materials;
         this.recipes = recipes;
-    }
-
-    public static void registerRecipes(BlockIronTank blockIronTank) {
-        for (IronTankType type : values()) {
-            for (String recipe : type.recipes) {
-                String[] recipeSplit = new String[]{recipe.substring(0, 3), recipe.substring(3, 6), recipe.substring(6, 9)};
-
-                for (String material : type.materials) {
-                    Object mainMaterial = translateOreName(material);
-
-                    GameRegistry.addRecipe(new ShapedOreRecipe(
-                            new ItemStack(blockIronTank, 1, type.metaValue), recipeSplit,
-                            'M', mainMaterial,
-                            'G', "blockGlass",
-                            'T', BCBlocks.FACTORY_TANK, // BuildCraft Tank
-                            '0', new ItemStack(blockIronTank, 1, COPPER.metaValue),
-                            '1', new ItemStack(blockIronTank, 1, IRON.metaValue),
-                            '2', new ItemStack(blockIronTank, 1, SILVER.metaValue),
-                            '3', new ItemStack(blockIronTank, 1, GOLD.metaValue),
-                            '4', new ItemStack(blockIronTank, 1, DIAMOND.metaValue)
-                    ));
-                }
-            }
-        }
     }
 
     public static Object translateOreName(String materialString) {
@@ -102,5 +74,8 @@ public enum IronTankType implements IStringSerializable {
     public boolean isValidForCreativeMode() {
         return this != GLASS;
     }
-    public boolean isExplosionResistant() { return this == OBSIDIAN; }
+
+    public boolean isExplosionResistant() {
+        return this == OBSIDIAN;
+    }
 }
