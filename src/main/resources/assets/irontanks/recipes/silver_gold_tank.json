@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:gold_tank"
+  },
+  "pattern": [
+    "gig",
+    "iti",
+    "gig"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "item": "#ingotGold"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#silverTank"
+    }
+  }
+}

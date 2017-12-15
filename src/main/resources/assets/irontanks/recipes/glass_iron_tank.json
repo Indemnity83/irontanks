@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:iron_tank"
+  },
+  "pattern": [
+    "gig",
+    "iti",
+    "gig"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "item": "#ingotIron"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#glassTank"
+    }
+  }
+}

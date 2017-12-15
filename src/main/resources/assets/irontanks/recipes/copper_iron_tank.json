@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:copper_tank"
+  },
+  "pattern": [
+    "ggg",
+    "iti",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "i": {
+      "item": "#ingotIron"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#ironTank"
+    }
+  }
+}

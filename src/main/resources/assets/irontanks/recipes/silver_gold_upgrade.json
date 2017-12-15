@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:silver_gold_upgrade"
+  },
+  "pattern": [
+    "ggg",
+    "tst",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#ingotSilver"
+    },
+    "t": {
+      "item": "#ingotGold"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    }
+  }
+}

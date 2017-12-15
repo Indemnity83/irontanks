@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:obsidian_tank"
+  },
+  "pattern": [
+    "ooo",
+    "oto",
+    "ooo"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "o": {
+      "item": "#blockObsidian"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#diamondTank"
+    }
+  }
+}

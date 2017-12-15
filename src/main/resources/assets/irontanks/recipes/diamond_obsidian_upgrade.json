@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:diamond_obsidian_upgrade"
+  },
+  "pattern": [
+    "ggg",
+    "tst",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#gemDiamond"
+    },
+    "t": {
+      "item": "#blockObsidian"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "irontanks:glass_copper_upgrade"
+  },
+  "pattern": [
+    "ggg",
+    "tgt",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "t": {
+      "item": "#ingotCopper"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    }
+  }
+}

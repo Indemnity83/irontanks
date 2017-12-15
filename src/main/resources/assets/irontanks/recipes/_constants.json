@@ -1,0 +1,112 @@
+[
+  {
+    "name": "ingotIron",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotIron"
+      }
+    ]
+  },
+  {
+    "name": "ingotCopper",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotCopper"
+      }
+    ]
+  },
+  {
+    "name": "ingotGold",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotGold"
+      }
+    ]
+  },
+  {
+    "name": "ingotSilver",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotSilver"
+      }
+    ]
+  },
+  {
+    "name": "gemDiamond",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "gemDiamond"
+      }
+    ]
+  },
+  {
+    "name": "blockObsidian",
+    "ingredient": [
+      {
+        "item": "minecraft:obsidian"
+      }
+    ]
+  },
+  {
+    "name": "glassTank",
+    "ingredient": [
+      {
+        "item": "buildcraftfactory:tank"
+      }
+    ]
+  },
+  {
+    "name": "copperTank",
+    "ingredient": [
+      {
+        "item": "irontanks:copper_tank"
+      }
+    ]
+  },
+  {
+    "name": "silverTank",
+    "ingredient": [
+      {
+        "item": "irontanks:silver_tank"
+      }
+    ]
+  },
+  {
+    "name": "ironTank",
+    "ingredient": [
+      {
+        "item": "irontanks:iron_tank"
+      }
+    ]
+  },
+  {
+    "name": "goldTank",
+    "ingredient": [
+      {
+        "item": "irontanks:gold_tank"
+      }
+    ]
+  },
+  {
+    "name": "diamondTank",
+    "ingredient": [
+      {
+        "item": "irontanks:diamond_tank"
+      }
+    ]
+  },
+  {
+    "name": "blockGlassColorless",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "blockGlassColorless"
+      }
+    ]
+  }
+]

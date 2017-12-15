@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:copper_silver_upgrade"
+  },
+  "pattern": [
+    "ggg",
+    "tst",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#ingotCopper"
+    },
+    "t": {
+      "item": "#ingotSilver"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    }
+  }
+}

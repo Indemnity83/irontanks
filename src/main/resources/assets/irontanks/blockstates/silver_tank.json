@@ -3,9 +3,9 @@
   "defaults": {
     "model": "irontanks:tank",
     "textures": {
-      "particle": "irontanks:blocks/irontank/side",
-      "end": "irontanks:blocks/irontank/end",
-      "side": "irontanks:blocks/irontank/side"
+      "particle": "irontanks:blocks/silvertank/side",
+      "end": "irontanks:blocks/silvertank/end",
+      "side": "irontanks:blocks/silvertank/side"
     }
   },
   "variants": {

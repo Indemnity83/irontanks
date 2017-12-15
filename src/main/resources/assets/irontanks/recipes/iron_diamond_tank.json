@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:diamond_tank"
+  },
+  "pattern": [
+    "ggg",
+    "gtg",
+    "ddd"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "d": {
+      "item": "#ingotDiamond"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#ironTank"
+    }
+  }
+}
