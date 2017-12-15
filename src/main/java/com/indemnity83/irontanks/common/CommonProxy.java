@@ -1,5 +1,6 @@
 package com.indemnity83.irontanks.common;
 
+import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.TankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
 import com.indemnity83.irontanks.common.core.Items;
@@ -28,7 +29,7 @@ public class CommonProxy {
         event.getRegistry().register(new TankBlock("diamond_tank", 64));
         event.getRegistry().register(new TankBlock("obsidian_tank", 64));
 
-        GameRegistry.registerTileEntity(TankTile.class, "tank");
+        GameRegistry.registerTileEntity(TankTile.class, IronTanks.MODID + ":tank");
     }
 
     @SubscribeEvent
