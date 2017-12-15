@@ -10,7 +10,7 @@
   "type": "forge:ore_shaped",
   "key": {
     "d": {
-      "item": "#ingotDiamond"
+      "item": "#gemDiamond"
     },
     "g": {
       "item": "#blockGlassColorless"
