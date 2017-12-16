@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.common.items;
 
 import buildcraft.factory.tile.TileTank;
+import buildcraft.lib.fluid.Tank;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.tiles.TankTile;
 import net.minecraft.block.Block;
@@ -55,16 +56,19 @@ public class UpgradeItem extends Item {
         return EnumActionResult.SUCCESS;
     }
 
-    private void upgradeTankAtPosition(Block newTank, World worldIn, BlockPos pos) {
-        FluidStack fluid = ((TileTank) worldIn.getTileEntity(pos)).tank.getFluid();
+    private void upgradeTankAtPosition(Block tankBlock, World worldIn, BlockPos pos) {
+        Tank oldTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
+        FluidStack fluid = new FluidStack(oldTank.getFluidType(), oldTank.getFluidAmount());
+        oldTank.drain(fluid, true);
 
         // Replace tank
         IBlockState oldState = worldIn.getBlockState(pos);
-        worldIn.setBlockState(pos, newTank.getDefaultState(), 3);
+        worldIn.setBlockState(pos, tankBlock.getDefaultState(), 3);
         IBlockState newState = worldIn.getBlockState(pos);
 
-        // Store the flid in the new tank
-        ((TankTile) worldIn.getTileEntity(pos)).tank.setFluid(fluid);
+        // Transfer fluid to new tank
+        Tank newTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
+        newTank.setFluid(fluid);
 
         worldIn.notifyBlockUpdate(pos, oldState, newState, 3);
     }
