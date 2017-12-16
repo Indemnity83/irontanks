@@ -10,6 +10,14 @@
   },
   "variants": {
     "normal": [{}],
-    "inventory": [{}]
+    "inventory": [{}],
+    "joined_below": {
+      "true": {
+        "textures": {
+          "side": "irontanks:blocks/coppertank/side_stacked"
+        }
+      },
+      "false": {}
+    }
   }
 }

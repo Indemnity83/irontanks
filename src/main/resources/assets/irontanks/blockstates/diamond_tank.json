@@ -10,6 +10,14 @@
   },
   "variants": {
     "normal": [{}],
-    "inventory": [{}]
+    "inventory": [{}],
+    "joined_below": {
+      "true": {
+        "textures": {
+          "side": "irontanks:blocks/diamondtank/side_stacked"
+        }
+      },
+      "false": {}
+    }
   }
 }
