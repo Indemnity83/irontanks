@@ -1,29 +1,34 @@
 package com.indemnity83.irontanks.common.items;
 
+import buildcraft.factory.tile.TileTank;
 import com.indemnity83.irontanks.IronTanks;
-import com.indemnity83.irontanks.common.blocks.TankBlock;
-import com.indemnity83.irontanks.common.core.Blocks;
 import com.indemnity83.irontanks.common.tiles.TankTile;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class UpgradeItem extends Item {
-    public UpgradeItem(String upgradeName) {
+    Block upgradeFrom;
+    Block upgradeTo;
+
+    public UpgradeItem(String upgradeName, Block upgradeFrom, Block upgradeTo) {
         setRegistryName(upgradeName);
         setUnlocalizedName(IronTanks.MODID + "." + upgradeName);
         setCreativeTab(CreativeTabs.MISC);
+        this.upgradeFrom = upgradeFrom;
+        this.upgradeTo = upgradeTo;
     }
 
     @SideOnly(Side.CLIENT)
@@ -33,21 +38,15 @@ public class UpgradeItem extends Item {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        // If the world is remote, exit early
         if (worldIn.isRemote) {
             return EnumActionResult.PASS;
         }
 
-        IBlockState iblockstate = Blocks.ironTank.getDefaultState();
+        if (!blockEquals(worldIn.getBlockState(pos), this.upgradeFrom)) {
+            return EnumActionResult.PASS;
+        }
 
-        // Swap the tile entity and block
-        TankTile oldTank = (TankTile) worldIn.getTileEntity(pos);
-        TankTile newTank = (TankTile) Blocks.ironTank.createTileEntity(worldIn, iblockstate);
-        newTank.tank.setFluid(oldTank.tank.getFluid());
-
-        worldIn.setTileEntity(pos, newTank);
-        worldIn.setBlockState(pos, iblockstate, 3);
-        worldIn.notifyBlockUpdate(pos, iblockstate, iblockstate, 3);
+        upgradeTankAtPosition(this.upgradeTo, worldIn, pos);
 
         if (!player.capabilities.isCreativeMode) {
             player.getHeldItem(hand).shrink(1);
@@ -56,47 +55,21 @@ public class UpgradeItem extends Item {
         return EnumActionResult.SUCCESS;
     }
 
-//    @Override
-//    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-//        ItemStack itemstack = player.getHeldItem(hand);
-//
-//        // If the world is remote, exit early
-//        if (world.isRemote) {
-//            return EnumActionResult.PASS;
-//        }
-//
-//        // If the item cannot upgrade a normal buildcraft tank, exit early
-//        IBlockState clickedBlockState = world.getBlockState(pos);
-//        if (this.type.canUpgrade(IronTankType.GLASS)) {
-//            if (!(clickedBlockState.getBlock() instanceof BlockTank)) {
-//                return EnumActionResult.PASS;
-//            }
-//
-//            // If the item cannot upgrade the clicked tank, exit early
-//        } else {
-//            if (clickedBlockState != IronTankBlocks.ironTankBlock.getStateFromMeta(IronTankType.valueOf(this.type.upgradeFrom.getName().toUpperCase()).metaValue)) {
-//                return EnumActionResult.PASS;
-//            }
-//        }
-//
-//        // Swap the tile entity and block
-//        TileTank oldTank = (TileTank) world.getTileEntity(pos);
-//        TileTank newTank = (TileTank) this.type.upgradeTo.makeEntity();
-//
-//        newTank.tank.setFluid(oldTank.tank.getFluid());
-//
-//        IBlockState iblockstate = IronTankBlocks.ironTankBlock.getDefaultState().withProperty(BlockIronTank.VARIANT, this.type.upgradeTo);
-//
-//        world.setTileEntity(pos, newTank);
-//        world.setBlockState(pos, iblockstate, 3);
-//
-//        world.notifyBlockUpdate(pos, iblockstate, iblockstate, 3);
-//
-//        if (!player.capabilities.isCreativeMode) {
-//            itemstack.shrink(1);
-//        }
-//
-//        return EnumActionResult.SUCCESS;
-//    }
+    private void upgradeTankAtPosition(Block newTank, World worldIn, BlockPos pos) {
+        FluidStack fluid = ((TileTank) worldIn.getTileEntity(pos)).tank.getFluid();
 
+        // Replace tank
+        IBlockState oldState = worldIn.getBlockState(pos);
+        worldIn.setBlockState(pos, newTank.getDefaultState(), 3);
+        IBlockState newState = worldIn.getBlockState(pos);
+
+        // Store the flid in the new tank
+        ((TankTile) worldIn.getTileEntity(pos)).tank.setFluid(fluid);
+
+        worldIn.notifyBlockUpdate(pos, oldState, newState, 3);
+    }
+
+    private boolean blockEquals(IBlockState blockState, Block block) {
+        return blockState.getBlock().getRegistryName().equals(block.getRegistryName());
+    }
 }
