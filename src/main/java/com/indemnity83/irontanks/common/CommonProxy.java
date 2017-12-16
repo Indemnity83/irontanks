@@ -59,8 +59,6 @@ public class CommonProxy {
      * @param event
      */
     public void preInit(FMLPreInitializationEvent event) {
-        Blocks.init();
-        Items.init();
     }
 
     /**
@@ -70,6 +68,8 @@ public class CommonProxy {
      * @param event
      */
     public void init(FMLInitializationEvent event) {
+        Blocks.init();
+        Items.init();
     }
 
     /**
