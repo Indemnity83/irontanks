@@ -1,5 +1,6 @@
 package com.indemnity83.irontanks.common;
 
+import buildcraft.factory.BCFactoryBlocks;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.TankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
@@ -40,15 +41,15 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(Blocks.silverTank).setRegistryName(Blocks.silverTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.copperTank).setRegistryName(Blocks.copperTank.getRegistryName()));
 
-        event.getRegistry().register(new UpgradeItem("copper_iron_upgrade"));
-        event.getRegistry().register(new UpgradeItem("copper_silver_upgrade"));
-        event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade"));
-        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade"));
-        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade"));
-        event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade"));
-        event.getRegistry().register(new UpgradeItem("iron_gold_upgrade"));
-        event.getRegistry().register(new UpgradeItem("silver_diamond_upgrade"));
-        event.getRegistry().register(new UpgradeItem("silver_gold_upgrade"));
+        event.getRegistry().register(new UpgradeItem("copper_iron_upgrade", Blocks.copperTank, Blocks.ironTank));
+        event.getRegistry().register(new UpgradeItem("copper_silver_upgrade", Blocks.copperTank, Blocks.silverTank));
+        event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade", Blocks.diamondTank, Blocks.obsidianTank));
+        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade", BCFactoryBlocks.tank, Blocks.copperTank));
+        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade", BCFactoryBlocks.tank, Blocks.ironTank));
+        event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade", Blocks.goldTank, Blocks.diamondTank));
+        event.getRegistry().register(new UpgradeItem("iron_gold_upgrade", Blocks.ironTank, Blocks.goldTank));
+        event.getRegistry().register(new UpgradeItem("silver_diamond_upgrade", Blocks.silverTank, Blocks.diamondTank));
+        event.getRegistry().register(new UpgradeItem("silver_gold_upgrade", Blocks.silverTank, Blocks.goldTank));
     }
 
     /**
