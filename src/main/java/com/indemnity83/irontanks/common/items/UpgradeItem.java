@@ -3,7 +3,6 @@ package com.indemnity83.irontanks.common.items;
 import buildcraft.factory.tile.TileTank;
 import buildcraft.lib.fluid.Tank;
 import com.indemnity83.irontanks.IronTanks;
-import com.indemnity83.irontanks.common.tiles.TankTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -58,8 +57,7 @@ public class UpgradeItem extends Item {
 
     private void upgradeTankAtPosition(Block tankBlock, World worldIn, BlockPos pos) {
         Tank oldTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
-        FluidStack fluid = new FluidStack(oldTank.getFluidType(), oldTank.getFluidAmount());
-        oldTank.drain(fluid, true);
+        FluidStack fluid = oldTank.drain(Integer.MAX_VALUE, true);
 
         // Replace tank
         IBlockState oldState = worldIn.getBlockState(pos);
