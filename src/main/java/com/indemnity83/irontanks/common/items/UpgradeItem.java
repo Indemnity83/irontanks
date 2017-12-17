@@ -46,7 +46,7 @@ public class UpgradeItem extends Item {
             return EnumActionResult.PASS;
         }
 
-        upgradeTankAtPosition(this.upgradeTo, worldIn, pos);
+        upgradeTankAtPosition(this.upgradeTo, worldIn, pos, player);
 
         if (!player.capabilities.isCreativeMode) {
             player.getHeldItem(hand).shrink(1);
@@ -55,7 +55,8 @@ public class UpgradeItem extends Item {
         return EnumActionResult.SUCCESS;
     }
 
-    private void upgradeTankAtPosition(Block tankBlock, World worldIn, BlockPos pos) {
+    private void upgradeTankAtPosition(Block tankBlock, World worldIn, BlockPos pos, EntityPlayer player) {
+        // Get the old tank fluid
         Tank oldTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
         FluidStack fluid = oldTank.drain(Integer.MAX_VALUE, true);
 
@@ -68,7 +69,9 @@ public class UpgradeItem extends Item {
         Tank newTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
         newTank.setFluid(fluid);
 
+        // Notify the world, and any tank stacks
         worldIn.notifyBlockUpdate(pos, oldState, newState, 3);
+        ((TileTank) worldIn.getTileEntity(pos)).onPlacedBy(player, null);
     }
 
     private boolean blockEquals(IBlockState blockState, Block block) {

@@ -16,8 +16,10 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -143,7 +145,7 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
         Block block = world.getBlockState(position).getBlock();
         return block instanceof TankBlock || block instanceof BlockTank;
     }
-    
+
     @Override
     public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
         TileEntity tile = world.getTileEntity(pos);
@@ -162,5 +164,14 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
             tankTile.onRemove();
         }
         super.breakBlock(world, pos, state);
+    }
+
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TileTank) {
+            TileTank tileBC = (TileTank) tile;
+            tileBC.onPlacedBy(placer, stack);
+        }
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
     }
 }
