@@ -28,15 +28,8 @@ public class Items {
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":iron_gold_upgrade")
     public static UpgradeItem ironGoldUpgrade;
 
-    @GameRegistry.ObjectHolder(IronTanks.MODID + ":silver_diamond_upgrade")
-    public static UpgradeItem silverDiamondUpgrade;
-
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":silver_gold_upgrade")
     public static UpgradeItem silverGoldUpgrade;
-
-
-
-
 
     public static void init() {
     }
@@ -50,7 +43,6 @@ public class Items {
         glassIronUpgrade.initModel();
         goldDiamondUpgrade.initModel();
         ironGoldUpgrade.initModel();
-        silverDiamondUpgrade.initModel();
         silverGoldUpgrade.initModel();
     }
 }

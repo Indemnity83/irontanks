@@ -3,9 +3,9 @@
     "item": "irontanks:diamond_obsidian_upgrade"
   },
   "pattern": [
-    "ggg",
+    "ttt",
     "tst",
-    "ggg"
+    "ttt"
   ],
   "type": "forge:ore_shaped",
   "key": {
@@ -14,9 +14,6 @@
     },
     "t": {
       "item": "#blockObsidian"
-    },
-    "g": {
-      "item": "#blockGlassColorless"
     }
   }
 }

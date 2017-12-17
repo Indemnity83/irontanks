@@ -3,9 +3,9 @@
     "item": "irontanks:copper_silver_upgrade"
   },
   "pattern": [
-    "ggg",
+    "gtg",
     "tst",
-    "ggg"
+    "gtg"
   ],
   "type": "forge:ore_shaped",
   "key": {

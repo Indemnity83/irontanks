@@ -1,6 +1,6 @@
 {
   "result": {
-    "item": "irontanks:copper_tank"
+    "item": "irontanks:silver_tank"
   },
   "pattern": [
     "gsg",
@@ -16,7 +16,7 @@
       "item": "#blockGlassColorless"
     },
     "t": {
-      "item": "#silverTank"
+      "item": "#copperTank"
     }
   }
 }

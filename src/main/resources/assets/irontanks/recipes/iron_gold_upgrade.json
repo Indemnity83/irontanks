@@ -3,9 +3,9 @@
     "item": "irontanks:iron_gold_upgrade"
   },
   "pattern": [
-    "ggg",
+    "gtg",
     "tst",
-    "ggg"
+    "gtg"
   ],
   "type": "forge:ore_shaped",
   "key": {

@@ -3,9 +3,9 @@
     "item": "irontanks:gold_tank"
   },
   "pattern": [
-    "gig",
+    "ggg",
     "iti",
-    "gig"
+    "ggg"
   ],
   "type": "forge:ore_shaped",
   "key": {
