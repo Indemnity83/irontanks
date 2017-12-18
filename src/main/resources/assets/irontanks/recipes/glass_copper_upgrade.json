@@ -4,12 +4,12 @@
   },
   "pattern": [
     "ggg",
-    "tgt",
+    "cgc",
     "ggg"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "t": {
+    "c": {
       "item": "#ingotCopper"
     },
     "g": {

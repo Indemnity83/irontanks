@@ -3,9 +3,9 @@
     "item": "irontanks:silver_tank"
   },
   "pattern": [
-    "gsg",
-    "sts",
-    "gsg"
+    "sgs",
+    "gtg",
+    "sgs"
   ],
   "type": "forge:ore_shaped",
   "key": {
