@@ -3,13 +3,13 @@
     "item": "irontanks:gold_tank"
   },
   "pattern": [
-    "gig",
-    "iti",
-    "gig"
+    "dgd",
+    "gtg",
+    "dgd"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "i": {
+    "d": {
       "item": "#ingotGold"
     },
     "g": {

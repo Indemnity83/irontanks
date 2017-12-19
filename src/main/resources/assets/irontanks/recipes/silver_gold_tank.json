@@ -4,12 +4,12 @@
   },
   "pattern": [
     "ggg",
-    "iti",
+    "dtd",
     "ggg"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "i": {
+    "d": {
       "item": "#ingotGold"
     },
     "g": {

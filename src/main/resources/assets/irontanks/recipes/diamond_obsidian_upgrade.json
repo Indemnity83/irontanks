@@ -3,16 +3,16 @@
     "item": "irontanks:diamond_obsidian_upgrade"
   },
   "pattern": [
-    "ttt",
-    "tst",
-    "ttt"
+    "ooo",
+    "odo",
+    "ooo"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "s": {
+    "d": {
       "item": "#gemDiamond"
     },
-    "t": {
+    "o": {
       "item": "#blockObsidian"
     }
   }

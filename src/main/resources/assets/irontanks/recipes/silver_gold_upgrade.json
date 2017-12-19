@@ -4,7 +4,7 @@
   },
   "pattern": [
     "ggg",
-    "tst",
+    "dsd",
     "ggg"
   ],
   "type": "forge:ore_shaped",
@@ -12,7 +12,7 @@
     "s": {
       "item": "#ingotSilver"
     },
-    "t": {
+    "d": {
       "item": "#ingotGold"
     },
     "g": {

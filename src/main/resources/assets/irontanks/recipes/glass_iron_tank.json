@@ -3,9 +3,9 @@
     "item": "irontanks:iron_tank"
   },
   "pattern": [
-    "gig",
-    "iti",
-    "gig"
+    "igi",
+    "gtg",
+    "igi"
   ],
   "type": "forge:ore_shaped",
   "key": {

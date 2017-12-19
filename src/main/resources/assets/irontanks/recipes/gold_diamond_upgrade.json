@@ -4,15 +4,15 @@
   },
   "pattern": [
     "ggg",
-    "tst",
+    "did",
     "ggg"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "s": {
+    "i": {
       "item": "#ingotGold"
     },
-    "t": {
+    "d": {
       "item": "#gemDiamond"
     },
     "g": {

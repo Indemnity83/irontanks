@@ -4,15 +4,15 @@
   },
   "pattern": [
     "ggg",
-    "tst",
+    "ici",
     "ggg"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "s": {
+    "i": {
       "item": "#ingotCopper"
     },
-    "t": {
+    "c": {
       "item": "#ingotIron"
     },
     "g": {

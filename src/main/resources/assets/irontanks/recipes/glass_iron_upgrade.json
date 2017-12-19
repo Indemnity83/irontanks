@@ -3,9 +3,9 @@
     "item": "irontanks:glass_iron_upgrade"
   },
   "pattern": [
-    "gig",
     "igi",
-    "gig"
+    "ggg",
+    "igi"
   ],
   "type": "forge:ore_shaped",
   "key": {

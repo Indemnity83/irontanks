@@ -3,16 +3,16 @@
     "item": "irontanks:copper_silver_upgrade"
   },
   "pattern": [
-    "gtg",
-    "tst",
-    "gtg"
+    "sgs",
+    "gcg",
+    "sgs"
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "s": {
+    "c": {
       "item": "#ingotCopper"
     },
-    "t": {
+    "s": {
       "item": "#ingotSilver"
     },
     "g": {
