@@ -1,0 +1,33 @@
+{
+  "name": "irontanks",
+  "version": "2.1.0-beta.2",
+  "minecraft_version": "1.12.2",
+  "buildcraft_version": "7.99.12",
+  "forge_version": "14.23.1.2555",
+  "mappings_version": "snapshot_20171216",
+  "description": "Expanding Buildcraft tanks similarly to the way IronChests expanded vanilla chests.",
+  "dependencies": {},
+  "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0",
+    "standard-version": "^4.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Indemnity83/irontanks.git"
+  },
+  "author": "Indemnity83",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Indemnity83/irontanks/issues"
+  },
+  "homepage": "https://github.com/Indemnity83/irontanks#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
