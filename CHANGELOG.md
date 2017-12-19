@@ -1,3 +1,17 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="2.1.0-beta.3"></a>
+# [2.1.0-beta.3](https://github.com/Indemnity83/irontanks/compare/v2.1.0-beta.1...v2.1.0-beta.3) (2017-12-19)
+
+
+### Bug Fixes
+
+* **recipes:** make recipes match documentation ([659a33f](https://github.com/Indemnity83/irontanks/commit/659a33f))
+
+
+
 <a name="2.1.0-beta.2"></a>
 # [2.1.0-beta.2](https://github.com/Indemnity83/irontanks/compare/v2.1.0-beta.1...v2.1.0-beta.2) (2017-12-19)
 
@@ -83,6 +97,3 @@
 * **i18n:** Add Russian ([af55841](https://github.com/Indemnity83/irontanks/commit/af55841))
 * **i18n:** Add Simplified Chinese ([960e151](https://github.com/Indemnity83/irontanks/commit/960e151))
 * **i18n:** Add Spanish translation ([1bb4866](https://github.com/Indemnity83/irontanks/commit/1bb4866))
-
-
-
