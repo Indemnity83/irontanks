@@ -96,6 +96,11 @@ public class TankBlock extends Block implements ITileEntityProvider, ITankBlockC
         return false;
     }
 
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
     @SideOnly(Side.CLIENT)
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
