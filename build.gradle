@@ -22,22 +22,18 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "org.ajoberstar.grgit"
 
-ext.configFile = file "build.properties"
-configFile.withReader {
-    // Load config. It shall from now be referenced as simply config or project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-}
+import groovy.json.JsonSlurper
+def packageSlurper = new JsonSlurper()
+def config = packageSlurper.parse file('package.json')
 
 if (System.getenv("BUILD_NUMBER") != null) {
-    config.mod_version += "-${System.getenv("BUILD_NUMBER")}"
+    config.version += "-${System.getenv("BUILD_NUMBER")}"
 }
 if (System.getenv("BUILD_VARIANT") != null) {
-    config.mod_version += "-${System.getenv("BUILD_VARIANT")}"
+    config.version += "-${System.getenv("BUILD_VARIANT")}"
 }
 
-version = config.mod_version
+version = config.version
 group = "com.indemnity83.irontanks"
 archivesBaseName = "irontanks"
 
@@ -47,7 +43,7 @@ compileJava {
 }
 
 minecraft {
-    version = config.mc_version + "-" + config.forge_version
+    version = config.minecraft_version + "-" + config.forge_version
     mappings = config.mappings_version
     runDir = "run"
 
@@ -88,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.mod-buildcraft:buildcraft:" + config.bc_version
+    compile "com.mod-buildcraft:buildcraft:" + config.buildcraft_version
 }
 
 processResources
