@@ -64,15 +64,7 @@ public class TankBlock extends Block implements ITileEntityProvider, ITankBlockC
 
     @Override
     public float getExtension(World world, BlockPos pos, EnumFacing face, IBlockState state) {
-        if (faceIsSide(face)) {
-            return 2 / 16f;
-        }
-
-        return 0;
-    }
-
-    private boolean faceIsSide(EnumFacing face) {
-        return face.getAxis() != EnumFacing.Axis.Y;
+        return face.getAxis() == EnumFacing.Axis.Y ? 0 : 2 / 16f;
     }
 
     @Override
@@ -111,11 +103,8 @@ public class TankBlock extends Block implements ITileEntityProvider, ITankBlockC
      * metadata, such as fence connections.
      */
     public IBlockState getActualState(IBlockState blockState, IBlockAccess world, BlockPos pos) {
-        return blockState.withProperty(JOINED_BELOW, isJoinedBelow(world, pos));
-    }
-
-    private boolean isJoinedBelow(IBlockAccess world, BlockPos pos) {
-        return positionIsTank(world, pos.down());
+        boolean tankBelow = world.getBlockState(pos.down()).getBlock() instanceof ITankBlockConnector;
+        return blockState.withProperty(JOINED_BELOW, tankBelow);
     }
 
     @Override
@@ -138,17 +127,8 @@ public class TankBlock extends Block implements ITileEntityProvider, ITankBlockC
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing face) {
-        return faceIsSide(face) || faceIsNotAdjacentToAnotherTank(world, pos, face);
-    }
-
-    private boolean faceIsNotAdjacentToAnotherTank(IBlockAccess world, BlockPos pos, EnumFacing face) {
-        return !positionIsTank(world, pos.offset(face));
-    }
-
-    private boolean positionIsTank(IBlockAccess world, BlockPos position) {
-        Block block = world.getBlockState(position).getBlock();
-        return block instanceof ITankBlockConnector;
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return side.getAxis() != EnumFacing.Axis.Y || !(world.getBlockState(pos.offset(side)).getBlock() instanceof ITankBlockConnector);
     }
 
     @Override
