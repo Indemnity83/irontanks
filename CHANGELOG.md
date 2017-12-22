@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0-beta.4"></a>
+# [2.1.0-beta.4](https://github.com/Indemnity83/irontanks/compare/v2.1.0-beta.3...v2.1.0-beta.4) (2017-12-22)
+
+
+### Bug Fixes
+
+* **tank:** remain transparent even when you press your face against the glass ([1bd8c4c](https://github.com/Indemnity83/irontanks/commit/1bd8c4c)), closes [#49](https://github.com/Indemnity83/irontanks/issues/49)
+* **tank:** tanks don't lose capacity between world saves ([9ef5f29](https://github.com/Indemnity83/irontanks/commit/9ef5f29))
+
+
+
 <a name="2.1.0-beta.3"></a>
 # [2.1.0-beta.3](https://github.com/Indemnity83/irontanks/compare/v2.1.0-beta.1...v2.1.0-beta.3) (2017-12-19)
 
