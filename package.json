@@ -2,9 +2,9 @@
   "name": "irontanks",
   "version": "2.1.0-beta.4",
   "minecraft_version": "1.12.2",
-  "buildcraft_version": "7.99.12",
+  "buildcraft_version": "7.99.13",
   "forge_version": "14.23.1.2555",
-  "mappings_version": "snapshot_20171216",
+  "mappings_version": "snapshot_20171224",
   "description": "Expanding Buildcraft tanks similarly to the way IronChests expanded vanilla chests.",
   "dependencies": {},
   "devDependencies": {
