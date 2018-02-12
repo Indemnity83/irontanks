@@ -16,3 +16,6 @@ tile.irontanks.diamond_tank.name=Diamond Cask
 tile.irontanks.obsidian_tank.name=Obsidian Cask
 tile.irontanks.copper_tank.name=Copper Cask
 tile.irontanks.silver_tank.name=Silver Cask
+
+# Misc localizations
+irontanks.tooltip.capacity=Holds %s buckets

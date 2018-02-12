@@ -15,6 +15,8 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,10 +36,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class TankBlock extends Block implements ITileEntityProvider, ITankBlockConnector, ICustomPipeConnection {
 
     private static final IProperty<Boolean> JOINED_BELOW = PropertyBool.create("joined_below");
+
     private final int tankCapacity;
 
     public TankBlock(String tankName, int tankCapacity) {
@@ -54,6 +58,11 @@ public class TankBlock extends Block implements ITileEntityProvider, ITankBlockC
         setSoundType(SoundType.METAL);
 
         setDefaultState(this.blockState.getBaseState().withProperty(JOINED_BELOW, false));
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        tooltip.add(I18n.format("irontanks.tooltip.capacity", this.tankCapacity));
     }
 
     @Nullable

@@ -16,3 +16,6 @@ tile.irontanks.diamond_tank.name=Tanque de Diamante
 tile.irontanks.obsidian_tank.name=Tanque de Obsidiana
 tile.irontanks.copper_tank.name=Tanque de Cobre
 tile.irontanks.silver_tank.name=Tanque de Plata
+
+# Misc localizations
+irontanks.tooltip.capacity=tiene %s cubos

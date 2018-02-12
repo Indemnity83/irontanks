@@ -16,3 +16,6 @@ tile.irontanks.diamond_tank.name=Алмазная цистерна
 tile.irontanks.obsidian_tank.name=Обсидиановая цистерна
 tile.irontanks.copper_tank.name=Медная цистерна
 tile.irontanks.silver_tank.name=Серебряная цистерна
+
+# Misc localizations
+irontanks.tooltip.capacity=Удерживает %s ведер
