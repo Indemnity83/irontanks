@@ -84,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.mod-buildcraft:buildcraft:" + config.buildcraft_version
+    deobfCompile "com.mod-buildcraft:buildcraft:" + config.buildcraft_version
 }
 
 processResources
