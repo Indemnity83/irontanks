@@ -1,13 +1,4 @@
-<p align="center"><img src="https://github.com/Indemnity83/irontanks/blob/assets/logo/Header.png?raw=true"></p>
-
-<p align="center">
-<a href="https://travis-ci.org/Indemnity83/irontank"><img src="https://travis-ci.org/Indemnity83/irontank.svg" alt="Build Status"></a>
-<a href="https://minecraft.curseforge.com/projects/iron-tanks/files"><img src="https://img.shields.io/badge/downloads-112%20K-green.svg"></a>
-<a href="https://minecraft.curseforge.com/projects/iron-tanks/files/latest"><img src="https://img.shields.io/github/release/Indemnity83/irontank.svg" alt="Latest Stable Version"></a>
-<a href="https://github.com/Indemnity83/irontank/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/indemnity83/irontank.svg" alt="License"></a>
-</p>
-
-## About Iron Tanks
+## Iron Tanks
 
 Iron Tanks is a [Buildcraft](https://minecraft.curseforge.com/projects/buildcraft) add-on for Minecraft which adds tiered capacity and special purpose tanks to the game. Iron Tanks follows strict Minecraft physics, meaning a one block space can hold 8x more stuff as long as you build the container out of diamond, and as long as you surround the glass container with obsidian blocks, it will be explosion proof. These tanks and more can add hours of fun and excitement to the game:
 
@@ -20,6 +11,17 @@ Iron Tanks is a [Buildcraft](https://minecraft.curseforge.com/projects/buildcraf
 ## Download & Installation
 
 If you want to get started with Iron Tanks today, head over to the [Curse page](https://minecraft.curseforge.com/projects/iron-tanks) where you'll find the most recent version ready to go. Simply download the most recent release for your version of Minecraft, and stick it in the mods folder of your Forge modded Minecraft game. Remember though that this is an add-on to [Buildcraft](https://minecraft.curseforge.com/projects/buildcraft), so you need to at least have Buildcraft installed or nothing will work. 
+
+## Contributing
+
+Want to help out? There are plenty of things you can do even if you don't know how to write Java. 
+
+1. [Spread the word](https://minecraft.curseforge.com/projects/iron-tanks)! This is super easy, and the more support you give to the addon, the more support we're able to push back out to the community
+2. [Add or Improve a Translation](https://poeditor.com/join/project/tDDvawNto9) Go check out the and contriute translations of the addon in your language. 
+3. [Submit an Issue](http://github.com/indemnity83/irontanks/issues). If you find something wrong, or that you think could be improved please submit an issue.
+4. [Submit an Pull Request](http://github.com/indemnity83/irontanks/pulls). Know some Java? Want to submit a fix or feature? please do!
+
+Thank you
 
 ## License
 
