@@ -108,5 +108,23 @@
         "ore": "blockGlassColorless"
       }
     ]
+  },
+  {
+    "name": "dyeBlack",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "dyeBlack"
+      }
+    ]
+  },
+  {
+    "name": "redstone",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "dustRedstone"
+      }
+    ]
   }
 ]

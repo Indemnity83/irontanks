@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "irontanks:void_tank"
+  },
+  "pattern": [
+    "btr"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "b": {
+      "item": "#dyeBlack"
+    },
+    "r": {
+      "item": "#redstone"
+    },
+    "t": {
+      "item": "#glassTank"
+    }
+  }
+}
