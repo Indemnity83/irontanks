@@ -110,6 +110,15 @@
     ]
   },
   {
+    "name": "paneGlassColorless",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "paneGlassColorless"
+      }
+    ]
+  },
+  {
     "name": "dyeBlack",
     "ingredient": [
       {
