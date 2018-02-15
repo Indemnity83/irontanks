@@ -15,6 +15,8 @@ public class VoidTankTile extends TankTile {
         // We specifically only want to drain fluid from *this*
         // tank; not the whole tank stack. This lets a user put the
         // void tank at the top of a stack as overflow prevention
-        this.tank.drain(transferPerTick, true);
+        if (this.tank.getFluidAmount() > 0) {
+            this.drain(Math.min(this.tank.getFluidAmount(), transferPerTick), true);
+        }
     }
 }
