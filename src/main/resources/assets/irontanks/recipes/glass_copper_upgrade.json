@@ -3,9 +3,9 @@
     "item": "irontanks:glass_copper_upgrade"
   },
   "pattern": [
-    "ggg",
     "cgc",
-    "ggg"
+    "g g",
+    "cgc"
   ],
   "type": "forge:ore_shaped",
   "key": {

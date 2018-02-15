@@ -3,7 +3,9 @@
     "item": "irontanks:void_tank"
   },
   "pattern": [
-    "btr"
+    " g ",
+    "gtg",
+    "bgr"
   ],
   "type": "forge:ore_shaped",
   "key": {
@@ -15,6 +17,9 @@
     },
     "t": {
       "item": "#glassTank"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
     }
   }
 }

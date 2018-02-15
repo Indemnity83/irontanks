@@ -3,9 +3,9 @@
     "item": "irontanks:copper_tank"
   },
   "pattern": [
-    "ggg",
-    "ctc",
-    "ggg"
+    " g ",
+    "gtg",
+    "cgc"
   ],
   "type": "forge:ore_shaped",
   "key": {

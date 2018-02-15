@@ -4,7 +4,7 @@
   },
   "pattern": [
     "igi",
-    "ggg",
+    "g g",
     "igi"
   ],
   "type": "forge:ore_shaped",
