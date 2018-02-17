@@ -1,0 +1,15 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "irontanks:tank",
+    "textures": {
+      "particle": "irontanks:blocks/creativetank/side",
+      "end": "irontanks:blocks/creativetank/end",
+      "side": "irontanks:blocks/creativetank/side"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

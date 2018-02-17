@@ -17,7 +17,9 @@ tile.irontanks.obsidian_tank.name=Obsidian Tank
 tile.irontanks.copper_tank.name=Copper Tank
 tile.irontanks.silver_tank.name=Silver Tank
 tile.irontanks.void_tank.name=Void Tank
+tile.irontanks.creative_tank.name=Creative Tank
 
 # Misc localizations
 irontanks.tooltip.capacity=Holds %s buckets
 irontanks.tooltip.void_tank=Destroys fluids
+irontanks.tooltip.creative_tank=Dispenses an infinite amount

@@ -2,11 +2,13 @@ package com.indemnity83.irontanks.common;
 
 import buildcraft.factory.BCFactoryBlocks;
 import com.indemnity83.irontanks.IronTanks;
+import com.indemnity83.irontanks.common.blocks.CreativeTankBlock;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
 import com.indemnity83.irontanks.common.blocks.VoidTankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
 import com.indemnity83.irontanks.common.core.Items;
 import com.indemnity83.irontanks.common.items.UpgradeItem;
+import com.indemnity83.irontanks.common.tiles.CreativeTankTile;
 import com.indemnity83.irontanks.common.tiles.TankTile;
 import com.indemnity83.irontanks.common.tiles.VoidTankTile;
 import net.minecraft.block.Block;
@@ -30,9 +32,11 @@ public class CommonProxy {
         event.getRegistry().register(new StackableTankBlock("gold_tank", 48));
         event.getRegistry().register(new StackableTankBlock("diamond_tank", 64));
         event.getRegistry().register(new StackableTankBlock("obsidian_tank", 64));
+        event.getRegistry().register(new CreativeTankBlock("creative_tank", 1));
         event.getRegistry().register(new VoidTankBlock("void_tank", 8));
 
         GameRegistry.registerTileEntity(TankTile.class, IronTanks.MODID + ":tank");
+        GameRegistry.registerTileEntity(CreativeTankTile.class, IronTanks.MODID + ":creative_tank");
         GameRegistry.registerTileEntity(VoidTankTile.class, IronTanks.MODID + ":void_tank");
     }
 
@@ -45,6 +49,7 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(Blocks.silverTank).setRegistryName(Blocks.silverTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.copperTank).setRegistryName(Blocks.copperTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.voidTank).setRegistryName(Blocks.voidTank.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(Blocks.creativeTank).setRegistryName(Blocks.creativeTank.getRegistryName()));
 
         event.getRegistry().register(new UpgradeItem("copper_iron_upgrade", Blocks.copperTank, Blocks.ironTank));
         event.getRegistry().register(new UpgradeItem("copper_silver_upgrade", Blocks.copperTank, Blocks.silverTank));

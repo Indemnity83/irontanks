@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.common.core;
 
 import com.indemnity83.irontanks.IronTanks;
+import com.indemnity83.irontanks.common.blocks.CreativeTankBlock;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
 import com.indemnity83.irontanks.common.blocks.VoidTankBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -29,6 +30,9 @@ public class Blocks {
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":void_tank")
     public static VoidTankBlock voidTank;
 
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":creative_tank")
+    public static CreativeTankBlock creativeTank;
+
     public static void init() {
         obsidianTank.setResistance(6000);
     }
@@ -42,5 +46,6 @@ public class Blocks {
         copperTank.initModel();
         silverTank.initModel();
         voidTank.initModel();
+        creativeTank.initModel();
     }
 }
