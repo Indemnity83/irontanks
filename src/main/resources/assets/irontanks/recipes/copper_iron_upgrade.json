@@ -9,10 +9,10 @@
   ],
   "type": "forge:ore_shaped",
   "key": {
-    "i": {
+    "c": {
       "item": "#ingotCopper"
     },
-    "c": {
+    "i": {
       "item": "#ingotIron"
     },
     "g": {
