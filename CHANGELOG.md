@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0-beta.5"></a>
+# [2.1.0-beta.5](https://github.com/Indemnity83/irontanks/compare/v2.1.0-beta.4...v2.1.0-beta.5) (2018-02-17)
+
+
+### Bug Fixes
+
+* **recipe:** use glass panes instead of blocks for upgrades ([c74ffa5](https://github.com/Indemnity83/irontanks/commit/c74ffa5)), closes [#50](https://github.com/Indemnity83/irontanks/issues/50)
+
+### Features
+
+* **tanks:** add tooltip with capacity to tank blocks ([3c19a96](https://github.com/Indemnity83/irontanks/commit/3c19a96)), closes [#51](https://github.com/Indemnity83/irontanks/issues/51)
+* **tanks:** add creative tank ([#55](https://github.com/Indemnity83/irontanks/issues/55)) ([ef8f646](https://github.com/Indemnity83/irontanks/commit/ef8f646))
+* **tanks:** add void tank ([13ad662](https://github.com/Indemnity83/irontanks/commit/13ad662)), closes [#24](https://github.com/Indemnity83/irontanks/issues/24)
+* **recipe:** improve consistency across tanks and upgrades ([8821ad8](https://github.com/Indemnity83/irontanks/commit/8821ad8))
+
+### BREAKING CHANGES
+
+* Many of the recipes have changed for both tanks and upgrades. Upgrades now use glass panes instead of glass blocks and some of the tanks require less glass blocks and have re-arranged items. Check out the [Tank](https://github.com/Indemnity83/irontanks/wiki/Tanks) and [Upgrade](https://github.com/Indemnity83/irontanks/wiki/Upgrades) wikis for current recipes.
+
+
 <a name="2.1.0-beta.4"></a>
 # [2.1.0-beta.4](https://github.com/Indemnity83/irontanks/compare/v2.1.0-beta.3...v2.1.0-beta.4) (2017-12-22)
 
