@@ -27,10 +27,10 @@ def packageSlurper = new JsonSlurper()
 def config = packageSlurper.parse file('package.json')
 
 if (System.getenv("BUILD_NUMBER") != null) {
-    config.version += "-${System.getenv("BUILD_NUMBER")}"
+    config.version += ".${System.getenv("BUILD_NUMBER")}"
 }
 if (System.getenv("BUILD_VARIANT") != null) {
-    config.version += "-${System.getenv("BUILD_VARIANT")}"
+    config.version += ".${System.getenv("BUILD_VARIANT")}"
 }
 
 version = config.version
