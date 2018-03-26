@@ -1,33 +1,47 @@
-<a name="1.0.1"></a>
-## [1.0.1](https://github.com/indemnity83/irontank/compare/1.0.0...v1.0.1) (2015-10-07)
+# Changelog
+All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-### Bug Fixes
+## [Unreleased]
+### Added
+ - This CHANGELOG
 
-* **block:** Stacked tank textures now update properly ([6a21a07](https://github.com/indemnity83/irontank/commit/6a21a07))
-* Add specific dependency requirement on BuildCraft|Factory v7 ([9842144](https://github.com/indemnity83/irontank/commit/9842144)), closes [#15](https://github.com/indemnity83/irontank/issues/15)
+### Changed
+ - Build process is now normalized across supported versions
 
+## [2.0.0-beta.2] - 2018-03-26
+### Fixed
+ - Silver and Diamond tanks now have the correct capacities
 
+### Changed
+ - Bump Forge to 13.20.1.2386
+ - Bump Minecraft to 7.99.7
 
-<a name="1.0.0"></a>
-# 1.0.0 (2015-10-02)
+## [2.0.0-beta.1] - 2018-03-26
+### Added
+ - Recipes for tank upgrade items
 
+## [2.0.0-alpha.3] - 2018-03-26
+### Fixed
+ - Tanks now render correctly in item form
 
-### Bug Fixes
+## [2.0.0-alpha.2] - 2018-03-26
+### Fixed
+ - Upgrade items can upgrade tanks now
+ - Fix visual bug when stacked on BC Tank
+ - Tank ids don't change between mod versions
+ - Fluid now properly flows when extending tanks
+ - Obsidian Tanks are explosion proof again
 
-* Localize the creative tab name e90e00c
-* Add missing silver to diamond tank upgrade item 9f1f8be
-* Fluid in tanks now persists between game sessions 3858b6c
-* Obsidian tanks are not destroyed by TNT or creeper blasts f397f4e
-* Tank upgrade items perform an in place upgrade of tank a1adf5d
-* **gui:** Remove extraneous GUI configuration ed8b191
+## [2.0.0-alpha.1] - 2017-03-26
+### Changed
+ - Rebuild mod for MC 1.11.2 and BC 7.99.6
 
-### Features
-
-* Add recipes for blocks and items a273f1c
-* Implemented basic items and blocks 570e191
-* **i18n:** Add German translation fb5550e
-* **i18n:** Add Pirate translation c031a12
-* **i18n:** Add Russian af55841
-* **i18n:** Add Simplified Chinese 960e151
-* **i18n:** Add Spanish translation 1bb4866
+[Unreleased]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.2...support/1.11
+[2.0.0-beta.2]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.1...v2.0.0-beta.2
+[2.0.0-beta.1]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.3...v2.0.0-beta.1
+[2.0.0-alpha.3]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.2...v2.0.0-alpha.3
+[2.0.0-alpha.2]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.1...v2.0.0-alpha.2
+[2.0.0-alpha.1]: https://github.com/indemnity83/irontanks/compare/v1.1.14...v2.0.0-alpha.1
