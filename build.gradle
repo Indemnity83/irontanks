@@ -1,3 +1,8 @@
+/* Build info:
+ - Using a release version (e.g. 8.0.4 rather than 8.0.4-SNAPSHOT or 8.0.4-0A1B2C3D4E5) requires setting the "release" system property to true
+    - Add "-Drelease=true" to disallow adding the git commit hash to the end, or SNAPSHOT if we cannot find our git directory.
+*/
+
 buildscript {
     repositories {
         jcenter()
@@ -8,6 +13,7 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath "org.ajoberstar:grgit:2.1.0"
     }
 }
 
@@ -16,39 +22,68 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
+apply plugin: 'org.ajoberstar.grgit'
 
-def versionInfo = getGitVersion()
-def gitLog = getGitLog()
+ext.configFile = file "build.properties"
+configFile.withReader {
+    // Load config. It shall from now be referenced as simply config or project.config
+    def prop =  new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
 
-sourceCompatibility = targetCompatibility = "1.8"
+def addVersionDetails = !Boolean.getBoolean("release")
+if (System.getenv("BUILD_NUMBER") != null && addVersionDetails) {
+    config.mod_version += "+${System.getenv("BUILD_NUMBER")}"
+}
+if (System.getenv("BUILD_VARIANT") != null && addVersionDetails) {
+    config.mod_version += "+${System.getenv("BUILD_VARIANT")}"
+}
+
+version = config.mod_version
+group = "com.indemnity83.irontanks"
+archivesBaseName = "irontanks"
+
+sourceCompatibility = targetCompatibility = config.java_compatability
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
+    sourceCompatibility = targetCompatibility = config.java_compatability
 }
 
 minecraft {
-    version = "1.11.2-13.20.1.2386"
-    mappings = "snapshot_20170612"
+    version = config.minecraft_version + "-" + config.forge_version
+    mappings = config.mappings
     runDir = "run"
+
+    // Git versioning stuffs
+    if (grgit != null) {
+        def repo = grgit.open(dir: "$projectDir")
+        replace "\${git_commit_hash}", repo.head().id
+        // This is very ugly: we need 7(!) \ to produce a single \ in the final one.
+        replace "\${git_commit_msg}", repo.head().fullMessage.replace("\"", "\\\\\\\"").split("\n")[0]
+        replace "\${git_commit_author}", repo.head().author.name
+        replace "\${git_branch}", repo.branch.current().getName()
+        if (addVersionDetails) {
+            project.version += "-" + repo.head().id.toString().substring(0, 7)
+        }
+    } else {
+        if (addVersionDetails) {
+            project.version += "-SNAPSHOT"
+        }
+    }
 }
 
 curseforge {
-    apiKey = System.getenv("CURSE_API_KEY") ?: 'no-key'
+    apiKey = System.getenv("CURSE_API_KEY")
     project {
         id = '236226'
         releaseType = 'release'
-        changelog = gitLog['message']
+        changelog = ''
         relations {
             requiredLibrary 'buildcraft'
         }
     }
 }
 
-version = "${project.minecraft.version}-${versionInfo['IronTanks.version']}"
-group = "com.indemnity83.irontanks"
-archivesBaseName = "irontanks"
 
 repositories {
     maven {
@@ -58,7 +93,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.mod-buildcraft:buildcraft:7.99.7"
+    deobfCompile "com.mod-buildcraft:buildcraft:" + config.buildcraft_version
 }
 
 processResources
@@ -68,68 +103,12 @@ processResources
         include 'mcmod.info'
 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        // ${version}   and    ${mcversion}    are the exact strings being replaced
+        expand "version":project.version, "mcversion":project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
+    // copy everything else, that's not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-
-    // generate version.properties file from the git version data earlier
-    doLast {
-        def propsFile = new File(destinationDir, 'version.properties')
-        def properties = new Properties()
-        properties.putAll(versionInfo)
-        properties['IronTanks.build.mcversion'] = project.minecraft.version
-        properties.store(propsFile.newWriter(), null)
-    }
-}
-
-// This is a special task for pulling the version information from git and the environment (for BUILD_NUMBER)
-def getGitVersion()
-{
-	def out = [:]
-
-	// call git command.
-	def outStream = new ByteArrayOutputStream()
-	def result = exec {
-		executable = 'git'
-		args = [ 'describe', '--long']
-		standardOutput = outStream
-	}
-
-	def fullVersion = outStream.toString().trim()
-	def matcher = fullVersion =~ /(\d+).(\d+)-(\d+)-(.*)/
-
-	def maj = matcher[0][1]
-	def min = matcher[0][2]
-	def rev = matcher[0][3]
-	def bn = System.getenv("PROMOTED_NUMBER") ?: System.getenv("BUILD_NUMBER") ?: matcher[0][4].toString()
-
-	out['IronTanks.build.major.number'] = maj.toString()
-	out['IronTanks.build.minor.number'] = min.toString()
-	out['IronTanks.build.revision.number'] = rev.toString()
-	out['IronTanks.build.githash'] = matcher[0][4].toString()
-	out['IronTanks.build.number' ] = bn.toString()
-	out['IronTanks.version' ] = "${maj}.${min}.${rev}.${bn}".toString()
-
-	return out
-}
-
-def getGitLog()
-{
-	def out = [:]
-
-	// call git command.
-	def outStream = new ByteArrayOutputStream()
-	def result = exec {
-		executable = 'git'
-		args = [ 'log', '--format=short', '-n 1', 'HEAD']
-		standardOutput = outStream
-	}
-
-	out['message'] = outStream.toString().trim()
-
-    return out
 }
