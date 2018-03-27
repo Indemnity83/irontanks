@@ -49,7 +49,6 @@ public class CommonProxy {
         event.getRegistry().register(new UpgradeItem("glass_iron_upgrade", BCFactoryBlocks.tank, Blocks.ironTank));
         event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade", Blocks.goldTank, Blocks.diamondTank));
         event.getRegistry().register(new UpgradeItem("iron_gold_upgrade", Blocks.ironTank, Blocks.goldTank));
-        event.getRegistry().register(new UpgradeItem("silver_diamond_upgrade", Blocks.silverTank, Blocks.diamondTank));
         event.getRegistry().register(new UpgradeItem("silver_gold_upgrade", Blocks.silverTank, Blocks.goldTank));
     }
 

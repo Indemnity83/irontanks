@@ -52,7 +52,7 @@ public class Recipes {
             builder.add("gsg");
             builder.map('s', "ingotSilver");
             builder.map('g', "blockGlassColorless");
-            builder.map('t', Blocks.silverTank);
+            builder.map('t', Blocks.copperTank);
             builder.setResult(new ItemStack(Blocks.silverTank));
             builder.register();
             builder.registerRotated();
@@ -73,9 +73,9 @@ public class Recipes {
 
         if (Blocks.goldTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
+            builder.add("gig");
             builder.add("iti");
-            builder.add("ggg");
+            builder.add("gig");
             builder.map('i', "ingotGold");
             builder.map('g', "blockGlassColorless");
             builder.map('t', Blocks.ironTank);
@@ -86,26 +86,13 @@ public class Recipes {
 
         if (Blocks.goldTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gig");
+            builder.add("ggg");
             builder.add("iti");
-            builder.add("gig");
+            builder.add("ggg");
             builder.map('i', "ingotGold");
             builder.map('g', "blockGlassColorless");
             builder.map('t', Blocks.silverTank);
             builder.setResult(new ItemStack(Blocks.goldTank));
-            builder.register();
-            builder.registerRotated();
-        }
-
-        if (Blocks.diamondTank != null) {
-            RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("gtg");
-            builder.add("ddd");
-            builder.map('g', "blockGlassColorless");
-            builder.map('d', "gemDiamond");
-            builder.map('t', Blocks.ironTank);
-            builder.setResult(new ItemStack(Blocks.diamondTank));
             builder.register();
             builder.registerRotated();
         }
@@ -150,9 +137,9 @@ public class Recipes {
 
         if (Items.copperSilverUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
+            builder.add("gtg");
             builder.add("tst");
-            builder.add("ggg");
+            builder.add("gtg");
             builder.map('g', "blockGlassColorless");
             builder.map('s', "ingotCopper");
             builder.map('t', "ingotSilver");
@@ -163,10 +150,9 @@ public class Recipes {
 
         if (Items.diamondObsidianUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
+            builder.add("ttt");
             builder.add("tst");
-            builder.add("ggg");
-            builder.map('g', "blockGlassColorless");
+            builder.add("ttt");
             builder.map('s', "gemDiamond");
             builder.map('t', "blockObsidian");
             builder.setResult(new ItemStack(Items.diamondObsidianUpgrade));
@@ -188,11 +174,11 @@ public class Recipes {
 
         if (Items.glassIronUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("tgt");
-            builder.add("ggg");
+            builder.add("gig");
+            builder.add("igi");
+            builder.add("gig");
             builder.map('g', "blockGlassColorless");
-            builder.map('t', "ingotIron");
+            builder.map('i', "ingotIron");
             builder.setResult(new ItemStack(Items.glassIronUpgrade));
             builder.register();
             builder.registerRotated();
@@ -213,26 +199,13 @@ public class Recipes {
 
         if (Items.ironGoldUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
+            builder.add("gtg");
             builder.add("tst");
-            builder.add("ggg");
+            builder.add("gtg");
             builder.map('g', "blockGlassColorless");
             builder.map('s', "ingotIron");
             builder.map('t', "ingotGold");
             builder.setResult(new ItemStack(Items.ironGoldUpgrade));
-            builder.register();
-            builder.registerRotated();
-        }
-
-        if (Items.silverDiamondUpgrade != null) {
-            RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("tst");
-            builder.add("ggg");
-            builder.map('g', "blockGlassColorless");
-            builder.map('s', "ingotSilver");
-            builder.map('t', "gemDiamond");
-            builder.setResult(new ItemStack(Items.silverDiamondUpgrade));
             builder.register();
             builder.registerRotated();
         }
