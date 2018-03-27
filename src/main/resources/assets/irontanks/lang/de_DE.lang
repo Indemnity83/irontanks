@@ -16,3 +16,6 @@ tile.irontanks.tank.diamond.name=Diamantbehälter
 tile.irontanks.tank.obsidian.name=Obsidiantbehälter
 tile.irontanks.tank.copper.name=Kupferbehälter
 tile.irontanks.tank.silver.name=Silberbehälter
+
+# Misc localizations
+irontanks.tooltip.capacity=hält %s eimer

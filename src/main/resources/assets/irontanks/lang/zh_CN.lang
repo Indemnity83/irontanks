@@ -16,3 +16,6 @@ tile.irontanks.diamond_tank.name=钻石储罐
 tile.irontanks.obsidian_tank.name=黑曜石储罐
 tile.irontanks.copper_tank.name=铜储罐
 tile.irontanks.silver_tank.name=银储罐
+
+# Misc localizations
+irontanks.tooltip.capacity=持有%s个桶
