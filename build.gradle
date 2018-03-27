@@ -1,3 +1,8 @@
+/* Build info:
+ - Using a release version (e.g. 8.0.4 rather than 8.0.4-SNAPSHOT or 8.0.4-0A1B2C3D4E5) requires setting the "release" system property to true
+    - Add "-Drelease=true" to disallow adding the git commit hash to the end, or SNAPSHOT if we cannot find our git directory.
+*/
+
 buildscript {
     repositories {
         jcenter()
@@ -17,34 +22,36 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: "org.ajoberstar.grgit"
 
-import groovy.json.JsonSlurper
-def packageSlurper = new JsonSlurper()
-def config = packageSlurper.parse file('package.json')
-
-if (System.getenv("BUILD_NUMBER") != null) {
-    config.version += ".${System.getenv("BUILD_NUMBER")}"
-}
-if (System.getenv("BUILD_VARIANT") != null) {
-    config.version += ".${System.getenv("BUILD_VARIANT")}"
+ext.configFile = file "build.properties"
+configFile.withReader {
+    // Load config. It shall from now be referenced as simply config or project.config
+    def prop =  new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
 }
 
-version = config.version
+def addVersionDetails = !Boolean.getBoolean("release")
+if (System.getenv("BUILD_NUMBER") != null && addVersionDetails) {
+    config.mod_version += "+${System.getenv("BUILD_NUMBER")}"
+}
+if (System.getenv("BUILD_VARIANT") != null && addVersionDetails) {
+    config.mod_version += "+${System.getenv("BUILD_VARIANT")}"
+}
+
+version = config.mod_version
 group = "com.indemnity83.irontanks"
 archivesBaseName = "irontanks"
 
-sourceCompatibility = targetCompatibility = "1.8"
+sourceCompatibility = targetCompatibility = config.java_compatability
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
+    sourceCompatibility = targetCompatibility = config.java_compatability
 }
 
 minecraft {
     version = config.minecraft_version + "-" + config.forge_version
-    mappings = config.mappings_version
+    mappings = config.mappings
     runDir = "run"
 
     // replacing stuff in the source
@@ -56,11 +63,19 @@ minecraft {
 
     // Git versioning stuffs
     if (grgit != null) {
-        def repo = grgit.open()
+        def repo = grgit.open(dir: "$projectDir")
         replace "\${git_commit_hash}", repo.head().id
-        replace "\${git_commit_msg}", repo.head().fullMessage.replace("\"", "\\\"").split("\n")[0]
+        // This is very ugly: we need 7(!) \ to produce a single \ in the final one.
+        replace "\${git_commit_msg}", repo.head().fullMessage.replace("\"", "\\\\\\\"").split("\n")[0]
         replace "\${git_commit_author}", repo.head().author.name
         replace "\${git_branch}", repo.branch.current().getName()
+    if (addVersionDetails) {
+            project.version += "+" + repo.head().id.toString().substring(0, 7)
+        }
+    } else {
+        if (addVersionDetails) {
+            project.version += "+SNAPSHOT"
+        }
     }
 }
 
@@ -68,7 +83,7 @@ curseforge {
     apiKey = System.getenv("CURSE_API_KEY") ?: 'no-key'
     project {
         id = '236226'
-        releaseType = 'beta'
+        releaseType = 'release'
         changelog = ''
         relations {
             requiredLibrary 'buildcraft'
