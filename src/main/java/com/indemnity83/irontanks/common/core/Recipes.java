@@ -8,22 +8,9 @@ public class Recipes {
     public static void init() {
         if (Blocks.copperTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("ctc");
-            builder.add("ggg");
-            builder.map('c', "ingotCopper");
-            builder.map('g', "blockGlassColorless");
-            builder.map('t', BCBlocks.FACTORY_TANK);
-            builder.setResult(new ItemStack(Blocks.copperTank));
-            builder.register();
-            builder.registerRotated();
-        }
-
-        if (Blocks.copperTank != null) {
-            RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("iti");
-            builder.add("ggg");
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
             builder.map('i', "ingotCopper");
             builder.map('g', "blockGlassColorless");
             builder.map('t', BCBlocks.FACTORY_TANK);
@@ -34,9 +21,9 @@ public class Recipes {
 
         if (Blocks.ironTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gig");
-            builder.add("iti");
-            builder.add("gig");
+            builder.add("igi");
+            builder.add("gtg");
+            builder.add("igi");
             builder.map('i', "ingotIron");
             builder.map('g', "blockGlassColorless");
             builder.map('t', BCBlocks.FACTORY_TANK);
@@ -45,12 +32,25 @@ public class Recipes {
             builder.registerRotated();
         }
 
+        if (Blocks.ironTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotIron");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', Blocks.copperTank);
+            builder.setResult(new ItemStack(Blocks.ironTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
         if (Blocks.silverTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gsg");
-            builder.add("sts");
-            builder.add("gsg");
-            builder.map('s', "ingotSilver");
+            builder.add("igi");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotSilver");
             builder.map('g', "blockGlassColorless");
             builder.map('t', Blocks.copperTank);
             builder.setResult(new ItemStack(Blocks.silverTank));
@@ -60,10 +60,10 @@ public class Recipes {
 
         if (Blocks.silverTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("tgt");
-            builder.add("ggg");
-            builder.map('s', "ingotSilver");
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotSilver");
             builder.map('g', "blockGlassColorless");
             builder.map('t', Blocks.ironTank);
             builder.setResult(new ItemStack(Blocks.silverTank));
@@ -73,9 +73,9 @@ public class Recipes {
 
         if (Blocks.goldTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gig");
-            builder.add("iti");
-            builder.add("gig");
+            builder.add("igi");
+            builder.add("gtg");
+            builder.add("igi");
             builder.map('i', "ingotGold");
             builder.map('g', "blockGlassColorless");
             builder.map('t', Blocks.ironTank);
@@ -86,9 +86,9 @@ public class Recipes {
 
         if (Blocks.goldTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("iti");
-            builder.add("ggg");
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
             builder.map('i', "ingotGold");
             builder.map('g', "blockGlassColorless");
             builder.map('t', Blocks.silverTank);
@@ -99,11 +99,11 @@ public class Recipes {
 
         if (Blocks.diamondTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("dtd");
-            builder.add("ggg");
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "gemDiamond");
             builder.map('g', "blockGlassColorless");
-            builder.map('d', "gemDiamond");
             builder.map('t', Blocks.goldTank);
             builder.setResult(new ItemStack(Blocks.diamondTank));
             builder.register();
@@ -124,9 +124,9 @@ public class Recipes {
 
         if (Items.copperIronUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("tst");
-            builder.add("ggg");
+            builder.add(" g ");
+            builder.add("gsg");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotCopper");
             builder.map('t', "ingotIron");
@@ -137,9 +137,9 @@ public class Recipes {
 
         if (Items.copperSilverUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gtg");
-            builder.add("tst");
-            builder.add("gtg");
+            builder.add("tgt");
+            builder.add("gsg");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotCopper");
             builder.map('t', "ingotSilver");
@@ -162,9 +162,9 @@ public class Recipes {
 
         if (Items.glassCopperUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
             builder.add("tgt");
-            builder.add("ggg");
+            builder.add("g g");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
             builder.map('t', "ingotCopper");
             builder.setResult(new ItemStack(Items.glassCopperUpgrade));
@@ -174,11 +174,11 @@ public class Recipes {
 
         if (Items.glassIronUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gig");
-            builder.add("igi");
-            builder.add("gig");
+            builder.add("tgt");
+            builder.add("g g");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
-            builder.map('i', "ingotIron");
+            builder.map('t', "ingotIron");
             builder.setResult(new ItemStack(Items.glassIronUpgrade));
             builder.register();
             builder.registerRotated();
@@ -186,9 +186,9 @@ public class Recipes {
 
         if (Items.goldDiamondUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("tst");
-            builder.add("ggg");
+            builder.add(" g ");
+            builder.add("gsg");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotGold");
             builder.map('t', "gemDiamond");
@@ -199,9 +199,9 @@ public class Recipes {
 
         if (Items.ironGoldUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("gtg");
-            builder.add("tst");
-            builder.add("gtg");
+            builder.add("tgt");
+            builder.add("gsg");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotIron");
             builder.map('t', "ingotGold");
@@ -212,9 +212,9 @@ public class Recipes {
 
         if (Items.silverGoldUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
-            builder.add("ggg");
-            builder.add("tst");
-            builder.add("ggg");
+            builder.add("tgt");
+            builder.add("gsg");
+            builder.add("tgt");
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotSilver");
             builder.map('t', "ingotGold");
