@@ -26,6 +26,7 @@ public class Blocks {
     public static TankBlock copperTank;
 
     public static void init() {
+        obsidianTank.setResistance(6000);
     }
 
     @SideOnly(Side.CLIENT)
