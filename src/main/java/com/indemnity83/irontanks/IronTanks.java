@@ -9,11 +9,19 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = IronTanks.MODID, name = IronTanks.MODNAME)
+@Mod(
+        modid = IronTanks.MODID,
+        name = IronTanks.MODNAME,
+        version = IronTanks.VERSION,
+        acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
+        dependencies = "required-after:forge@(gradle_replace_forgeversion,)"
+)
 public class IronTanks {
 
     public static final String MODID = "irontanks";
     public static final String MODNAME = "Iron Tanks";
+    public static final String VERSION = "${version}";
+    public static final String MC_VERSION = "${mcversion}";
 
     @Instance
     public static IronTanks instance = new IronTanks();
