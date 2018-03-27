@@ -24,6 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -34,8 +35,8 @@ import javax.annotation.Nullable;
 
 public class TankBlock extends Block implements ITileEntityProvider, ICustomPipeConnection {
 
-    private final int tankCapacity;
     private static final IProperty<Boolean> JOINED_BELOW = PropertyBool.create("joined_below");
+    private final int tankCapacity;
 
     public TankBlock(String tankName, int tankCapacity) {
         super(Material.GLASS, MapColor.AIR);
@@ -141,5 +142,25 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
     private boolean positionIsTank(IBlockAccess world, BlockPos position) {
         Block block = world.getBlockState(position).getBlock();
         return block instanceof TankBlock || block instanceof BlockTank;
+    }
+    
+    @Override
+    public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TankTile) {
+            TankTile tankTile = (TankTile) tile;
+            tankTile.onExplode(explosion);
+        }
+        super.onBlockExploded(world, pos, explosion);
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TankTile) {
+            TankTile tankTile = (TankTile) tile;
+            tankTile.onRemove();
+        }
+        super.breakBlock(world, pos, state);
     }
 }
