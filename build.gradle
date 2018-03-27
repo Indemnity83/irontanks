@@ -32,14 +32,6 @@ configFile.withReader {
     project.ext.config = new ConfigSlurper().parse prop
 }
 
-def addVersionDetails = !Boolean.getBoolean("release")
-if (System.getenv("BUILD_NUMBER") != null && addVersionDetails) {
-    config.mod_version += "+${System.getenv("BUILD_NUMBER")}"
-}
-if (System.getenv("BUILD_VARIANT") != null && addVersionDetails) {
-    config.mod_version += "+${System.getenv("BUILD_VARIANT")}"
-}
-
 version = config.mod_version
 group = "com.indemnity83.irontanks"
 archivesBaseName = "irontanks"
@@ -54,20 +46,29 @@ minecraft {
     mappings = config.mappings
     runDir = "run"
 
-    // Git versioning stuffs
-    if (grgit != null) {
-        def repo = grgit.open(dir: "$projectDir")
-        replace "\${git_commit_hash}", repo.head().id
-        // This is very ugly: we need 7(!) \ to produce a single \ in the final one.
-        replace "\${git_commit_msg}", repo.head().fullMessage.replace("\"", "\\\\\\\"").split("\n")[0]
-        replace "\${git_commit_author}", repo.head().author.name
-        replace "\${git_branch}", repo.branch.current().getName()
-        if (addVersionDetails) {
-            project.version += "-" + repo.head().id.toString().substring(0, 7)
-        }
-    } else {
-        if (addVersionDetails) {
-            project.version += "-SNAPSHOT"
+    // replacing stuff in the source
+    replace "\${version}", project.version
+    replace "\${mcversion}", version
+    // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
+    replace "(gradle_replace_mcversion,)", "[" + version + "]"
+    replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
+
+    // If this isn't an release, append some build meta to the version
+    if (!Boolean.getBoolean("release")) {
+
+        // Try appending the git hash first
+        if (grgit != null) {
+            def repo = grgit.open(dir: "$projectDir")
+            replace "\${git_commit_hash}", repo.head().id
+            project.version += "+" + repo.head().id.toString().substring(0, 7)
+
+        // If that doesn't work, just append "SNAPSHOT" and the build number
+        } else {
+            project.version += "+SNAPSHOT"
+
+            if (System.getenv("BUILD_NUMBER") != null) {
+                project.version += "-${System.getenv("BUILD_NUMBER")}"
+            }
         }
     }
 }
