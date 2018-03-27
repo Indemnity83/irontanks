@@ -127,7 +127,7 @@ public class Recipes {
             builder.add("ggg");
             builder.add("tst");
             builder.add("ggg");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotCopper");
             builder.map('t', "ingotIron");
             builder.setResult(new ItemStack(Items.copperIronUpgrade));
@@ -140,7 +140,7 @@ public class Recipes {
             builder.add("gtg");
             builder.add("tst");
             builder.add("gtg");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotCopper");
             builder.map('t', "ingotSilver");
             builder.setResult(new ItemStack(Items.copperSilverUpgrade));
@@ -165,7 +165,7 @@ public class Recipes {
             builder.add("ggg");
             builder.add("tgt");
             builder.add("ggg");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('t', "ingotCopper");
             builder.setResult(new ItemStack(Items.glassCopperUpgrade));
             builder.register();
@@ -177,7 +177,7 @@ public class Recipes {
             builder.add("gig");
             builder.add("igi");
             builder.add("gig");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('i', "ingotIron");
             builder.setResult(new ItemStack(Items.glassIronUpgrade));
             builder.register();
@@ -189,7 +189,7 @@ public class Recipes {
             builder.add("ggg");
             builder.add("tst");
             builder.add("ggg");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotGold");
             builder.map('t', "gemDiamond");
             builder.setResult(new ItemStack(Items.glassIronUpgrade));
@@ -202,7 +202,7 @@ public class Recipes {
             builder.add("gtg");
             builder.add("tst");
             builder.add("gtg");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotIron");
             builder.map('t', "ingotGold");
             builder.setResult(new ItemStack(Items.ironGoldUpgrade));
@@ -215,7 +215,7 @@ public class Recipes {
             builder.add("ggg");
             builder.add("tst");
             builder.add("ggg");
-            builder.map('g', "blockGlassColorless");
+            builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotSilver");
             builder.map('t', "ingotGold");
             builder.setResult(new ItemStack(Items.silverGoldUpgrade));
