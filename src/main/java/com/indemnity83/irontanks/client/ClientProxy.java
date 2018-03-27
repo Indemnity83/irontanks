@@ -1,29 +1,19 @@
 package com.indemnity83.irontanks.client;
 
-import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.CommonProxy;
-import com.indemnity83.irontanks.common.blocks.IronTankType;
-import com.indemnity83.irontanks.common.core.IronTankBlocks;
-import com.indemnity83.irontanks.common.items.TankChangerType;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import com.indemnity83.irontanks.common.core.Blocks;
+import com.indemnity83.irontanks.common.core.Items;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
-    @Override
-    public void preInit(FMLPreInitializationEvent event) {
-        super.preInit(event);
 
-        Item tankItem = Item.getItemFromBlock(IronTankBlocks.ironTankBlock);
-
-        for (IronTankType type : IronTankType.VALUES) {
-            ModelLoader.setCustomModelResourceLocation(tankItem, type.metaValue, new ModelResourceLocation(tankItem.getRegistryName(), "stacked=false,variant=" + type.name));
-        }
-
-        for (TankChangerType type : TankChangerType.VALUES) {
-            ModelLoader.setCustomModelResourceLocation(type.item, 0, new ModelResourceLocation(new ResourceLocation(IronTanks.MODID, "iron_tank_upgrades"), "variant=" + type.itemName));
-        }
+    @SubscribeEvent
+    public static void registerModels(ModelRegistryEvent event) {
+        Items.initModels();
+        Blocks.initModels();
     }
 }
