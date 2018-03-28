@@ -2,7 +2,7 @@ package com.indemnity83.irontanks.common;
 
 import buildcraft.factory.BCFactoryBlocks;
 import com.indemnity83.irontanks.IronTanks;
-import com.indemnity83.irontanks.common.blocks.TankBlock;
+import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
 import com.indemnity83.irontanks.common.core.Items;
 import com.indemnity83.irontanks.common.core.Recipes;
@@ -23,12 +23,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CommonProxy {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(new TankBlock("copper_tank", 27));
-        event.getRegistry().register(new TankBlock("iron_tank", 32));
-        event.getRegistry().register(new TankBlock("silver_tank", 43));
-        event.getRegistry().register(new TankBlock("gold_tank", 48));
-        event.getRegistry().register(new TankBlock("diamond_tank", 64));
-        event.getRegistry().register(new TankBlock("obsidian_tank", 64));
+        event.getRegistry().register(new StackableTankBlock("copper_tank", 27));
+        event.getRegistry().register(new StackableTankBlock("iron_tank", 32));
+        event.getRegistry().register(new StackableTankBlock("silver_tank", 43));
+        event.getRegistry().register(new StackableTankBlock("gold_tank", 48));
+        event.getRegistry().register(new StackableTankBlock("diamond_tank", 64));
+        event.getRegistry().register(new StackableTankBlock("obsidian_tank", 64));
 
         GameRegistry.registerTileEntity(TankTile.class, IronTanks.MODID + ":tank");
     }

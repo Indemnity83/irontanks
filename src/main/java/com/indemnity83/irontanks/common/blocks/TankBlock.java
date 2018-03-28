@@ -39,8 +39,6 @@ import java.util.List;
 
 public class TankBlock extends Block implements ITileEntityProvider, ICustomPipeConnection {
 
-    private static final IProperty<Boolean> JOINED_BELOW = PropertyBool.create("joined_below");
-
     private final int tankCapacity;
 
     public TankBlock(String tankName, int tankCapacity) {
@@ -55,8 +53,6 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
         setHardness(5.0F);
         setResistance(10.0F);
         setSoundType(SoundType.METAL);
-
-        setDefaultState(this.blockState.getBaseState().withProperty(JOINED_BELOW, false));
     }
 
     @Override
@@ -104,35 +100,6 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
     @SideOnly(Side.CLIENT)
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-    }
-
-    /**
-     * Get the actual Block state of this Block at the given position. This applies properties not visible in the
-     * metadata, such as fence connections.
-     */
-    public IBlockState getActualState(IBlockState blockState, IBlockAccess world, BlockPos pos) {
-        Block block = world.getBlockState(pos.down()).getBlock();
-        boolean tankBelow = block instanceof TankBlock || block instanceof BlockTank;
-        return blockState.withProperty(JOINED_BELOW, tankBelow);
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, JOINED_BELOW);
-    }
-
-    /**
-     * Convert the given metadata into a BlockState for this Block
-     */
-    public int getMetaFromState(IBlockState blockState) {
-        return 0;
-    }
-
-    /**
-     * Convert the BlockState into the correct metadata value
-     */
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState();
     }
 
     @Override

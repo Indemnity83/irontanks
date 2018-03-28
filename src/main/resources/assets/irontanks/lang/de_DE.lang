@@ -1,21 +1,19 @@
 # Item localizations
-item.irontanks.copper_iron_upgrade.name=Kupfer zu Eisenbehälter Upgrade
-item.irontanks.copper_silver_upgrade.name=Kupfer zu Silberbehälter Upgrade
-item.irontanks.diamond_obsidian_upgrade.name=Diamant zu Obsidiantbehälter Upgrade
-item.irontanks.gold_diamond_upgrade.name=Gold zu Diamantbehälter Upgrade
-item.irontanks.iron_gold_upgrade.name=Eisen zu Goldbehälter Upgrade
-item.irontanks.silver_gold_upgrade.name=Silber zu Goldbehälter Upgrade
-item.irontanks.glass_copper_upgrade.name=Glas zu Kupferbehälter Upgrade
-item.irontanks.glass_iron_upgrade.name=Glas zu Eisenbehälter Upgrade
-item.irontanks.silver_diamond_upgrade.name=Silber zu Diamantbehälter Upgrade
-
+item.irontanks.copper_iron_upgrade.name = Kupfer zu Eisenbehälter Upgrade
+item.irontanks.copper_silver_upgrade.name = Kupfer zu Silberbehälter Upgrade
+item.irontanks.diamond_obsidian_upgrade.name = Diamant zu Obsidiantbehälter Upgrade
+item.irontanks.gold_diamond_upgrade.name = Gold zu Diamantbehälter Upgrade
+item.irontanks.iron_gold_upgrade.name = Eisen zu Goldbehälter Upgrade
+item.irontanks.silver_gold_upgrade.name = Silber zu Goldbehälter Upgrade
+item.irontanks.glass_copper_upgrade.name = Glas zu Kupferbehälter Upgrade
+item.irontanks.glass_iron_upgrade.name = Glas zu Eisenbehälter Upgrade
+item.irontanks.silver_diamond_upgrade.name = Silber zu Diamantbehälter Upgrade
 # Block localizations
-tile.irontanks.tank.iron.name=Eisenbehälter
-tile.irontanks.tank.gold.name=Goldbehälter
-tile.irontanks.tank.diamond.name=Diamantbehälter
-tile.irontanks.tank.obsidian.name=Obsidiantbehälter
-tile.irontanks.tank.copper.name=Kupferbehälter
-tile.irontanks.tank.silver.name=Silberbehälter
-
+tile.irontanks.iron_tank.name = Eisenbehälter
+tile.irontanks.gold_tank.name = Goldbehälter
+tile.irontanks.diamond_tank.name = Diamantbehälter
+tile.irontanks.obsidian_tank.name = Obsidiantbehälter
+tile.irontanks.copper_tank.name = Kupferbehälter
+tile.irontanks.silver_tank.name = Silberbehälter
 # Misc localizations
-irontanks.tooltip.capacity=hält %s eimer
+irontanks.tooltip.capacity = hält %s eimer
