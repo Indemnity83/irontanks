@@ -5,6 +5,7 @@ import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
 import com.indemnity83.irontanks.common.core.Items;
+import com.indemnity83.irontanks.common.core.Recipes;
 import com.indemnity83.irontanks.common.items.UpgradeItem;
 import com.indemnity83.irontanks.common.tiles.TankTile;
 import net.minecraft.block.Block;
