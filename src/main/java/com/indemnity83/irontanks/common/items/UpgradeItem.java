@@ -20,13 +20,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class UpgradeItem extends Item {
-    Block upgradeFrom;
-    Block upgradeTo;
+    private Block upgradeFrom;
+    private Block upgradeTo;
 
-    public UpgradeItem(String upgradeName, Block upgradeFrom, Block upgradeTo) {
+    public UpgradeItem(String upgradeName) {
         setRegistryName(upgradeName);
         setUnlocalizedName(IronTanks.MODID + "." + upgradeName);
         setCreativeTab(CreativeTabs.MISC);
+    }
+
+    public void initUpgrade(Block upgradeFrom, Block upgradeTo) {
         this.upgradeFrom = upgradeFrom;
         this.upgradeTo = upgradeTo;
     }
