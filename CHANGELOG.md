@@ -9,7 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - This CHANGELOG
 
 ### Changed
+ - Many of the recipes have changed for both tanks and upgrades. Upgrades now use glass panes instead of glass blocks and some of the tanks require less glass blocks and have re-arranged items. Check out the [Tank](https://github.com/Indemnity83/irontanks/wiki/Tanks) and [Upgrade](https://github.com/Indemnity83/irontanks/wiki/Upgrades) wikis for current recipes. 
  - Build process is now normalized across supported versions
+ 
+### Fixed
+ - Fluid is restored to tanks on game reload
+ - Tank upgrade items actually work
+ - Obsidian tanks withstand explosions
+ - Tank contents will reflow when expanding tanks
+ - Tanks remain transparent even when you press your face against them
 
 ## [2.0.0-beta.2] - 2018-03-26
 ### Fixed
