@@ -16,6 +16,9 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +41,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TankBlock extends Block implements ITileEntityProvider, ICustomPipeConnection {
-
     private final int tankCapacity;
 
     public TankBlock(String tankName, int tankCapacity) {
@@ -63,7 +65,11 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
     @Nullable
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TankTile().withCapacity(this.tankCapacity);
+        return new TankTile().withCapacity(this.getTankCapacity());
+    }
+
+    public int getTankCapacity() {
+        return tankCapacity;
     }
 
     @Override

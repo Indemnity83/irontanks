@@ -5,8 +5,8 @@ Iron Tanks is a [Buildcraft](https://minecraft.curseforge.com/projects/buildcraf
  - Tiered capacity tanks, [Glass](https://github.com/Indemnity83/irontanks/wiki#glass-tank) (16 buckets), [Copper](https://github.com/Indemnity83/irontanks/wiki#copper-tank) (24 buckets), [Iron](https://github.com/Indemnity83/irontanks/wiki#iron-tank) (32 buckets), [Silver](https://github.com/Indemnity83/irontanks/wiki#silver-tank) (42 buckets), [Gold](https://github.com/Indemnity83/irontanks/wiki#gold-tank) (48 buckets) and [Diamond](https://github.com/Indemnity83/irontanks/wiki#diamond-tank) (64 buckets) each building on the proceeding tank to cram more and more stuff in the same cube of space!
  - In place [upgrade items](https://github.com/Indemnity83/irontanks/wiki#upgrades) so you don't have to worry about running out of space
  - Explosion proof [Obsidian](https://github.com/Indemnity83/irontanks/wiki#obsidian-tank) tanks
- - The black hole that is the Void tank (coming soon)
- - For your mock setups; /give yourself a Creative tank (coming soon)
+ - The Void tank destroys fluids that enter it. 
+ - For testing, and creative worlds there is the Creative tank which provides an infinite supply of whatever fluid you put in it.
   
 ## Download & Installation
 

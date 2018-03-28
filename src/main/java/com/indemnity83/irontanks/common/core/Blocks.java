@@ -24,7 +24,6 @@ public class Blocks {
 
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":copper_tank")
     public static StackableTankBlock copperTank;
-
     public static void init() {
         obsidianTank.setResistance(6000);
     }
@@ -39,3 +38,4 @@ public class Blocks {
         silverTank.initModel();
     }
 }
+

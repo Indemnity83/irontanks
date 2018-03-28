@@ -16,6 +16,10 @@ tile.irontanks.diamond_tank.name=钻石储罐
 tile.irontanks.obsidian_tank.name=黑曜石储罐
 tile.irontanks.copper_tank.name=铜储罐
 tile.irontanks.silver_tank.name=银储罐
+tile.irontanks.void_tank.name=虚空储罐
+tile.irontanks.creative_tank.name=创造储罐
 
 # Misc localizations
-irontanks.tooltip.capacity=持有%s个桶
+irontanks.tooltip.capacity=持有%s桶流体
+irontanks.tooltip.void_tank=销毁流体
+irontanks.tooltip.creative_tank=提供无限量的流体
