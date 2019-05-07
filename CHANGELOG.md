@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
  - This CHANGELOG
+ - Warn the user if they are missing the required Buildcraft mod
 
 ### Changed
  - Build process is now normalized across supported versions
