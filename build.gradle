@@ -52,6 +52,7 @@ minecraft {
     // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
     replace "(gradle_replace_mcversion,)", "[" + version + "]"
     replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
+    replace "(gradle_replace_buildcraftversion,)", "[" + config.buildcraft_version + ",)"
 
     // If this isn't an release, append some build meta to the version
     if (!Boolean.getBoolean("release")) {

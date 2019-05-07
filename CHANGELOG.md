@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+ - Warn the user if they are missing the required Buildcraft mod
+
 ## [2.0.0-beta.3] - 2018-03-28
 ### Added
  - This CHANGELOG
@@ -47,6 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
  - Rebuild mod for MC 1.11.2 and BC 7.99.6
 
+[Unreleased]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.3...support/1.11
 [2.0.0-beta.3]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.2...v2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.3...v2.0.0-beta.1
