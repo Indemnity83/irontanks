@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
  - Versions use build numbers instead of git hashes
+ - Update textures
 
 ## [2.0.0-beta.3] - 2018-03-28
 ### Added
