@@ -2,6 +2,7 @@
 item.irontank:copper_iron_upgrade.name=储罐升级：铜>铁
 item.irontank:copper_silver_upgrade.name=储罐升级：铜>银
 item.irontank:diamond_obsidian_upgrade.name=储罐升级：钻石>黑曜石
+item.irontank:diamond_emerald_upgrade.name=Diamond to Emerald Tank Upgrade
 item.irontank:gold_diamond_upgrade.name=储罐升级：金>钻石
 item.irontank:iron_gold_upgrade.name=储罐升级：铁>金
 item.irontank:silver_gold_upgrade.name=储罐升级：银>金
@@ -13,6 +14,7 @@ item.irontank:silver_diamond_upgrade.name=储罐升级：银>钻石
 tile.irontank:irontank.name=铁储罐
 tile.irontank:goldtank.name=金储罐
 tile.irontank:diamondtank.name=钻石储罐
+tile.irontank:emeraldtank.name=Emerald Tank
 tile.irontank:obsidiantank.name=黑曜石储罐
 tile.irontank:coppertank.name=铜储罐
 tile.irontank:silvertank.name=银储罐

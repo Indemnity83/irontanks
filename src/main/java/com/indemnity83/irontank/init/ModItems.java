@@ -24,6 +24,7 @@ public class ModItems {
 	public static final ItemGeneric glassIronUpgrade = new ItemTankChanger(TankChangerType.GLASSIRON);
 	public static final ItemGeneric glassCopperUpgrade = new ItemTankChanger(TankChangerType.GLASSCOPPER);
 	public static final ItemGeneric diamondObsidianUpgrade = new ItemTankChanger(TankChangerType.DIAMONDOBSIDIAN);
+	public static final ItemGeneric diamondEmeraldUpgrade = new ItemTankChanger(TankChangerType.DIAMONDEMERALD);
 	public static final ItemGeneric silverDiamondUpgrade = new ItemTankChanger(TankChangerType.SILVERDIAMOND);
 
 	public static void init() {
@@ -35,6 +36,7 @@ public class ModItems {
 		GameRegistry.registerItem(glassIronUpgrade, TankChangerType.GLASSIRON.name);
 		GameRegistry.registerItem(glassCopperUpgrade, TankChangerType.GLASSCOPPER.name);
 		GameRegistry.registerItem(diamondObsidianUpgrade, TankChangerType.DIAMONDOBSIDIAN.name);
+		GameRegistry.registerItem(diamondEmeraldUpgrade, TankChangerType.DIAMONDEMERALD.name);
 		GameRegistry.registerItem(silverDiamondUpgrade, TankChangerType.SILVERDIAMOND.name);
 	}
 }

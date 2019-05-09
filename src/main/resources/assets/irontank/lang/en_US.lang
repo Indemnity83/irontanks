@@ -2,6 +2,7 @@
 item.irontank:copper_iron_upgrade.name=Copper to Iron Tank Upgrade
 item.irontank:copper_silver_upgrade.name=Copper to Silver Tank Upgrade
 item.irontank:diamond_obsidian_upgrade.name=Diamond to Obsidian Tank Upgrade
+item.irontank:diamond_emerald_upgrade.name=Diamond to Emerald Tank Upgrade
 item.irontank:gold_diamond_upgrade.name=Gold to Diamond Tank Upgrade
 item.irontank:iron_gold_upgrade.name=Iron to Gold Tank Upgrade
 item.irontank:silver_gold_upgrade.name=Silver to Gold Tank Upgrade
@@ -13,6 +14,7 @@ item.irontank:silver_diamond_upgrade.name=Silver to Diamond Tank Upgrade
 tile.irontank:irontank.name=Iron Tank
 tile.irontank:goldtank.name=Gold Tank
 tile.irontank:diamondtank.name=Diamond Tank
+tile.irontank:emeraldtank.name=Emerald Tank
 tile.irontank:obsidiantank.name=Obsidian Tank
 tile.irontank:coppertank.name=Copper Tank
 tile.irontank:silvertank.name=Silver Tank

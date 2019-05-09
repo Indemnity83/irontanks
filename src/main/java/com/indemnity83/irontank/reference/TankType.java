@@ -30,7 +30,8 @@ public enum TankType{
     COPPER(27, "coppertank", Arrays.asList("ingotCopper"), Arrays.asList("tgtg0gtgt"), 25/3F),
     SILVER(43, "silvertank", Arrays.asList("ingotSilver"), Arrays.asList("tgtg4gtgt", "gggt1tggg"), 25/3F),
     OBSIDIAN(64, "obsidiantank", Arrays.asList("obsidian"), Arrays.asList("tgtg3gtgt"), 6000000.0F),
-    GLASS(0, "", Arrays.asList("blockGlass"), Arrays.asList(""), 0f);
+    GLASS(0, "", Arrays.asList("blockGlass"), Arrays.asList(""), 0f),
+	EMERALD(96, "emeraldtank", Arrays.asList("gemEmerald"), Arrays.asList("gggt3tggg"), 25/3F);
 
 	/**
 	 * fluid capacity of the tank type

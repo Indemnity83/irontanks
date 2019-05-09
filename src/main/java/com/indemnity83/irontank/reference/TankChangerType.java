@@ -1,12 +1,6 @@
 package com.indemnity83.irontank.reference;
 
-import static com.indemnity83.irontank.reference.TankType.COPPER;
-import static com.indemnity83.irontank.reference.TankType.DIAMOND;
-import static com.indemnity83.irontank.reference.TankType.GLASS;
-import static com.indemnity83.irontank.reference.TankType.GOLD;
-import static com.indemnity83.irontank.reference.TankType.IRON;
-import static com.indemnity83.irontank.reference.TankType.OBSIDIAN;
-import static com.indemnity83.irontank.reference.TankType.SILVER;
+import static com.indemnity83.irontank.reference.TankType.*;
 
 import java.util.List;
 
@@ -34,7 +28,8 @@ public enum TankChangerType {
 	COPPERIRON(COPPER, IRON, "copper_iron_upgrade", "ggg", "tst", "ggg"),
 	GLASSIRON(GLASS, IRON, "glass_iron_upgrade", "tgt", "gsg", "tgt"),
 	GLASSCOPPER(GLASS, COPPER, "glass_copper_upgrade", "ggg", "tst", "ggg"),
-	DIAMONDOBSIDIAN(DIAMOND, OBSIDIAN, "diamond_obsidian_upgrade", "tgt", "gsg", "tgt");
+	DIAMONDOBSIDIAN(DIAMOND, OBSIDIAN, "diamond_obsidian_upgrade", "tgt", "gsg", "tgt"),
+	DIAMONDEMERALD(DIAMOND, EMERALD, "diamond_emerald_upgrade", "ggg", "tst", "ggg");
 
 	/**
 	 * IronTankType that this changer will work on

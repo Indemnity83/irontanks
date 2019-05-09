@@ -2,6 +2,7 @@
 item.irontank:copper_iron_upgrade.name=Aprimoramento de Tanque de Cobre para Ferro
 item.irontank:copper_silver_upgrade.name=Aprimoramento de Tanque de Cobre para Prata
 item.irontank:diamond_obsidian_upgrade.name=Aprimoramento de Tanque de Diamante para Obsidiana
+item.irontank:diamond_emerald_upgrade.name=Diamond to Emerald Tank Upgrade
 item.irontank:gold_diamond_upgrade.name=Aprimoramento de Tanque de Ouro para Diamante
 item.irontank:iron_gold_upgrade.name=Aprimoramento de Tanque de Ferro para Ouro
 item.irontank:silver_gold_upgrade.name=Aprimoramento de Tanque de Prata para Ouro
@@ -13,6 +14,7 @@ item.irontank:silver_diamond_upgrade.name=Aprimoramento de Tanque de Prata para 
 tile.irontank:irontank.name=Tanque de Ferro
 tile.irontank:goldtank.name=Tanque de Ouro
 tile.irontank:diamondtank.name=Tanque de Diamante
+tile.irontank:emeraldtank.name=Emerald Tank
 tile.irontank:obsidiantank.name=Tanque de Obsidiana
 tile.irontank:coppertank.name=Tanque de Cobre
 tile.irontank:silvertank.name=Tanque de Prata

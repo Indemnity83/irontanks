@@ -2,6 +2,7 @@
 item.irontank:copper_iron_upgrade.name=Улучшение из медной в железную цистерну
 item.irontank:copper_silver_upgrade.name=Улучшение из медной в серебряную цистерну
 item.irontank:diamond_obsidian_upgrade.name=Улучшение из алмазной в обсидиановую цистерну
+item.irontank:diamond_emerald_upgrade.name=Diamond to Emerald Tank Upgrade
 item.irontank:gold_diamond_upgrade.name=Улучшение из золотой в алмазную цистерну
 item.irontank:iron_gold_upgrade.name=Улучшение из железной в золотую цистерну
 item.irontank:silver_gold_upgrade.name=Улучшение из серебряной в золотую цистерну
@@ -13,6 +14,7 @@ item.irontank:silver_diamond_upgrade.name=Улучшение из серебря
 tile.irontank:irontank.name=Железная цистерна
 tile.irontank:goldtank.name=Золотая цистерна
 tile.irontank:diamondtank.name=Алмазная цистерна
+tile.irontank:emeraldtank.name=Emerald Tank
 tile.irontank:obsidiantank.name=Обсидиановая цистерна
 tile.irontank:coppertank.name=Медная цистерна
 tile.irontank:silvertank.name=Серебряная цистерна

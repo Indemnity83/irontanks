@@ -13,12 +13,14 @@ public class ModBlocks {
 	public static final BlockExtendedTank goldTank = new BlockExtendedTank(TankType.GOLD);
 	public static final BlockExtendedTank diamondTank = new BlockExtendedTank(TankType.DIAMOND);
 	public static final BlockExtendedTank obsidianTank = new BlockExtendedTank(TankType.OBSIDIAN);
+	public static final BlockExtendedTank emeraldTank = new BlockExtendedTank(TankType.EMERALD);
 
 	public static void init() {
 		GameRegistry.registerBlock(ironTank, ironTank.type.name);
 		GameRegistry.registerBlock(goldTank, goldTank.type.name);
 		GameRegistry.registerBlock(diamondTank, diamondTank.type.name);
 		GameRegistry.registerBlock(obsidianTank, obsidianTank.type.name);
+		GameRegistry.registerBlock(emeraldTank, emeraldTank.type.name);
 		GameRegistry.registerBlock(copperTank, copperTank.type.name);
 		GameRegistry.registerBlock(silverTank, silverTank.type.name);
 	}
