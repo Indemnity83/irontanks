@@ -14,6 +14,7 @@ the mod, and no files were actually released. These releases are marked
 ### Changed
  - Normalize block and item names across versions
  - Versions use build numbers instead of git hashes
+ - Update textures
 
 ## [1.1.16] - 2018-03-26
 ### Added
