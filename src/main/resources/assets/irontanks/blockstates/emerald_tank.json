@@ -1,0 +1,23 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "irontanks:tank",
+    "textures": {
+      "particle": "irontanks:blocks/emeraldtank/side",
+      "end": "irontanks:blocks/emeraldtank/end",
+      "side": "irontanks:blocks/emeraldtank/side"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "joined_below": {
+      "true": {
+        "textures": {
+          "side": "irontanks:blocks/emeraldtank/side_stacked"
+        }
+      },
+      "false": {}
+    }
+  }
+}

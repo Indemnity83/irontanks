@@ -2,6 +2,7 @@
 item.irontanks.copper_iron_upgrade.name=Mejora de Tanque de Cobre a Hierro
 item.irontanks.copper_silver_upgrade.name=Mejora de Tanque de Cobre a Plata
 item.irontanks.diamond_obsidian_upgrade.name=Mejora de Tanque de Diamante a Obsidiana
+item.irontanks.diamond_emerald_upgrade.name=Diamond to Emerald Tank Upgrade
 item.irontanks.gold_diamond_upgrade.name=Mejora de Tanque de Oro a Diamante
 item.irontanks.iron_gold_upgrade.name=Mejora de Tanque de Hierro a Oro
 item.irontanks.silver_gold_upgrade.name=Mejora de Tanque de Plata a Oro
@@ -15,6 +16,7 @@ tile.irontanks.gold_tank.name=Tanque de Oro
 tile.irontanks.diamond_tank.name=Tanque de Diamante
 tile.irontanks.obsidian_tank.name=Tanque de Obsidiana
 tile.irontanks.copper_tank.name=Tanque de Cobre
+tile.irontanks.emerald_tank.name=Emerald Tank
 tile.irontanks.silver_tank.name=Tanque de Plata
 
 # Misc localizations

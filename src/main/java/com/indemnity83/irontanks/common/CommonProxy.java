@@ -28,6 +28,7 @@ public class CommonProxy {
         event.getRegistry().register(new StackableTankBlock("gold_tank", 48));
         event.getRegistry().register(new StackableTankBlock("diamond_tank", 64));
         event.getRegistry().register(new StackableTankBlock("obsidian_tank", 64));
+        event.getRegistry().register(new StackableTankBlock("emerald_tank", 96));
 
         GameRegistry.registerTileEntity(TankTile.class, IronTanks.MODID + ":tank");
     }
@@ -40,10 +41,12 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(Blocks.obsidianTank).setRegistryName(Blocks.obsidianTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.silverTank).setRegistryName(Blocks.silverTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.copperTank).setRegistryName(Blocks.copperTank.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(Blocks.emeraldTank).setRegistryName(Blocks.emeraldTank.getRegistryName()));
 
         event.getRegistry().register(new UpgradeItem("copper_iron_upgrade"));
         event.getRegistry().register(new UpgradeItem("copper_silver_upgrade"));
         event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade"));
+        event.getRegistry().register(new UpgradeItem("diamond_emerald_upgrade"));
         event.getRegistry().register(new UpgradeItem("glass_copper_upgrade"));
         event.getRegistry().register(new UpgradeItem("glass_iron_upgrade"));
         event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade"));

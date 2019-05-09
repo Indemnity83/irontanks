@@ -110,6 +110,19 @@ public class Recipes {
             builder.registerRotated();
         }
 
+        if (Blocks.emeraldTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "gemEmerald");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', Blocks.diamondTank);
+            builder.setResult(new ItemStack(Blocks.emeraldTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
         if (Blocks.obsidianTank != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
             builder.add("ooo");
@@ -192,6 +205,19 @@ public class Recipes {
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotGold");
             builder.map('t', "gemDiamond");
+            builder.setResult(new ItemStack(Items.glassIronUpgrade));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        if (Items.diamondEmeraldUpgrade != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gsg");
+            builder.add("tgt");
+            builder.map('g', "paneGlassColorless");
+            builder.map('s', "gemDiamond");
+            builder.map('t', "gemEmerald");
             builder.setResult(new ItemStack(Items.glassIronUpgrade));
             builder.register();
             builder.registerRotated();
