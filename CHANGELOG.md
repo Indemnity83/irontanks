@@ -10,6 +10,10 @@ overeager to tag new versions so many of these versions had no actual changes to
 the mod, and no files were actually released. These releases are marked
 [SKIPPED] in the changelog.*
 
+## [Unreleased]
+### Changed
+ - Normalize block and item names across versions
+
 ## [1.1.16] - 2018-03-26
 ### Added
  - This CHANGELOG file
@@ -98,7 +102,8 @@ the mod, and no files were actually released. These releases are marked
  - Tank upgrade items perform an in place upgrade of tank (a1adf5d)
  - gui: Remove extraneous GUI configuration (ed8b191)
 
-[Unreleased]: https://github.com/indemnity83/irontanks/compare/v1.1.15...support/1.7.10
+[Unreleased]: https://github.com/indemnity83/irontanks/compare/v1.1.16...support/1.7.10
+[1.1.16]: https://github.com/indemnity83/irontanks/compare/v1.1.15...v1.1.16
 [1.1.15]: https://github.com/indemnity83/irontanks/compare/v1.1.14...v1.1.15
 [1.1.14]: https://github.com/indemnity83/irontanks/compare/v1.1.9...v1.1.14
 [1.1.9]: https://github.com/indemnity83/irontanks/compare/v1.1.8...v1.1.9

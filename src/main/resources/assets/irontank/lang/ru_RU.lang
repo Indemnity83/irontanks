@@ -1,21 +1,21 @@
 # Item localizations
-item.irontank:copperIronUpgrade.name=Улучшение из медной в железную цистерну
-item.irontank:copperSilverUpgrade.name=Улучшение из медной в серебряную цистерну
-item.irontank:diamondObsidianUpgrade.name=Улучшение из алмазной в обсидиановую цистерну
-item.irontank:goldDiamondUpgrade.name=Улучшение из золотой в алмазную цистерну
-item.irontank:ironGoldUpgrade.name=Улучшение из железной в золотую цистерну
-item.irontank:silverGoldUpgrade.name=Улучшение из серебряной в золотую цистерну
-item.irontank:glassCopperUpgrade.name=Улучшение из стеклянной в медную цистерну
-item.irontank:glassIronUpgrade.name=Улучшение из стеклянной в железную цистерну
-item.irontank:silverDiamondUpgrade.name=Улучшение из серебряной в алмазную цистерну
+item.irontank:copper_iron_upgrade.name=Улучшение из медной в железную цистерну
+item.irontank:copper_silver_upgrade.name=Улучшение из медной в серебряную цистерну
+item.irontank:diamond_obsidian_upgrade.name=Улучшение из алмазной в обсидиановую цистерну
+item.irontank:gold_diamond_upgrade.name=Улучшение из золотой в алмазную цистерну
+item.irontank:iron_gold_upgrade.name=Улучшение из железной в золотую цистерну
+item.irontank:silver_gold_upgrade.name=Улучшение из серебряной в золотую цистерну
+item.irontank:glass_copper_upgrade.name=Улучшение из стеклянной в медную цистерну
+item.irontank:glass_iron_upgrade.name=Улучшение из стеклянной в железную цистерну
+item.irontank:silver_diamond_upgrade.name=Улучшение из серебряной в алмазную цистерну
 
 # Block localizations
-tile.irontank:ironTank.name=Железная цистерна
-tile.irontank:goldTank.name=Золотая цистерна
-tile.irontank:diamondTank.name=Алмазная цистерна
-tile.irontank:obsidianTank.name=Обсидиановая цистерна
-tile.irontank:copperTank.name=Медная цистерна
-tile.irontank:silverTank.name=Серебряная цистерна
+tile.irontank:irontank.name=Железная цистерна
+tile.irontank:goldtank.name=Золотая цистерна
+tile.irontank:diamondtank.name=Алмазная цистерна
+tile.irontank:obsidiantank.name=Обсидиановая цистерна
+tile.irontank:coppertank.name=Медная цистерна
+tile.irontank:silvertank.name=Серебряная цистерна
 
 # Misc localizations
 itemGroup.irontank=Iron Tanks

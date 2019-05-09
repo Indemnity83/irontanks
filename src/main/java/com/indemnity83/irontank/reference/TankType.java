@@ -24,12 +24,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
  *
  */
 public enum TankType{
-    IRON(32, "ironTank", Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("tgtg0gtgt", "gggt4tggg"), 25/3F),
-    GOLD(48, "goldTank", Arrays.asList("ingotGold"), Arrays.asList("tgtg1gtgt", "gggt5tggg"), 25/3F),
-    DIAMOND(64, "diamondTank", Arrays.asList("gemDiamond"), Arrays.asList("gggt2tggg", "gggg5gttt"), 25/3F),
-    COPPER(27, "copperTank", Arrays.asList("ingotCopper"), Arrays.asList("tgtg0gtgt"), 25/3F),
-    SILVER(43, "silverTank", Arrays.asList("ingotSilver"), Arrays.asList("tgtg4gtgt", "gggt1tggg"), 25/3F),
-    OBSIDIAN(64, "obsidianTank", Arrays.asList("obsidian"), Arrays.asList("tgtg3gtgt"), 6000000.0F),
+    IRON(32, "irontank", Arrays.asList("ingotIron", "ingotRefinedIron"), Arrays.asList("tgtg0gtgt", "gggt4tggg"), 25/3F),
+    GOLD(48, "goldtank", Arrays.asList("ingotGold"), Arrays.asList("tgtg1gtgt", "gggt5tggg"), 25/3F),
+    DIAMOND(64, "diamondtank", Arrays.asList("gemDiamond"), Arrays.asList("gggt2tggg", "gggg5gttt"), 25/3F),
+    COPPER(27, "coppertank", Arrays.asList("ingotCopper"), Arrays.asList("tgtg0gtgt"), 25/3F),
+    SILVER(43, "silvertank", Arrays.asList("ingotSilver"), Arrays.asList("tgtg4gtgt", "gggt1tggg"), 25/3F),
+    OBSIDIAN(64, "obsidiantank", Arrays.asList("obsidian"), Arrays.asList("tgtg3gtgt"), 6000000.0F),
     GLASS(0, "", Arrays.asList("blockGlass"), Arrays.asList(""), 0f);
 
 	/**

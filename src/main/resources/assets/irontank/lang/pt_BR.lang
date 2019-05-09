@@ -1,21 +1,21 @@
 # Item localizations
-item.irontank:copperIronUpgrade.name=Aprimoramento de Tanque de Cobre para Ferro
-item.irontank:copperSilverUpgrade.name=Aprimoramento de Tanque de Cobre para Prata
-item.irontank:diamondObsidianUpgrade.name=Aprimoramento de Tanque de Diamante para Obsidiana
-item.irontank:goldDiamondUpgrade.name=Aprimoramento de Tanque de Ouro para Diamante
-item.irontank:ironGoldUpgrade.name=Aprimoramento de Tanque de Ferro para Ouro
-item.irontank:silverGoldUpgrade.name=Aprimoramento de Tanque de Prata para Ouro
-item.irontank:glassCopperUpgrade.name=Aprimoramento de Tanque de Vidro para Cobre
-item.irontank:glassIronUpgrade.name=Aprimoramento de Tanque de Vidro para Ferro
-item.irontank:silverDiamondUpgrade.name=Aprimoramento de Tanque de Prata para Diamante
+item.irontank:copper_iron_upgrade.name=Aprimoramento de Tanque de Cobre para Ferro
+item.irontank:copper_silver_upgrade.name=Aprimoramento de Tanque de Cobre para Prata
+item.irontank:diamond_obsidian_upgrade.name=Aprimoramento de Tanque de Diamante para Obsidiana
+item.irontank:gold_diamond_upgrade.name=Aprimoramento de Tanque de Ouro para Diamante
+item.irontank:iron_gold_upgrade.name=Aprimoramento de Tanque de Ferro para Ouro
+item.irontank:silver_gold_upgrade.name=Aprimoramento de Tanque de Prata para Ouro
+item.irontank:glass_copper_upgrade.name=Aprimoramento de Tanque de Vidro para Cobre
+item.irontank:glass_iron_upgrade.name=Aprimoramento de Tanque de Vidro para Ferro
+item.irontank:silver_diamond_upgrade.name=Aprimoramento de Tanque de Prata para Diamante
 
 # Block localizations
-tile.irontank:ironTank.name=Tanque de Ferro
-tile.irontank:goldTank.name=Tanque de Ouro
-tile.irontank:diamondTank.name=Tanque de Diamante
-tile.irontank:obsidianTank.name=Tanque de Obsidiana
-tile.irontank:copperTank.name=Tanque de Cobre
-tile.irontank:silverTank.name=Tanque de Prata
+tile.irontank:irontank.name=Tanque de Ferro
+tile.irontank:goldtank.name=Tanque de Ouro
+tile.irontank:diamondtank.name=Tanque de Diamante
+tile.irontank:obsidiantank.name=Tanque de Obsidiana
+tile.irontank:coppertank.name=Tanque de Cobre
+tile.irontank:silvertank.name=Tanque de Prata
 
 # Misc localizations
 itemGroup.irontank=Iron Tanks
