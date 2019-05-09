@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "irontanks:items/diamond_emerald_upgrade"
+  }
+}

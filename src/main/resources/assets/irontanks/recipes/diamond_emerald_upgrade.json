@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:diamond_emerald_upgrade"
+  },
+  "pattern": [
+    " g ",
+    "gdg",
+    "ege"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "d": {
+      "item": "#gemDiamond"
+    },
+    "e": {
+      "item": "#gemEmerald"
+    },
+    "g": {
+      "item": "#paneGlassColorless"
+    }
+  }
+}

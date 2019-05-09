@@ -45,6 +45,15 @@
     ]
   },
   {
+    "name": "gemEmerald",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "gemEmerald"
+      }
+    ]
+  },
+  {
     "name": "blockObsidian",
     "ingredient": [
       {

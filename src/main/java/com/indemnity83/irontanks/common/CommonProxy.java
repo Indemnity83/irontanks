@@ -32,6 +32,7 @@ public class CommonProxy {
         event.getRegistry().register(new StackableTankBlock("gold_tank", 48));
         event.getRegistry().register(new StackableTankBlock("diamond_tank", 64));
         event.getRegistry().register(new StackableTankBlock("obsidian_tank", 64));
+        event.getRegistry().register(new StackableTankBlock("emerald_tank", 96));
         event.getRegistry().register(new CreativeTankBlock("creative_tank", 1));
         event.getRegistry().register(new VoidTankBlock("void_tank", 8));
 
@@ -48,6 +49,7 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(Blocks.obsidianTank).setRegistryName(Blocks.obsidianTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.silverTank).setRegistryName(Blocks.silverTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.copperTank).setRegistryName(Blocks.copperTank.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(Blocks.emeraldTank).setRegistryName(Blocks.emeraldTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.voidTank).setRegistryName(Blocks.voidTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.creativeTank).setRegistryName(Blocks.creativeTank.getRegistryName()));
 
@@ -59,6 +61,7 @@ public class CommonProxy {
         event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade", Blocks.goldTank, Blocks.diamondTank));
         event.getRegistry().register(new UpgradeItem("iron_gold_upgrade", Blocks.ironTank, Blocks.goldTank));
         event.getRegistry().register(new UpgradeItem("silver_gold_upgrade", Blocks.silverTank, Blocks.goldTank));
+        event.getRegistry().register(new UpgradeItem("diamond_emerald_upgrade", Blocks.diamondTank, Blocks.emeraldTank));
     }
 
     /**

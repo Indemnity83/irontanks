@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:emerald_tank"
+  },
+  "pattern": [
+    " g ",
+    "gtg",
+    "ege"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "e": {
+      "item": "#gemEmerald"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#diamondTank"
+    }
+  }
+}

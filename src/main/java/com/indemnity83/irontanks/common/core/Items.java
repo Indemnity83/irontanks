@@ -16,6 +16,9 @@ public class Items {
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":diamond_obsidian_upgrade")
     public static UpgradeItem diamondObsidianUpgrade;
 
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":diamond_emerald_upgrade")
+    public static UpgradeItem diamondEmeraldUpgrade;
+
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":glass_copper_upgrade")
     public static UpgradeItem glassCopperUpgrade;
 
@@ -39,6 +42,7 @@ public class Items {
         copperIronUpgrade.initModel();
         copperSilverUpgrade.initModel();
         diamondObsidianUpgrade.initModel();
+        diamondEmeraldUpgrade.initModel();
         glassCopperUpgrade.initModel();
         glassIronUpgrade.initModel();
         goldDiamondUpgrade.initModel();

@@ -27,6 +27,9 @@ public class Blocks {
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":copper_tank")
     public static StackableTankBlock copperTank;
 
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":emerald_tank")
+    public static StackableTankBlock emeraldTank;
+
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":void_tank")
     public static VoidTankBlock voidTank;
 
@@ -44,6 +47,7 @@ public class Blocks {
         diamondTank.initModel();
         obsidianTank.initModel();
         copperTank.initModel();
+        emeraldTank.initModel();
         silverTank.initModel();
         voidTank.initModel();
         creativeTank.initModel();

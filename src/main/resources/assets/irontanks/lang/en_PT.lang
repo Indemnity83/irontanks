@@ -2,6 +2,7 @@
 item.irontanks.copper_iron_upgrade.name=Copper t' Iron Cask Upgrade
 item.irontanks.copper_silver_upgrade.name=Copper t' Silver Cask Upgrade
 item.irontanks.diamond_obsidian_upgrade.name=Diamond t' Obsidian Cask Upgrade
+item.irontanks.diamond_emerald_upgrade.name=Diamond t' Emerald Cask Upgrade
 item.irontanks.gold_diamond_upgrade.name=Gold t' Diamond Cask Upgrade
 item.irontanks.iron_gold_upgrade.name=Iron t' Gold Cask Upgrade
 item.irontanks.silver_gold_upgrade.name=Silver t' Gold Cask Upgrade
@@ -15,6 +16,7 @@ tile.irontanks.gold_tank.name=Gold Cask
 tile.irontanks.diamond_tank.name=Diamond Cask
 tile.irontanks.obsidian_tank.name=Obsidian Cask
 tile.irontanks.copper_tank.name=Copper Cask
+tile.irontanks.emerald_tank.name=Emerald Cask
 tile.irontanks.silver_tank.name=Silver Cask
 
 # Misc localizations
