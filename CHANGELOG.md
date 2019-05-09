@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Build process is now normalized across supported versions
  - Updated Chinese translation (@DYColdWind)
  - Versions use build numbers instead of git hashes
+ - Update textures
 
 ## [2.1.0-beta.5] - 2018-02-17
 ### Added
