@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
  - Warn the user if they are missing the required Buildcraft mod
 
+### Changed
+ - Versions use build numbers instead of git hashes
+
 ## [2.0.0-beta.3] - 2018-03-28
 ### Added
  - This CHANGELOG
