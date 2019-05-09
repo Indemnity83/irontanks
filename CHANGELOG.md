@@ -13,6 +13,7 @@ the mod, and no files were actually released. These releases are marked
 ## [Unreleased]
 ### Changed
  - Normalize block and item names across versions
+ - Versions use build numbers instead of git hashes
 
 ## [1.1.16] - 2018-03-26
 ### Added
