@@ -24,4 +24,4 @@ tile.irontanks.creative_tank.name=Креативная цистерна
 # Misc localizations
 irontanks.tooltip.capacity=Удерживает %s ведер
 irontanks.tooltip.void_tank=Уничтожает жидкости
-irontanks.tooltip.creative_tank=Хранит неограниченое кол-во воды
+irontanks.tooltip.creative_tank=Хранит неограниченое кол-во жидкости
