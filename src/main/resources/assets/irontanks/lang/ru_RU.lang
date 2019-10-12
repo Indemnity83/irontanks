@@ -2,7 +2,7 @@
 item.irontanks.copper_iron_upgrade.name=Улучшение из медной в железную цистерну
 item.irontanks.copper_silver_upgrade.name=Улучшение из медной в серебряную цистерну
 item.irontanks.diamond_obsidian_upgrade.name=Улучшение из алмазной в обсидиановую цистерну
-item.irontanks.diamond_emerald_upgrade.name=Diamond to Emerald Tank Upgrade
+item.irontanks.diamond_emerald_upgrade.name=Улучшение из алмазной в изумрудную цистерну
 item.irontanks.gold_diamond_upgrade.name=Улучшение из золотой в алмазную цистерну
 item.irontanks.iron_gold_upgrade.name=Улучшение из железной в золотую цистерну
 item.irontanks.silver_gold_upgrade.name=Улучшение из серебряной в золотую цистерну
@@ -16,8 +16,12 @@ tile.irontanks.gold_tank.name=Золотая цистерна
 tile.irontanks.diamond_tank.name=Алмазная цистерна
 tile.irontanks.obsidian_tank.name=Обсидиановая цистерна
 tile.irontanks.copper_tank.name=Медная цистерна
-tile.irontanks.emerald_tank.name=Emerald Tank
+tile.irontanks.emerald_tank.name=Изумрудная цистерна
 tile.irontanks.silver_tank.name=Серебряная цистерна
+tile.irontanks.void_tank.name=Пустотная цистерна
+tile.irontanks.creative_tank.name=Креативная цистерна
 
 # Misc localizations
 irontanks.tooltip.capacity=Удерживает %s ведер
+irontanks.tooltip.void_tank=Уничтожает жидкости
+irontanks.tooltip.creative_tank=Хранит неограниченое кол-во воды
