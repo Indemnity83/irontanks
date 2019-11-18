@@ -41,8 +41,7 @@ minecraft {
 
     // Try appending the github sha first
     if (System.getenv("GITHUB_SHA") != null) {
-        sha = System.getenv("GITHUB_SHA")
-        project.version += "+${sha.substring(0,7)}"
+        project.version += "+${System.getenv("GITHUB_SHA").substring(0,7)}"
 
     // If that doesn't work, just append "SNAPSHOT"
     } else {
