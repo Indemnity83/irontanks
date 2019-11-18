@@ -39,13 +39,14 @@ minecraft {
     mappings = config.mappings
     runDir = "run"
 
-    // Try appending the build number first
-    if (System.getenv("BUILD_NUMBER") != null) {
-        project.version += ".${System.getenv("BUILD_NUMBER")}"
+    // Try appending the github sha first
+    if (System.getenv("GITHUB_SHA") != null) {
+        sha = System.getenv("GITHUB_SHA")
+        project.version += "+${sha.substring(0,7)}"
 
     // If that doesn't work, just append "SNAPSHOT"
     } else {
-        project.version += "-SNAPSHOT"
+        project.version += "+SNAPSHOT"
     }
 
     // replacing stuff in the source
