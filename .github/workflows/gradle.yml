@@ -19,5 +19,5 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: libs
-        path: build/libs/*.jar
+        path: build/libs
       
