@@ -10,6 +10,13 @@ overeager to tag new versions so many of these versions had no actual changes to
 the mod, and no files were actually released. These releases are marked
 [SKIPPED] in the changelog.*
 
+## [1.1.17](https://github.com/Indemnity83/irontanks/compare/mc1.7.10-v1.1.16...mc1.7.10-v1.1.17) (2026-06-01)
+
+
+### Fixed
+
+* **release:** move last-release-sha to top-level config ([c49921a](https://github.com/Indemnity83/irontanks/commit/c49921a472f6254a6508f7c9c3125c7059a2e8e6))
+
 ## [Unreleased]
 ### Changed
  - Normalize block and item names across versions
