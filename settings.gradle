@@ -13,7 +13,7 @@ pluginManagement {
 plugins {
     // Lets Gradle auto-provision the JDK toolchains RFG needs (Java 8 to compile the mod,
     // Java 17 for RFG's fernflower decompile step) without manual local installs.
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
 rootProject.name = "irontanks"
