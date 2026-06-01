@@ -1,6 +1,5 @@
 package com.indemnity83.irontanks.common.core;
 
-import buildcraft.api.BCBlocks;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.items.UpgradeItem;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -36,15 +35,6 @@ public class Items {
     public static UpgradeItem silverGoldUpgrade;
 
     public static void init() {
-        copperIronUpgrade.initUpgrade(Blocks.copperTank, Blocks.ironTank);
-        copperSilverUpgrade.initUpgrade(Blocks.copperTank, Blocks.silverTank);
-        diamondObsidianUpgrade.initUpgrade(Blocks.diamondTank, Blocks.obsidianTank);
-        glassCopperUpgrade.initUpgrade(BCBlocks.FACTORY_TANK, Blocks.copperTank);
-        glassIronUpgrade.initUpgrade(BCBlocks.FACTORY_TANK, Blocks.ironTank);
-        goldDiamondUpgrade.initUpgrade(Blocks.goldTank, Blocks.diamondTank);
-        diamondEmeraldUpgrade.initUpgrade(Blocks.diamondTank, Blocks.emeraldTank);
-        ironGoldUpgrade.initUpgrade(Blocks.ironTank, Blocks.goldTank);
-        silverGoldUpgrade.initUpgrade(Blocks.silverTank, Blocks.goldTank);
     }
 
     @SideOnly(Side.CLIENT)
