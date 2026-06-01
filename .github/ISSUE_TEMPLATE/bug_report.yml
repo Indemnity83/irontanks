@@ -1,0 +1,41 @@
+name: Report an Issue
+description: Report a bug, compatibility problem, or performance issue
+title: ""
+labels: ["bug"]
+body:
+  - type: textarea
+    id: report
+    attributes:
+      label: Report
+      value: |
+        ## Summary
+
+
+
+        ## Steps to reproduce
+
+        1.
+        2.
+        3.
+
+        ## Expected
+
+
+
+        ## Actual
+
+
+
+        ## Environment
+
+        - Iron Tanks:
+        - Minecraft:
+        - Forge:
+        - BuildCraft:
+        - Other Mods:
+
+        ## Notes
+
+
+    validations:
+      required: true
