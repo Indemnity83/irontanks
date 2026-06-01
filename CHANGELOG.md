@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.2.0](https://github.com/Indemnity83/irontanks/compare/mc1.11.2-v2.0.0...mc1.11.2-v2.2.0) (2026-06-01)
+
+
+### chore
+
+* set 1.11.2 release version to 2.2.0 to align with 1.12.2 ([f912905](https://github.com/Indemnity83/irontanks/commit/f912905bab87548d00a9b6683402a7ff0aea567f))
+
+
+### Added
+
+* add creative tank with infinite fluid supply ([#98](https://github.com/Indemnity83/irontanks/issues/98)) ([c1dbf37](https://github.com/Indemnity83/irontanks/commit/c1dbf370168cf73b2d9705f815d6f36d175d824a))
+* add void tank that destroys excess fluid ([#97](https://github.com/Indemnity83/irontanks/issues/97)) ([ac8cb96](https://github.com/Indemnity83/irontanks/commit/ac8cb96f241533b54df9f30084beeb1acc07e15d))
+
+
+### Fixed
+
+* **deps:** use buildcraftfactory modid for BuildCraft dependency ([#101](https://github.com/Indemnity83/irontanks/issues/101)) ([5abdf0b](https://github.com/Indemnity83/irontanks/commit/5abdf0b49276a43321496158ca0c2051ef9fde33))
+
 ## [2.0.0](https://github.com/Indemnity83/irontanks/compare/mc1.11.2-v1.1.16...mc1.11.2-v2.0.0) (2026-06-01)
 
 
