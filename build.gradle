@@ -1,9 +1,9 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
     }
     dependencies {
@@ -11,73 +11,45 @@ buildscript {
     }
 }
 
-plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.9"
-}
-
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-ext.configFile = file "build.properties"
-configFile.withReader {
-    // Load config. It shall from now be referenced as simply config or project.config
-    def prop =  new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-}
+// Build settings come from gradle.properties and are available as project properties:
+// minecraft_version, forge_version, mappings, java_version, buildcraft_version.
 
-version = config.minecraft_version + "-" + config.mod_version
+// Version is injected by release CI via the MOD_VERSION env var (e.g. "2.2.0+mc1.12.2").
+// Local/dev builds get a static marker — released versions come from release-please.
+version = System.getenv("MOD_VERSION") ?: "dev-local"
 group = "com.indemnity83.irontanks"
 archivesBaseName = "irontanks"
 
-sourceCompatibility = targetCompatibility = config.java_compatability
+sourceCompatibility = targetCompatibility = project.java_version
 compileJava {
-    sourceCompatibility = targetCompatibility = config.java_compatability
+    sourceCompatibility = targetCompatibility = project.java_version
 }
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
-    mappings = config.mappings
+    version = "${project.minecraft_version}-${project.forge_version}"
+    mappings = project.mappings
     runDir = "run"
-
-    // Try appending the github sha first
-    if (System.getenv("GITHUB_SHA") != null) {
-        project.version += "+${System.getenv("GITHUB_SHA").substring(0,7)}"
-
-    // If that doesn't work, just append "SNAPSHOT"
-    } else {
-        project.version += "+SNAPSHOT"
-    }
 
     // replacing stuff in the source
     replace "\${version}", project.version
     replace "\${mcversion}", version
     // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
     replace "(gradle_replace_mcversion,)", "[" + version + "]"
-    replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
-    replace "(gradle_replace_buildcraftversion,)", "[" + config.buildcraft_version + ",)"
-}
-
-curseforge {
-    apiKey = System.getenv("CURSE_API_KEY") ?: 'no-key'
-    project {
-        id = '236226'
-        releaseType = 'release'
-        changelog = ''
-        relations {
-            requiredLibrary 'buildcraft'
-        }
-    }
+    replace "(gradle_replace_forgeversion,)", "[" + project.forge_version + ",)"
+    replace "(gradle_replace_buildcraftversion,)", "[" + project.buildcraft_version + ",)"
 }
 
 repositories {
     maven {
         name "BuildCraft"
-        url "http://www.mod-buildcraft.com/maven"
+        url "https://mod-buildcraft.com/maven"
     }
 }
 
 dependencies {
-    deobfCompile "com.mod-buildcraft:buildcraft:" + config.buildcraft_version
+    deobfCompile "com.mod-buildcraft:buildcraft:" + project.buildcraft_version
 }
 
 processResources
