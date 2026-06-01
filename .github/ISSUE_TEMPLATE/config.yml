@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://github.com/Indemnity83/irontanks/wiki
+    about: Recipes, tanks, and upgrades — read the wiki before filing
+  - name: Ideas & Feature Discussions
+    url: https://github.com/Indemnity83/irontanks/discussions
+    about: Propose new tanks, upgrades, and automation ideas

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "package-name": "irontanks",
+      "component": "mc1.7.10",
+      "release-type": "simple",
+      "include-component-in-tag": true,
+      "pull-request-title-pattern": "chore(release): release ${version} for ${component}",
+      "bootstrap-sha": "8aafd38d30fbac8357b21f1f438a0bbc43867fe7"
+    }
+  },
+  "changelog-sections": [
+    { "type": "feat", "section": "Added" },
+    { "type": "fix", "section": "Fixed" },
+    { "type": "perf", "section": "Improved" }
+  ]
+}

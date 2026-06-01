@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
     }
     dependencies {
@@ -12,58 +12,41 @@ buildscript {
 }
 
 apply plugin: 'forge'
-apply plugin: 'curseforge'
 
-ext.configFile = file "build.properties"
-configFile.withReader {
-    // Load config. It shall from now be referenced as simply config or project.config
-    def prop =  new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-}
+// NOTE: This 1.7.10 build still uses ForgeGradle 1.2, whose Minecraft download URLs
+// (s3.amazonaws.com/Minecraft.Download/...) are decommissioned, so `:downloadClient`
+// currently fails. The repo automation below is modernized; getting the build green
+// requires migrating to RetroFuturaGradle (tracked separately).
 
-version = config.minecraft_version + "-" + config.mod_version
+// Build settings come from gradle.properties and are available as project properties:
+// minecraft_version, forge_version, buildcraft_version.
+
+// Version is injected by release CI via the MOD_VERSION env var (e.g. "1.2.0+mc1.7.10").
+// Local/dev builds get a static marker — released versions come from release-please.
+version = System.getenv("MOD_VERSION") ?: "dev-local"
 group = "com.indemnity83.irontanks"
 archivesBaseName = "irontanks"
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
+    version = "${project.minecraft_version}-${project.forge_version}"
     runDir = "run"
-
-    // Try appending the github sha first
-    if (System.getenv("GITHUB_SHA") != null) {
-        project.version += "+${System.getenv("GITHUB_SHA").substring(0,7)}"
-
-    // If that doesn't work, just append "SNAPSHOT"
-    } else {
-        project.version += "+SNAPSHOT"
-    }
 
     // replacing stuff in the source
     replace "\${version}", project.version
     replace "\${mcversion}", version
     replace "(gradle_replace_mcversion,)", "[" + version + "]"
-    replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
-
-}
-
-curse {
-    apiKey = System.getenv("CURSE_API_KEY")
-    projectId = '236226'
-    releaseType = 'release'
-    changelog = ''
-    relatedProject 'buildcraft': 'requiredLibrary'
+    replace "(gradle_replace_forgeversion,)", "[" + project.forge_version + ",)"
 }
 
 repositories {
     ivy {
         name "BuildCraft"
-        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+        artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
     }
 }
 
 dependencies {
-    compile name: "buildcraft", version: config.buildcraft_version, classifier: "dev"
+    compile name: "buildcraft", version: project.buildcraft_version, classifier: "dev"
 }
 
 processResources
