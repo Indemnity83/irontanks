@@ -1,22 +1,14 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+plugins {
+    id 'java'
+    // RetroFuturaGradle replaces the decommissioned ForgeGradle 1.2 toolchain for
+    // Minecraft 1.7.10. It runs on Gradle 8 / JDK 17+ but compiles the mod with a
+    // Java 8 toolchain, and re-implements MCP/Forge provisioning against live sources
+    // (the old ForgeGradle 1.2 Mojang download URLs are dead).
+    //
+    // Pinned to the 1.4.x line: it runs on JDK 17/21 + Gradle 8.x. RFG 2.0.x requires
+    // JDK 25 + Gradle 9, which is needlessly bleeding-edge for this legacy mod's CI.
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
 }
-
-apply plugin: 'forge'
-
-// NOTE: This 1.7.10 build still uses ForgeGradle 1.2, whose Minecraft download URLs
-// (s3.amazonaws.com/Minecraft.Download/...) are decommissioned, so `:downloadClient`
-// currently fails. The repo automation below is modernized; getting the build green
-// requires migrating to RetroFuturaGradle (tracked separately).
 
 // Build settings come from gradle.properties and are available as project properties:
 // minecraft_version, forge_version, buildcraft_version.
@@ -25,43 +17,61 @@ apply plugin: 'forge'
 // Local/dev builds get a static marker — released versions come from release-please.
 version = System.getenv("MOD_VERSION") ?: "dev-local"
 group = "com.indemnity83.irontanks"
-archivesBaseName = "irontanks"
+base {
+    archivesName = "irontanks"
+}
+
+java {
+    toolchain {
+        // Decouple the Java that runs Gradle (17+) from the Java used to build the mod (8).
+        languageVersion = JavaLanguageVersion.of(8)
+        // Azul Zulu covers the most platforms for Java 8 toolchains, including macOS arm64.
+        vendor = JvmVendorSpec.AZUL
+    }
+}
 
 minecraft {
-    version = "${project.minecraft_version}-${project.forge_version}"
-    runDir = "run"
+    mcVersion = "1.7.10"
 
-    // replacing stuff in the source
-    replace "\${version}", project.version
-    replace "\${mcversion}", version
-    replace "(gradle_replace_mcversion,)", "[" + version + "]"
-    replace "(gradle_replace_forgeversion,)", "[" + project.forge_version + ",)"
+    // Port of the ForgeGradle `replace "${version}", project.version` directive:
+    // RFG writes `replacements.<key>=<value>` for tagReplacementFiles, so the source token
+    // stays the literal `${version}` already present in Reference.java — no source change.
+    injectedTags.put('${version}', project.version)
+    tagReplacementFiles.add("Reference.java")
 }
 
 repositories {
+    // RFG's javac token-replacement plugin (rfg-javac-plugin, pulled in by tagReplacementFiles)
+    // is published here, not on Maven Central.
+    maven {
+        name "GTNH Maven"
+        url "https://nexus.gtnewhorizons.com/repository/public/"
+    }
+    // BuildCraft dev jar (already MCP-mapped). The www. host now 301s; use the apex domain.
     ivy {
         name "BuildCraft"
-        artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+        url "https://mod-buildcraft.com/releases/"
+        patternLayout {
+            artifact "BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+        }
+        metadataSources { artifact() }
+        content { includeGroup "com.mod-buildcraft" }
     }
 }
 
 dependencies {
-    compile name: "buildcraft", version: project.buildcraft_version, classifier: "dev"
+    // Was: compile name:"buildcraft", classifier:"dev" (ForgeGradle 1 ivy flat notation).
+    // The dev jar is already deobfuscated (MCP names), so it is used as a normal
+    // compile/runtime dependency without rfg.deobf().
+    implementation "com.mod-buildcraft:buildcraft:${buildcraft_version}:dev"
 }
 
-processResources
-{
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+processResources {
+    // Replace ${version} / ${mcversion} in mcmod.info, copy everything else verbatim.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft_version
 
-        // replace version and mcversion
-        // ${version}   and    ${mcversion}    are the exact strings being replaced
-        expand "version":project.version, "mcversion":project.minecraft.version
-    }
-
-    // copy everything else, that's not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    filesMatching("mcmod.info") {
+        expand "version": project.version, "mcversion": project.minecraft_version
     }
 }
