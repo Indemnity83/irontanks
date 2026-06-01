@@ -7,7 +7,7 @@ plugins {
     //
     // Pinned to the 1.4.x line: it runs on JDK 17/21 + Gradle 8.x. RFG 2.0.x requires
     // JDK 25 + Gradle 9, which is needlessly bleeding-edge for this legacy mod's CI.
-    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.2'
 }
 
 // Build settings come from gradle.properties and are available as project properties:
