@@ -135,6 +135,20 @@ public class Recipes {
             builder.registerRotated();
         }
 
+        if (Blocks.voidTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("bgr");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', BCBlocks.FACTORY_TANK);
+            builder.map('b', "dyeBlack");
+            builder.map('r', "dustRedstone");
+            builder.setResult(new ItemStack(Blocks.voidTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
         if (Items.copperIronUpgrade != null) {
             RecipeBuilderShaped builder = new RecipeBuilderShaped();
             builder.add(" g ");

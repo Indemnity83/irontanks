@@ -2,11 +2,13 @@ package com.indemnity83.irontanks.common;
 
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
+import com.indemnity83.irontanks.common.blocks.VoidTankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
 import com.indemnity83.irontanks.common.core.Items;
 import com.indemnity83.irontanks.common.core.Recipes;
 import com.indemnity83.irontanks.common.items.UpgradeItem;
 import com.indemnity83.irontanks.common.tiles.TankTile;
+import com.indemnity83.irontanks.common.tiles.VoidTankTile;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -29,8 +31,10 @@ public class CommonProxy {
         event.getRegistry().register(new StackableTankBlock("diamond_tank", 64));
         event.getRegistry().register(new StackableTankBlock("obsidian_tank", 64));
         event.getRegistry().register(new StackableTankBlock("emerald_tank", 96));
+        event.getRegistry().register(new VoidTankBlock("void_tank", 8));
 
         GameRegistry.registerTileEntity(TankTile.class, IronTanks.MODID + ":tank");
+        GameRegistry.registerTileEntity(VoidTankTile.class, IronTanks.MODID + ":void_tank");
     }
 
     @SubscribeEvent
@@ -42,6 +46,7 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(Blocks.silverTank).setRegistryName(Blocks.silverTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.copperTank).setRegistryName(Blocks.copperTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.emeraldTank).setRegistryName(Blocks.emeraldTank.getRegistryName()));
+        event.getRegistry().register(new ItemBlock(Blocks.voidTank).setRegistryName(Blocks.voidTank.getRegistryName()));
 
         event.getRegistry().register(new UpgradeItem("copper_iron_upgrade"));
         event.getRegistry().register(new UpgradeItem("copper_silver_upgrade"));
