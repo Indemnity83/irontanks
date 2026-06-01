@@ -7,7 +7,7 @@
       "release-type": "simple",
       "include-component-in-tag": true,
       "pull-request-title-pattern": "chore(release): release ${version} for ${component}",
-      "bootstrap-sha": "8aafd38d30fbac8357b21f1f438a0bbc43867fe7"
+      "last-release-sha": "b14e52969eb728d00344693b9fd582eda581afca"
     }
   },
   "changelog-sections": [
