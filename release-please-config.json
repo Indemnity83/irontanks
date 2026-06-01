@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "last-release-sha": "4802e98a316c46497c1514e941f4953097225fe3",
+  "last-release-sha": "03d5254ce3702af851239773459120fe946db6bd",
   "changelog-sections": [
     { "type": "feat", "section": "Added" },
     { "type": "fix", "section": "Fixed" },
