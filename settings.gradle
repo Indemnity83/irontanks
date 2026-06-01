@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        // RetroFuturaGradle is published to the GTNH Nexus, not the Gradle Plugin Portal.
+        maven {
+            name = "GTNH Maven"
+            url = uri("https://nexus.gtnewhorizons.com/repository/public/")
+        }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+plugins {
+    // Lets Gradle auto-provision the JDK toolchains RFG needs (Java 8 to compile the mod,
+    // Java 17 for RFG's fernflower decompile step) without manual local installs.
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+rootProject.name = "irontanks"

@@ -7,6 +7,14 @@ updates:
     commit-message:
       prefix: "chore(update)"
       prefix-development: "chore(update)"
+    ignore:
+      # This branch is pinned to the RetroFuturaGradle 1.4.x line, which targets
+      # Gradle 8.x / JDK 17-21. RFG 2.x requires Gradle 9 + JDK 25, and the Gradle
+      # wrapper must stay on 8.x to match — block both major bumps.
+      - dependency-name: "com.gtnewhorizons.retrofuturagradle*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "gradle"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
