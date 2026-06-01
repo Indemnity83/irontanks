@@ -1,16 +1,77 @@
 version: 2
 updates:
+  # --- mc/1.12.2 ---
   - package-ecosystem: "gradle"
     directory: "/"
+    target-branch: "mc/1.12.2"
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "chore(update)"
-      prefix-development: "chore(update)"
+      prefix: "chore"
+      prefix-development: "chore"
+    ignore:
+      # ForgeGradle is pinned to a 2.3 -SNAPSHOT; FG3+ dropped the
+      # 'net.minecraftforge.gradle.forge' plugin id this build uses.
+      - dependency-name: "net.minecraftforge.gradle:ForgeGradle"
+      # FG2 relies on Gradle APIs removed in Gradle 5 (and this builds on JDK8).
+      - dependency-name: "gradle-wrapper"
+        versions: [">=5.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "mc/1.12.2"
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "chore(update)"
+      prefix: "chore"
+
+  # --- mc/1.11.2 ---
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "mc/1.11.2"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+    ignore:
+      # ForgeGradle is pinned to a 2.2 -SNAPSHOT; FG3+ dropped the
+      # 'net.minecraftforge.gradle.forge' plugin id this build uses.
+      - dependency-name: "net.minecraftforge.gradle:ForgeGradle"
+      # FG2 relies on Gradle APIs removed in Gradle 5 (and this builds on JDK8).
+      - dependency-name: "gradle-wrapper"
+        versions: [">=5.0"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "mc/1.11.2"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+
+  # --- mc/1.7.10 ---
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "mc/1.7.10"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+    ignore:
+      # Migrated off ForgeGradle 1.2 to RetroFuturaGradle in #90. Pinned to the
+      # RFG 1.4.x line (Gradle 8.x / JDK 17-21); RFG 2.x needs Gradle 9 + JDK 25.
+      - dependency-name: "com.gtnewhorizons.retrofuturagradle*"
+        update-types: ["version-update:semver-major"]
+      # Gradle wrapper must stay on 8.x to match RFG 1.4.x.
+      - dependency-name: "gradle-wrapper"
+        versions: [">=9.0"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "mc/1.7.10"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"

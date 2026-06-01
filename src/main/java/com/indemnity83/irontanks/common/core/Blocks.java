@@ -57,4 +57,3 @@ public class Blocks {
         creativeTank.initModel();
     }
 }
-

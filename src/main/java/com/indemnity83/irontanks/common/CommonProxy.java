@@ -34,12 +34,12 @@ public class CommonProxy {
         event.getRegistry().register(new StackableTankBlock("diamond_tank", 64));
         event.getRegistry().register(new StackableTankBlock("obsidian_tank", 64));
         event.getRegistry().register(new StackableTankBlock("emerald_tank", 96));
-        event.getRegistry().register(new VoidTankBlock("void_tank", 8));
         event.getRegistry().register(new CreativeTankBlock("creative_tank", 1));
+        event.getRegistry().register(new VoidTankBlock("void_tank", 8));
 
         GameRegistry.registerTileEntity(TankTile.class, IronTanks.MODID + ":tank");
-        GameRegistry.registerTileEntity(VoidTankTile.class, IronTanks.MODID + ":void_tank");
         GameRegistry.registerTileEntity(CreativeTankTile.class, IronTanks.MODID + ":creative_tank");
+        GameRegistry.registerTileEntity(VoidTankTile.class, IronTanks.MODID + ":void_tank");
     }
 
     @SubscribeEvent
@@ -54,15 +54,15 @@ public class CommonProxy {
         event.getRegistry().register(new ItemBlock(Blocks.voidTank).setRegistryName(Blocks.voidTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.creativeTank).setRegistryName(Blocks.creativeTank.getRegistryName()));
 
-        event.getRegistry().register(new UpgradeItem("copper_iron_upgrade"));
-        event.getRegistry().register(new UpgradeItem("copper_silver_upgrade"));
-        event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade"));
-        event.getRegistry().register(new UpgradeItem("diamond_emerald_upgrade"));
-        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade"));
-        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade"));
-        event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade"));
-        event.getRegistry().register(new UpgradeItem("iron_gold_upgrade"));
-        event.getRegistry().register(new UpgradeItem("silver_gold_upgrade"));
+        event.getRegistry().register(new UpgradeItem("copper_iron_upgrade", Blocks.copperTank, Blocks.ironTank));
+        event.getRegistry().register(new UpgradeItem("copper_silver_upgrade", Blocks.copperTank, Blocks.silverTank));
+        event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade", Blocks.diamondTank, Blocks.obsidianTank));
+        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade", null, Blocks.copperTank));
+        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade", null, Blocks.ironTank));
+        event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade", Blocks.goldTank, Blocks.diamondTank));
+        event.getRegistry().register(new UpgradeItem("iron_gold_upgrade", Blocks.ironTank, Blocks.goldTank));
+        event.getRegistry().register(new UpgradeItem("silver_gold_upgrade", Blocks.silverTank, Blocks.goldTank));
+        event.getRegistry().register(new UpgradeItem("diamond_emerald_upgrade", Blocks.diamondTank, Blocks.emeraldTank));
     }
 
     /**
