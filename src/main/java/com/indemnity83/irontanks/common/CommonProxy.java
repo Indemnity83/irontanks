@@ -6,6 +6,7 @@ import com.indemnity83.irontanks.common.blocks.CreativeTankBlock;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
 import com.indemnity83.irontanks.common.blocks.VoidTankBlock;
 import com.indemnity83.irontanks.common.core.Blocks;
+import com.indemnity83.irontanks.common.core.IronTanksConfig;
 import com.indemnity83.irontanks.common.core.Items;
 import com.indemnity83.irontanks.common.items.UpgradeItem;
 import com.indemnity83.irontanks.common.tiles.CreativeTankTile;
@@ -71,6 +72,7 @@ public class CommonProxy {
      * @param event
      */
     public void preInit(FMLPreInitializationEvent event) {
+        IronTanksConfig.load(event.getSuggestedConfigurationFile());
     }
 
     /**

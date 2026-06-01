@@ -13,8 +13,6 @@ import java.util.List;
 public class CreativeTankBlock extends TankBlock {
     public CreativeTankBlock(String tankName, int tankCapacity) {
         super(tankName, tankCapacity);
-
-        this.setBlockUnbreakable();
     }
 
     @Override
