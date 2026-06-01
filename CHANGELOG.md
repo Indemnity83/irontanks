@@ -1,64 +1,33 @@
 # Changelog
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [2.0.0](https://github.com/Indemnity83/irontanks/compare/mc1.11.2-v1.1.16...mc1.11.2-v2.0.0) (2026-06-01)
 
-## [Unreleased]
+
+Graduates the long-running 2.0.0 beta to a stable release for Minecraft 1.11.2. This is the first
+release built on the BuildCraft 7.99 rewrite — a breaking change from the 1.x line for Minecraft
+1.7.10 — with no functional changes since the last beta.
+
 ### Added
- - Warn the user if they are missing the required Buildcraft mod
 
-### Changed
- - Versions use build numbers instead of git hashes
- - Update textures
-
-## [2.0.0-beta.3] - 2018-03-28
-### Added
- - This CHANGELOG
-
-### Changed
- - Many of the recipes have changed for both tanks and upgrades. Upgrades now use glass panes instead of glass blocks and some of the tanks require less glass blocks and have re-arranged items. Check out the [Tank](https://github.com/Indemnity83/irontanks/wiki/Tanks) and [Upgrade](https://github.com/Indemnity83/irontanks/wiki/Upgrades) wikis for current recipes.
- - Build process is now normalized across supported versions
+* Rebuild against the BuildCraft 7.99 rewrite for Minecraft 1.11.2 ([0968b86](https://github.com/Indemnity83/irontanks/commit/0968b86))
+* Add a creative tank ([ef8f646](https://github.com/Indemnity83/irontanks/commit/ef8f646)), closes [#55](https://github.com/Indemnity83/irontanks/issues/55)
+* Add a void tank ([13ad662](https://github.com/Indemnity83/irontanks/commit/13ad662)), closes [#24](https://github.com/Indemnity83/irontanks/issues/24)
+* Add an emerald tank ([fab2c9c](https://github.com/Indemnity83/irontanks/commit/fab2c9c))
+* Add tank upgrade items and their recipes ([147ddee](https://github.com/Indemnity83/irontanks/commit/147ddee))
+* Show tank capacity in the block tooltip ([3c19a96](https://github.com/Indemnity83/irontanks/commit/3c19a96)), closes [#51](https://github.com/Indemnity83/irontanks/issues/51)
+* Drop Fragile Shards when a tank breaks ([b7674ef](https://github.com/Indemnity83/irontanks/commit/b7674ef))
+* Warn the player when the required BuildCraft mod is missing ([d082849](https://github.com/Indemnity83/irontanks/commit/d082849))
+* Refresh block and item textures ([1500ad6](https://github.com/Indemnity83/irontanks/commit/1500ad6))
 
 ### Fixed
- - Fluid is restored to tanks on game reload
- - Tank upgrade items actually work
- - Obsidian tanks withstand explosions
- - Tank contents will reflow when expanding tanks
- - Tanks remain transparent even when you press your face against them
 
-## [2.0.0-beta.2] - 2017-10-28
-### Fixed
- - Silver and Diamond tanks now have the correct capacities
-
-### Changed
- - Bump Forge to 13.20.1.2386
- - Bump Minecraft to 7.99.7
-
-## [2.0.0-beta.1] - 2017-09-26
-### Added
- - Recipes for tank upgrade items
-
-## [2.0.0-alpha.3] - 2017-09-26
-### Fixed
- - Tanks now render correctly in item form
-
-## [2.0.0-alpha.2] - 2017-08-22
-### Fixed
- - Upgrade items can upgrade tanks now
- - Fix visual bug when stacked on BC Tank
- - Tank ids don't change between mod versions
- - Fluid now properly flows when extending tanks
- - Obsidian Tanks are explosion proof again
-
-## [2.0.0-alpha.1] - 2017-06-17
-### Changed
- - Rebuild mod for MC 1.11.2 and BC 7.99.6
-
-[Unreleased]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.3...support/1.11
-[2.0.0-beta.3]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.2...v2.0.0-beta.3
-[2.0.0-beta.2]: https://github.com/indemnity83/irontanks/compare/v2.0.0-beta.1...v2.0.0-beta.2
-[2.0.0-beta.1]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.3...v2.0.0-beta.1
-[2.0.0-alpha.3]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.2...v2.0.0-alpha.3
-[2.0.0-alpha.2]: https://github.com/indemnity83/irontanks/compare/v2.0.0-alpha.1...v2.0.0-alpha.2
-[2.0.0-alpha.1]: https://github.com/indemnity83/irontanks/compare/v1.1.14...v2.0.0-alpha.1
+* Persist tank fluid across game reloads and world saves ([51867a3](https://github.com/Indemnity83/irontanks/commit/51867a3)), closes [#1](https://github.com/Indemnity83/irontanks/issues/1)
+* Upgrade tanks in place, transferring contents instead of spilling them ([eb90d33](https://github.com/Indemnity83/irontanks/commit/eb90d33)), closes [#3](https://github.com/Indemnity83/irontanks/issues/3)
+* Reflow tank contents when expanding or upgrading stacks ([a06fdd6](https://github.com/Indemnity83/irontanks/commit/a06fdd6))
+* Render stacked tanks correctly ([0498896](https://github.com/Indemnity83/irontanks/commit/0498896)), closes [#41](https://github.com/Indemnity83/irontanks/issues/41)
+* Keep tanks transparent even when viewed up close ([1bd8c4c](https://github.com/Indemnity83/irontanks/commit/1bd8c4c)), closes [#49](https://github.com/Indemnity83/irontanks/issues/49)
+* Make obsidian tanks withstand explosions again ([36eded0](https://github.com/Indemnity83/irontanks/commit/36eded0)), closes [#5](https://github.com/Indemnity83/irontanks/issues/5)
+* Correct silver and diamond tank capacities ([6f9507b](https://github.com/Indemnity83/irontanks/commit/6f9507b))
+* Align tank and upgrade recipes with the documentation and use glass panes for upgrades ([ae9d68e](https://github.com/Indemnity83/irontanks/commit/ae9d68e)), closes [#50](https://github.com/Indemnity83/irontanks/issues/50)
+* Display correct information in the in-game mods list ([8840e95](https://github.com/Indemnity83/irontanks/commit/8840e95)), closes [#45](https://github.com/Indemnity83/irontanks/issues/45)
+* Modernize the build system and release tooling ([dd6fcd7](https://github.com/Indemnity83/irontanks/commit/dd6fcd7))
