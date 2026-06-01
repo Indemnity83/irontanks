@@ -10,6 +10,33 @@ overeager to tag new versions so many of these versions had no actual changes to
 the mod, and no files were actually released. These releases are marked
 [SKIPPED] in the changelog.*
 
+## [1.2.0](https://github.com/Indemnity83/irontanks/compare/mc1.7.10-v1.1.16...mc1.7.10-v1.2.0) (2026-06-01)
+
+
+### Added
+
+* Add recipes for blocks and items ([a273f1c](https://github.com/Indemnity83/irontanks/commit/a273f1cae13bb3709c1c81530e630c5b8a4ecb19)), closes [#2](https://github.com/Indemnity83/irontanks/issues/2)
+* **i18n:** Add German translation ([fb5550e](https://github.com/Indemnity83/irontanks/commit/fb5550e7a0b7496abf7b083fde7499bfb7c5eaf7))
+* **i18n:** Add Pirate translation ([c031a12](https://github.com/Indemnity83/irontanks/commit/c031a12701ee6d456defd4a0ce7ebe18f756122b))
+* **i18n:** Add Portuguese translation ([36cdf28](https://github.com/Indemnity83/irontanks/commit/36cdf28c361f4bb09d391cb744538afb53fee181))
+* **i18n:** Add Russian ([af55841](https://github.com/Indemnity83/irontanks/commit/af5584113932d1e51bc81fafb270b8c7a5fed05e))
+* **i18n:** Add Simplified Chinese ([960e151](https://github.com/Indemnity83/irontanks/commit/960e1515d734efb60e50c6e6a52fa5bfb09c704f))
+* **i18n:** Add Spanish translation ([1bb4866](https://github.com/Indemnity83/irontanks/commit/1bb4866fe607c865127d3e243cabe5b19c4185f5))
+* Implemented basic items and blocks ([570e191](https://github.com/Indemnity83/irontanks/commit/570e1919d5f07dd9d3ddcf7a882a64df2d200d5f))
+
+
+### Fixed
+
+* Add missing silver to diamond tank upgrade item ([9f1f8be](https://github.com/Indemnity83/irontanks/commit/9f1f8be0b5fa0857ee61c10b9646f7fe912b01ec))
+* Add specific dependency requirement on BuildCraft|Factory v7 ([9842144](https://github.com/Indemnity83/irontanks/commit/9842144021d5c0850c9a30a11bd7526beb32779a)), closes [#15](https://github.com/Indemnity83/irontanks/issues/15)
+* **block:** Stacked tank textures now update properly ([6a21a07](https://github.com/Indemnity83/irontanks/commit/6a21a07c57a99e191b8801a891bc831bee8f3f89))
+* **creative tab:** Localize the creative tab name ([e90e00c](https://github.com/Indemnity83/irontanks/commit/e90e00cd4ada222be1e63397627b8fd72f2da0da))
+* Fluid in tanks now persists between game sessions ([3858b6c](https://github.com/Indemnity83/irontanks/commit/3858b6cd2a45c69f2034e33e92d26cb1e20a4822)), closes [#1](https://github.com/Indemnity83/irontanks/issues/1)
+* **gui:** Remove extraneous GUI configuration ([ed8b191](https://github.com/Indemnity83/irontanks/commit/ed8b191dec79adc7b4ce8b70fc0bc599b89f4581)), closes [#7](https://github.com/Indemnity83/irontanks/issues/7)
+* Obsidian tanks are not destroyed by TNT or creeper blasts ([f397f4e](https://github.com/Indemnity83/irontanks/commit/f397f4e3249789d755a73ed9d0f380487591cf89)), closes [#5](https://github.com/Indemnity83/irontanks/issues/5)
+* Tank upgrade items perform an in place upgrade of tank ([a1adf5d](https://github.com/Indemnity83/irontanks/commit/a1adf5d180325bdc748627d46684571601dd41ab)), closes [#3](https://github.com/Indemnity83/irontanks/issues/3)
+* tanks always retain fluid above 32 buckets on world reload ([05a226e](https://github.com/Indemnity83/irontanks/commit/05a226e3d0d5f8c12459f135b71d426e618786cf))
+
 ## [Unreleased]
 ### Changed
  - Normalize block and item names across versions
