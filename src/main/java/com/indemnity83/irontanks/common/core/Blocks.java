@@ -38,6 +38,10 @@ public class Blocks {
 
     public static void init() {
         obsidianTank.setResistance(6000);
+
+        if (!IronTanksConfig.creativeTankBreakable) {
+            creativeTank.setBlockUnbreakable();
+        }
     }
 
     @SideOnly(Side.CLIENT)
