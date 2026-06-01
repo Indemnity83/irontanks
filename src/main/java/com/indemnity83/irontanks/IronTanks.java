@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
         name = IronTanks.MODNAME,
         version = IronTanks.VERSION,
         acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
-        dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:BuildCraft|Factory@(gradle_replace_buildcraftversion,)"
+        dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftfactory@(gradle_replace_buildcraftversion,)"
 )
 public class IronTanks {
 
