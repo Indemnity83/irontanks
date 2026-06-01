@@ -9,6 +9,13 @@ updates:
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
+    ignore:
+      # ForgeGradle is pinned to a 2.3 -SNAPSHOT; FG3+ dropped the
+      # 'net.minecraftforge.gradle.forge' plugin id this build uses.
+      - dependency-name: "net.minecraftforge.gradle:ForgeGradle"
+      # FG2 relies on Gradle APIs removed in Gradle 5 (and this builds on JDK8).
+      - dependency-name: "gradle-wrapper"
+        versions: [">=5.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -27,6 +34,13 @@ updates:
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
+    ignore:
+      # ForgeGradle is pinned to a 2.2 -SNAPSHOT; FG3+ dropped the
+      # 'net.minecraftforge.gradle.forge' plugin id this build uses.
+      - dependency-name: "net.minecraftforge.gradle:ForgeGradle"
+      # FG2 relies on Gradle APIs removed in Gradle 5 (and this builds on JDK8).
+      - dependency-name: "gradle-wrapper"
+        versions: [">=5.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -45,6 +59,13 @@ updates:
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
+    ignore:
+      # ForgeGradle is pinned to a 1.2 -SNAPSHOT (legacy toolchain; the real
+      # path forward is the RetroFuturaGradle migration).
+      - dependency-name: "net.minecraftforge.gradle:ForgeGradle"
+      # FG 1.2 needs an ancient Gradle; anything >=3 breaks the build.
+      - dependency-name: "gradle-wrapper"
+        versions: [">=3.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
