@@ -1,5 +1,6 @@
 package com.indemnity83.irontanks.common.core;
 
+import buildcraft.api.BCBlocks;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.items.UpgradeItem;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -35,6 +36,10 @@ public class Items {
     public static UpgradeItem silverGoldUpgrade;
 
     public static void init() {
+        // BuildCraft 7.99.7 forbids accessing BCBlocks until the init phase, so the
+        // glass-tank upgrade sources are wired here rather than at item registration.
+        glassCopperUpgrade.setUpgradeFrom(BCBlocks.FACTORY_TANK);
+        glassIronUpgrade.setUpgradeFrom(BCBlocks.FACTORY_TANK);
     }
 
     @SideOnly(Side.CLIENT)

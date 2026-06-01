@@ -29,6 +29,13 @@ touches these areas will conflict and must be adapted by hand. This is expected.
      `ITankBlockConnector`.
    - BuildCraft tank block reference: `BCBlocks.FACTORY_TANK` (1.11.2) vs
      `BCFactoryBlocks.tank` (1.12.2).
+   - **`BCBlocks` access timing.** BuildCraft 7.99.7 throws *"Accessed BC blocks
+     too early!"* if `BCBlocks` is touched before the init phase. The glass-tank
+     upgrades therefore wire their BuildCraft source in `Items.init()` (via
+     `UpgradeItem.setUpgradeFrom`) instead of at item registration the way
+     1.12.2 does (its BuildCraft has no such guard). The other upgrades still
+     pass both blocks through the constructor. See `common/core/Items.java` and
+     `common/CommonProxy.java`.
    - Activation: `TileTank.onActivate(...)` (1.11.2) vs `onActivated(...)` (1.12.2).
    - `@Mod` dependency id: `BuildCraft|Factory` (1.11.2) vs `buildcraftfactory`
      (1.12.2).

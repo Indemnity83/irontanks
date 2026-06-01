@@ -1,6 +1,5 @@
 package com.indemnity83.irontanks.common;
 
-import buildcraft.api.BCBlocks;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.CreativeTankBlock;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
@@ -58,8 +57,8 @@ public class CommonProxy {
         event.getRegistry().register(new UpgradeItem("copper_iron_upgrade", Blocks.copperTank, Blocks.ironTank));
         event.getRegistry().register(new UpgradeItem("copper_silver_upgrade", Blocks.copperTank, Blocks.silverTank));
         event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade", Blocks.diamondTank, Blocks.obsidianTank));
-        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade", BCBlocks.FACTORY_TANK, Blocks.copperTank));
-        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade", BCBlocks.FACTORY_TANK, Blocks.ironTank));
+        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade", null, Blocks.copperTank));
+        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade", null, Blocks.ironTank));
         event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade", Blocks.goldTank, Blocks.diamondTank));
         event.getRegistry().register(new UpgradeItem("iron_gold_upgrade", Blocks.ironTank, Blocks.goldTank));
         event.getRegistry().register(new UpgradeItem("silver_gold_upgrade", Blocks.silverTank, Blocks.goldTank));

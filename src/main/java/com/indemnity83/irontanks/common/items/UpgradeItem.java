@@ -20,8 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class UpgradeItem extends Item {
-    Block upgradeFrom;
-    Block upgradeTo;
+    private Block upgradeFrom;
+    private Block upgradeTo;
 
     public UpgradeItem(String upgradeName, Block upgradeFrom, Block upgradeTo) {
         setRegistryName(upgradeName);
@@ -29,6 +29,13 @@ public class UpgradeItem extends Item {
         setCreativeTab(CreativeTabs.MISC);
         this.upgradeFrom = upgradeFrom;
         this.upgradeTo = upgradeTo;
+    }
+
+    // BuildCraft 7.99.7 forbids touching BCBlocks before the init phase, so the
+    // BuildCraft tank source is wired in from Items.init() rather than at
+    // construction (which runs during the preInit Register<Item> event).
+    public void setUpgradeFrom(Block upgradeFrom) {
+        this.upgradeFrom = upgradeFrom;
     }
 
     @SideOnly(Side.CLIENT)
