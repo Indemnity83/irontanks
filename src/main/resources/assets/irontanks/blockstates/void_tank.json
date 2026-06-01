@@ -1,0 +1,23 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "irontanks:tank",
+    "textures": {
+      "particle": "irontanks:blocks/voidtank/side",
+      "end": "irontanks:blocks/voidtank/end",
+      "side": "irontanks:blocks/voidtank/side"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "joined_below": {
+      "true": {
+        "textures": {
+          "side": "irontanks:blocks/voidtank/side_stacked"
+        }
+      },
+      "false": {}
+    }
+  }
+}
