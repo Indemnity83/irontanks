@@ -118,6 +118,11 @@ public class TankTile extends TileEntity implements ITickable, IFluidHandlerAdv 
         }
         if (compound.hasKey("tank")) {
             tank.readFromNBT(compound.getCompoundTag("tank"));
+        } else if (compound.hasKey("tanks")) {
+            // Migrate worlds saved by older versions that extended BuildCraft's tile: those stored the
+            // fluid under tanks -> "tank" in standard Forge FluidTank NBT. Read it directly so existing
+            // tanks keep their contents after the update — no BuildCraft classes required.
+            tank.readFromNBT(compound.getCompoundTag("tanks").getCompoundTag("tank"));
         }
     }
 
