@@ -80,3 +80,37 @@ afterEvaluate {
         tasks.findByName(n)?.outputs?.upToDateWhen { false }
     }
 }
+
+// --- Dev convenience: toggle BuildCraft in the dev client -------------------------------------------
+// BuildCraft is an optional dependency (deobfProvided), so it is deliberately kept off the run
+// classpath and a plain `runClient` tests the standalone path. These tasks copy/remove the
+// deobfuscated BuildCraft jar in run/mods so you can test the with-BuildCraft path. run/mods persists
+// between launches, so enable once, run as often as you like, then disable when done.
+def runModsDir = file("${minecraft.runDir}/mods")
+def buildCraftDeobfJar = file("${gradle.gradleUserHomeDir}/caches/minecraft/deobfedDeps/deobf/" +
+        "com/mod-buildcraft/buildcraft/${project.buildcraft_version}/buildcraft-${project.buildcraft_version}.jar")
+
+task enableBuildCraft {
+    group = 'iron tanks'
+    description = "Copy the deobfuscated BuildCraft ${project.buildcraft_version} jar into run/mods for dev testing."
+    doLast {
+        if (!buildCraftDeobfJar.exists()) {
+            throw new GradleException("Deobfuscated BuildCraft jar not found at:\n  ${buildCraftDeobfJar}\n" +
+                    "Run `./gradlew build` (or runClient) once so ForgeGradle produces it, then retry.")
+        }
+        runModsDir.mkdirs()
+        copy { from buildCraftDeobfJar; into runModsDir }
+        logger.lifecycle("BuildCraft enabled: copied ${buildCraftDeobfJar.name} into ${runModsDir}")
+    }
+}
+
+task disableBuildCraft {
+    group = 'iron tanks'
+    description = 'Remove BuildCraft jars from run/mods so the dev client runs standalone.'
+    doLast {
+        def removed = runModsDir.listFiles()?.findAll { it.name.toLowerCase().contains('buildcraft') } ?: []
+        removed.each { it.delete() }
+        logger.lifecycle(removed ? "BuildCraft disabled: removed ${removed*.name.join(', ')} from ${runModsDir}"
+                                 : "No BuildCraft jars to remove in ${runModsDir}.")
+    }
+}
