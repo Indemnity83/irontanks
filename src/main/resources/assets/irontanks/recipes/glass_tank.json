@@ -1,13 +1,4 @@
 {
-  "conditions": [
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "buildcraftfactory"
-      }
-    }
-  ],
   "result": {
     "item": "irontanks:glass_tank"
   },
