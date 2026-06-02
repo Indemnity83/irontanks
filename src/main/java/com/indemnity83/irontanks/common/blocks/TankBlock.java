@@ -1,9 +1,8 @@
 package com.indemnity83.irontanks.common.blocks;
 
 import buildcraft.api.transport.pipe.ICustomPipeConnection;
-import buildcraft.factory.block.ITankBlockConnector;
-import buildcraft.factory.tile.TileTank;
 import com.indemnity83.irontanks.IronTanks;
+import com.indemnity83.irontanks.common.core.IronTanksTab;
 import com.indemnity83.irontanks.common.tiles.TankTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -14,7 +13,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -45,7 +43,7 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
         setRegistryName(tankName);
         setUnlocalizedName(IronTanks.MODID + "." + tankName);
 
-        setCreativeTab(CreativeTabs.MISC);
+        setCreativeTab(IronTanksTab.INSTANCE);
 
         setHardness(5.0F);
         setResistance(10.0F);
@@ -75,7 +73,7 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         TileEntity tile = world.getTileEntity(pos);
-        return tile instanceof TileTank && ((TileTank) tile).onActivated(player, hand, side, hitX, hitY, hitZ);
+        return tile instanceof TankTile && ((TankTile) tile).onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -105,7 +103,7 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
 
     @Override
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        return side.getAxis() != EnumFacing.Axis.Y || !(world.getBlockState(pos.offset(side)).getBlock() instanceof ITankBlockConnector);
+        return side.getAxis() != EnumFacing.Axis.Y || !(world.getBlockState(pos.offset(side)).getBlock() instanceof TankBlock);
     }
 
     @Override
@@ -130,9 +128,8 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
 
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileTank) {
-            TileTank tileBC = (TileTank) tile;
-            tileBC.onPlacedBy(placer, stack);
+        if (tile instanceof TankTile) {
+            ((TankTile) tile).onPlacedBy(placer, stack);
         }
         super.onBlockPlacedBy(world, pos, state, placer, stack);
     }

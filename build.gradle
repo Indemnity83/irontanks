@@ -49,7 +49,11 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "com.mod-buildcraft:buildcraft:" + project.buildcraft_version
+    // BuildCraft is an OPTIONAL runtime integration, not a requirement. We compile against it (its
+    // public API is also vendored under src/main/java/buildcraft/api so the mod still loads when
+    // BuildCraft is absent), but ForgeGradle never bundles dependencies into our jar. The @Mod
+    // dependency is "after:" rather than "required-after:", so the mod runs with or without it.
+    deobfProvided "com.mod-buildcraft:buildcraft:" + project.buildcraft_version
 }
 
 processResources

@@ -65,7 +65,8 @@
     "name": "glassTank",
     "ingredient": [
       {
-        "item": "buildcraftfactory:tank"
+        "type": "forge:ore_dict",
+        "ore": "tankGlass"
       }
     ]
   },

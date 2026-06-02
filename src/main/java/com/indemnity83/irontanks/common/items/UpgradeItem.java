@@ -1,34 +1,47 @@
 package com.indemnity83.irontanks.common.items;
 
-import buildcraft.factory.tile.TileTank;
-import buildcraft.lib.fluid.Tank;
 import com.indemnity83.irontanks.IronTanks;
+import com.indemnity83.irontanks.common.core.IronTanksTab;
+import com.indemnity83.irontanks.common.tiles.TankTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
+
 public class UpgradeItem extends Item {
-    Block upgradeFrom;
-    Block upgradeTo;
+    private final Block upgradeFrom;
+    private final Block upgradeTo;
+    // Optional extra source matched by registry name (e.g. BuildCraft's tank) without a hard dependency.
+    private ResourceLocation alsoUpgradeFrom;
 
     public UpgradeItem(String upgradeName, Block upgradeFrom, Block upgradeTo) {
         setRegistryName(upgradeName);
         setUnlocalizedName(IronTanks.MODID + "." + upgradeName);
-        setCreativeTab(CreativeTabs.MISC);
+        setCreativeTab(IronTanksTab.INSTANCE);
         this.upgradeFrom = upgradeFrom;
         this.upgradeTo = upgradeTo;
+    }
+
+    /** Additionally accept the block with this registry name as an upgrade source (e.g. "buildcraftfactory:tank"). */
+    public UpgradeItem alsoUpgradeFrom(String registryName) {
+        this.alsoUpgradeFrom = new ResourceLocation(registryName);
+        return this;
     }
 
     @SideOnly(Side.CLIENT)
@@ -42,7 +55,7 @@ public class UpgradeItem extends Item {
             return EnumActionResult.PASS;
         }
 
-        if (!blockEquals(worldIn.getBlockState(pos), this.upgradeFrom)) {
+        if (!isUpgradeSource(worldIn.getBlockState(pos))) {
             return EnumActionResult.PASS;
         }
 
@@ -56,9 +69,9 @@ public class UpgradeItem extends Item {
     }
 
     private void upgradeTankAtPosition(Block tankBlock, World worldIn, BlockPos pos, EntityPlayer player) {
-        // Get the old tank fluid
-        Tank oldTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
-        FluidStack fluid = oldTank.drain(Integer.MAX_VALUE, true);
+        // Drain the fluid from the old tank. Our tanks drain only this tile; a BuildCraft tank (when present)
+        // is reached through the standard Forge fluid capability so no hard dependency is needed.
+        FluidStack fluid = drainOldTank(worldIn.getTileEntity(pos));
 
         // Replace tank
         IBlockState oldState = worldIn.getBlockState(pos);
@@ -66,15 +79,40 @@ public class UpgradeItem extends Item {
         IBlockState newState = worldIn.getBlockState(pos);
 
         // Transfer fluid to new tank
-        Tank newTank = ((TileTank) worldIn.getTileEntity(pos)).tank;
-        newTank.setFluid(fluid);
+        TileEntity newTile = worldIn.getTileEntity(pos);
+        if (newTile instanceof TankTile && fluid != null) {
+            ((TankTile) newTile).setFluid(fluid);
+        }
 
-        // Notify the world, and any tank stacks
+        // Notify the world, and let the new tank settle into any stack it belongs to
         worldIn.notifyBlockUpdate(pos, oldState, newState, 3);
-        ((TileTank) worldIn.getTileEntity(pos)).onPlacedBy(player, null);
+        if (newTile instanceof TankTile) {
+            ((TankTile) newTile).onPlacedBy(player, null);
+        }
     }
 
-    private boolean blockEquals(IBlockState blockState, Block block) {
-        return blockState.getBlock().getRegistryName().equals(block.getRegistryName());
+    @Nullable
+    private static FluidStack drainOldTank(@Nullable TileEntity tile) {
+        if (tile instanceof TankTile) {
+            return ((TankTile) tile).drainEntireTank();
+        }
+        if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+            IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+            if (handler != null) {
+                return handler.drain(Integer.MAX_VALUE, true);
+            }
+        }
+        return null;
+    }
+
+    private boolean isUpgradeSource(IBlockState blockState) {
+        ResourceLocation placed = blockState.getBlock().getRegistryName();
+        if (placed == null) {
+            return false;
+        }
+        if (upgradeFrom != null && placed.equals(upgradeFrom.getRegistryName())) {
+            return true;
+        }
+        return alsoUpgradeFrom != null && placed.equals(alsoUpgradeFrom);
     }
 }

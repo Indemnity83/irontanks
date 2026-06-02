@@ -1,6 +1,5 @@
 package com.indemnity83.irontanks.common;
 
-import buildcraft.factory.BCFactoryBlocks;
 import com.indemnity83.irontanks.IronTanks;
 import com.indemnity83.irontanks.common.blocks.CreativeTankBlock;
 import com.indemnity83.irontanks.common.blocks.StackableTankBlock;
@@ -16,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CommonProxy {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        event.getRegistry().register(new StackableTankBlock("glass_tank", 16));
         event.getRegistry().register(new StackableTankBlock("copper_tank", 27));
         event.getRegistry().register(new StackableTankBlock("iron_tank", 32));
         event.getRegistry().register(new StackableTankBlock("silver_tank", 43));
@@ -44,6 +45,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().register(new ItemBlock(Blocks.glassTank).setRegistryName(Blocks.glassTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.ironTank).setRegistryName(Blocks.ironTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.goldTank).setRegistryName(Blocks.goldTank.getRegistryName()));
         event.getRegistry().register(new ItemBlock(Blocks.diamondTank).setRegistryName(Blocks.diamondTank.getRegistryName()));
@@ -57,12 +59,21 @@ public class CommonProxy {
         event.getRegistry().register(new UpgradeItem("copper_iron_upgrade", Blocks.copperTank, Blocks.ironTank));
         event.getRegistry().register(new UpgradeItem("copper_silver_upgrade", Blocks.copperTank, Blocks.silverTank));
         event.getRegistry().register(new UpgradeItem("diamond_obsidian_upgrade", Blocks.diamondTank, Blocks.obsidianTank));
-        event.getRegistry().register(new UpgradeItem("glass_copper_upgrade", BCFactoryBlocks.tank, Blocks.copperTank));
-        event.getRegistry().register(new UpgradeItem("glass_iron_upgrade", BCFactoryBlocks.tank, Blocks.ironTank));
+        event.getRegistry().register(glassUpgrade("glass_copper_upgrade", Blocks.copperTank));
+        event.getRegistry().register(glassUpgrade("glass_iron_upgrade", Blocks.ironTank));
         event.getRegistry().register(new UpgradeItem("gold_diamond_upgrade", Blocks.goldTank, Blocks.diamondTank));
         event.getRegistry().register(new UpgradeItem("iron_gold_upgrade", Blocks.ironTank, Blocks.goldTank));
         event.getRegistry().register(new UpgradeItem("silver_gold_upgrade", Blocks.silverTank, Blocks.goldTank));
         event.getRegistry().register(new UpgradeItem("diamond_emerald_upgrade", Blocks.diamondTank, Blocks.emeraldTank));
+    }
+
+    /** A glass-tier upgrade that targets our glass tank, and also BuildCraft's tank when that mod is present. */
+    private static UpgradeItem glassUpgrade(String name, Block upgradeTo) {
+        UpgradeItem item = new UpgradeItem(name, Blocks.glassTank, upgradeTo);
+        if (Loader.isModLoaded(Blocks.BUILDCRAFT_FACTORY)) {
+            item.alsoUpgradeFrom("buildcraftfactory:tank");
+        }
+        return item;
     }
 
     /**

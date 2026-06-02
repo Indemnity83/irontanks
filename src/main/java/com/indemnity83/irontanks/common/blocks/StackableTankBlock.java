@@ -1,6 +1,5 @@
 package com.indemnity83.irontanks.common.blocks;
 
-import buildcraft.factory.block.ITankBlockConnector;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -8,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class StackableTankBlock extends TankBlock implements ITankBlockConnector {
+public class StackableTankBlock extends TankBlock {
 
     private static final IProperty<Boolean> JOINED_BELOW = PropertyBool.create("joined_below");
 
@@ -19,7 +18,7 @@ public class StackableTankBlock extends TankBlock implements ITankBlockConnector
     }
 
     public IBlockState getActualState(IBlockState blockState, IBlockAccess world, BlockPos pos) {
-        boolean tankBelow = world.getBlockState(pos.down()).getBlock() instanceof ITankBlockConnector;
+        boolean tankBelow = world.getBlockState(pos.down()).getBlock() instanceof StackableTankBlock;
         return blockState.withProperty(JOINED_BELOW, tankBelow);
     }
 
