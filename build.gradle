@@ -72,3 +72,11 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+// Forge's run tasks have no real outputs, so Gradle can wrongly cache them as "up-to-date" after a
+// successful launch and silently skip the next run. Always re-run them so `runClient`/`runServer` work.
+afterEvaluate {
+    ['runClient', 'runServer'].each { n ->
+        tasks.findByName(n)?.outputs?.upToDateWhen { false }
+    }
+}
