@@ -14,6 +14,7 @@ import com.indemnity83.irontanks.common.tiles.VoidTankTile;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -27,7 +28,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CommonProxy {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(new StackableTankBlock("glass_tank", 16));
+        event.getRegistry().register(new StackableTankBlock("glass_tank", 16).withRenderLayer(BlockRenderLayer.TRANSLUCENT));
         event.getRegistry().register(new StackableTankBlock("copper_tank", 27));
         event.getRegistry().register(new StackableTankBlock("iron_tank", 32));
         event.getRegistry().register(new StackableTankBlock("silver_tank", 43));

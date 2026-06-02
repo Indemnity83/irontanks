@@ -35,6 +35,8 @@ import java.util.List;
 
 public class TankBlock extends Block implements ITileEntityProvider, ICustomPipeConnection {
     private final int tankCapacity;
+    // CUTOUT (binary alpha) by default; tanks whose texture uses partial transparency need TRANSLUCENT.
+    private BlockRenderLayer renderLayer = BlockRenderLayer.CUTOUT;
 
     public TankBlock(String tankName, int tankCapacity) {
         super(Material.GLASS, MapColor.AIR);
@@ -81,9 +83,15 @@ public class TankBlock extends Block implements ITileEntityProvider, ICustomPipe
         return new AxisAlignedBB(2 / 16D, 0 / 16D, 2 / 16D, 14 / 16D, 16 / 16D, 14 / 16D);
     }
 
+    /** Render this tank on the given layer; use TRANSLUCENT for textures with partial transparency. */
+    public TankBlock withRenderLayer(BlockRenderLayer layer) {
+        this.renderLayer = layer;
+        return this;
+    }
+
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
+        return renderLayer;
     }
 
     @Override
