@@ -1,5 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "last-release-sha": "c14d864ad228ac7accb27b6b090d25840027d062",
   "changelog-sections": [
     { "type": "feat", "section": "Added" },
     { "type": "fix", "section": "Fixed" },
@@ -11,8 +12,7 @@
       "component": "mc26.1",
       "release-type": "simple",
       "include-component-in-tag": true,
-      "pull-request-title-pattern": "chore(release): release ${version} for ${component}",
-      "bootstrap-sha": "c14d864ad228ac7accb27b6b090d25840027d062"
+      "pull-request-title-pattern": "chore(release): release ${version} for ${component}"
     }
   }
 }
