@@ -12,7 +12,7 @@
       "release-type": "simple",
       "include-component-in-tag": true,
       "pull-request-title-pattern": "chore(release): release ${version} for ${component}",
-      "bootstrap-sha": "7954e1b7950abe487250620031edb2b56029e2ab"
+      "bootstrap-sha": "c14d864ad228ac7accb27b6b090d25840027d062"
     }
   }
 }
