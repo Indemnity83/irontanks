@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "joined_below=false": { "model": "irontanks:block/glass_tank" },
-    "joined_below=true": { "model": "irontanks:block/glass_tank_stacked" }
-  }
-}

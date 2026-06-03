@@ -43,6 +43,11 @@ tasks.named('jar') {
     from(project(':core').sourceSets.main.output)
 }
 
+// Shared assets + data (blockstates, models, textures, recipes, lang) live in /resources and
+// are folded into this loader's resource output, so they reach both the mod jar and the dev resource
+// root. Loader-specific resources (fabric.mod.json) stay in this module's own resources.
+sourceSets.main.resources.srcDir(rootProject.file('resources'))
+
 processResources {
     def bounds = rootProject.minecraft_compatibility_versions.split(',').collect { it.trim() }
     if (bounds.size() != 2 || bounds.any { it.isEmpty() }) {

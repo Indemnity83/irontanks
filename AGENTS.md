@@ -123,9 +123,10 @@ version-type `alpha`). `build-prerelease.yml` (manual) publishes `…-pre.N` bet
 The `mc/26.1` line is a **multiloader** Gradle project with three subprojects:
 
 ```
-core/      Pure Java — NO Minecraft on its classpath. Fully unit-tested.
-fabric/    Fabric loader glue (Loom). Depends on :core, embeds it in the jar.
-neoforge/  NeoForge loader glue (ModDevGradle). Depends on :core, embeds it in the jar.
+core/        Pure Java — NO Minecraft on its classpath. Fully unit-tested.
+fabric/      Fabric loader glue (Loom). Depends on :core, embeds it in the jar.
+neoforge/    NeoForge loader glue (ModDevGradle). Depends on :core, embeds it in the jar.
+resources/   Shared assets + data (textures, models, recipes, lang) — used by BOTH loaders.
 ```
 
 **Why this shape:** the loader-independent game logic lives once in `core`; each loader writes only
@@ -172,12 +173,18 @@ any tank in a stack fills the column (then `core` re-settles it).
 
 ### Resources
 
-Assets and data are **per loader** (duplicated under `neoforge/src/main/resources` and
-`fabric/src/main/resources`) since each loader jar ships its own:
-- `assets/irontanks/{blockstates,models/{block,item},items,textures/{block,item},lang}` — block/item
-  models, the `items/*.json` 26.1 item-model definitions, textures, `en_us.json`.
-- `data/irontanks/recipe/` — `minecraft:crafting_shaped` recipes using conventional `c:` tags
-  (`#c:ingots/iron`, `#c:glass_blocks/colorless`, etc.) — the modern "ore dictionary".
+Shared assets and data live **once** in the top-level `resources/` directory. Each loader folds it
+into its own resource source set (`sourceSets.main.resources.srcDir(rootProject.file('resources'))`),
+so the files reach both the mod jar and the dev resource root — no per-loader duplication.
+- `resources/assets/irontanks/{blockstates,models/{block,item},items,textures/{block,item},lang}` —
+  block/item models, the `items/*.json` 26.1 item-model definitions, textures, `en_us.json`.
+- `resources/data/irontanks/recipe/` — `minecraft:crafting_shaped` recipes using conventional `c:` tags
+  (`#c:ingots/iron`, `#c:glass_blocks/colorless`, …) — the modern "ore dictionary".
+- `resources/data/c/tags/item/…` — declares optional convention tags we reference but don't populate
+  (an empty `c:ingots/silver`) so the silver recipes load without errors and light up automatically if
+  another mod adds silver.
+- Only loader-specific metadata stays per-module: `neoforge/.../META-INF/neoforge.mods.toml` and
+  `fabric/.../fabric.mod.json`.
 
 ### Conventions
 

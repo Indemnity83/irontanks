@@ -1,8 +1,0 @@
-{
-  "parent": "irontanks:block/tank",
-  "textures": {
-    "end": "irontanks:block/creativetank/end",
-    "side": "irontanks:block/creativetank/side",
-    "particle": "irontanks:block/creativetank/side"
-  }
-}
