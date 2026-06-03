@@ -47,6 +47,8 @@ jobs:
         uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          # Publish jobs read the cache but never write it, so a poisoned entry can't be baked into a release.
+          cache-read-only: true
 
       - name: Extract version information
         id: version
