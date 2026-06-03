@@ -6,6 +6,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,8 +26,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -76,11 +85,45 @@ public class TankBlock extends BaseEntityBlock {
             Player player,
             InteractionHand hand,
             BlockHitResult hit) {
-        if (level.getBlockEntity(pos) instanceof TankBlockEntity
-                && FluidUtil.interactWithFluidHandler(player, hand, level, pos, hit.getDirection())) {
-            return InteractionResult.SUCCESS;
+        if (!(level.getBlockEntity(pos) instanceof TankBlockEntity)) {
+            return super.useItemOn(stack, state, level, pos, player, hand, hit);
         }
-        return super.useItemOn(stack, state, level, pos, player, hand, hit);
+        var tank = level.getCapability(Capabilities.Fluid.BLOCK, pos, hit.getDirection());
+        var heldItem = ItemAccess.forPlayerInteraction(player, hand).oneByOne().getCapability(Capabilities.Fluid.ITEM);
+        if (tank == null || heldItem == null) {
+            return super.useItemOn(stack, state, level, pos, player, hand, hit);
+        }
+
+        // Fill the held container from the tank first; if nothing moves, drain it into the tank instead.
+        var drained = ResourceHandlerUtil.moveFirst(tank, heldItem, fluid -> true, Integer.MAX_VALUE, null);
+        boolean fillingContainer = drained != null;
+        var moved = fillingContainer
+                ? drained
+                : ResourceHandlerUtil.moveFirst(heldItem, tank, fluid -> true, Integer.MAX_VALUE, null);
+        if (moved == null) {
+            return super.useItemOn(stack, state, level, pos, player, hand, hit);
+        }
+
+        playBucketInteraction(level, pos, player, moved.resource(), fillingContainer);
+        return InteractionResult.SUCCESS;
+    }
+
+    /**
+     * Plays the bucket fill/empty sound and game event for a tank interaction. NeoForge's {@code FluidUtil}
+     * only emits a sound when the fluid type declares one and only broadcasts it server-side via a {@code null}
+     * player, so the interacting player often hears nothing. We instead play it with {@code player} (audible
+     * client-side, like Fabric) and fall back to the vanilla bucket sound for fluids that declare none.
+     */
+    private static void playBucketInteraction(
+            Level level, BlockPos pos, Player player, FluidResource fluid, boolean fillingContainer) {
+        var action = fillingContainer ? SoundActions.BUCKET_FILL : SoundActions.BUCKET_EMPTY;
+        SoundEvent sound = fluid.getFluidType().getSound(fluid.toStack(FluidType.BUCKET_VOLUME), action);
+        if (sound == null) {
+            sound = fillingContainer ? SoundEvents.BUCKET_FILL : SoundEvents.BUCKET_EMPTY;
+        }
+        level.playSound(
+                player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
+        level.gameEvent(player, fillingContainer ? GameEvent.FLUID_PICKUP : GameEvent.FLUID_PLACE, pos);
     }
 
     @Nullable
