@@ -73,6 +73,8 @@ toolchains, so changes do **not** cherry-pick between them — port by hand. Wit
 ./gradlew :fabric:runClient     # Launch the Fabric dev client
 ./gradlew :neoforge:jar         # Build just the NeoForge mod jar
 ./gradlew :fabric:jar           # Build just the Fabric mod jar
+./gradlew spotlessCheck         # Lint: verify formatting (the CI gate)
+./gradlew spotlessApply         # Auto-fix formatting (Java + JSON)
 ```
 
 **Requirements:** **JDK 25** and Gradle 9.x (via the wrapper). Versions live in `gradle.properties`
@@ -195,11 +197,14 @@ so the files reach both the mod jar and the dev resource root — no per-loader 
 
 ## Code Style
 
-- Formatting is governed by **`.editorconfig`** (no Spotless / auto-formatter):
-  UTF-8, LF, final newline, trim trailing whitespace; Java: 4-space indent.
+- Formatting is enforced by **Spotless** (configured once in the root `build.gradle`):
+  **palantir-java-format** for Java (4-space indent), **gson** for JSON resources. Base whitespace
+  rules (UTF-8, LF, final newline, trim trailing whitespace) still live in **`.editorconfig`**.
+  Run `./gradlew spotlessApply` to fix and `./gradlew spotlessCheck` to verify.
 - Single-line `if`/`for` allowed; prefer braces for multi-line bodies; keep nesting ≤ 3 levels.
-- **CI** (`check-code.yml`) runs `./gradlew build` (JDK 25) on PRs into `mc/**` — this builds every
-  module and runs `core`'s tests. There is no separate format/lint gate beyond the PR-title check.
+- **CI** (`check-code.yml`, JDK 25, on PRs into `mc/**`) splits into three jobs: `lint`
+  (`spotlessCheck`), `test` (`:core:test`), and a `build` matrix that smoke-builds each loader jar
+  once lint + test pass. Formatting is now a hard CI gate, not just the PR-title check.
 
 ## Commit Messages
 
@@ -242,7 +247,9 @@ Internal types kept out of the changelog: `refactor`, `test`, `build`, `ci`, `ch
 GitHub Actions in `.github/workflows/`:
 
 - **`check-pr.yml`** — validates the PR title (no-scope conventional commit, lowercase subject).
-- **`check-code.yml`** — `./gradlew build` (JDK 25) on push/PR into `mc/**` (builds all modules + tests).
+- **`check-code.yml`** — JDK 25 on push/PR into `mc/**`; three jobs: `lint` (`spotlessCheck`), `test`
+  (`:core:test`), and a `build` matrix (`[fabric, neoforge]`) that smoke-builds each loader jar and
+  runs only after lint + test pass. JDK/Gradle setup is shared via the `setup-build` composite action.
 - **`prepare-release.yml`** — runs release-please on pushes to `mc/*`.
 - **`build-release.yml`** — on a published release (or manual `workflow_dispatch`), builds **both** loader
   jars (matrix `[fabric, neoforge]`) and, when publishing, uploads to Modrinth/CurseForge via `mc-publish`

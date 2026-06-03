@@ -15,8 +15,9 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: build
+  # Format gate: Spotless (palantir-java-format for Java, gson for JSON). Cheap, runs first.
+  lint:
+    name: lint
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
 
@@ -25,16 +26,51 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
-        with:
-          distribution: temurin
-          java-version: '25'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
+      - uses: ./.github/actions/setup-build
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
-      # Builds every module: core (with unit tests) plus the fabric and neoforge loader jars.
-      - name: Build with Gradle
-        run: ./gradlew build --console=plain
+      - name: Check formatting
+        run: ./gradlew spotlessCheck --console=plain
+
+  # Pure-logic unit tests. `core` is the only module with a test source set today.
+  test:
+    name: test
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-build
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Run core tests
+        run: ./gradlew :core:test --console=plain
+
+  # Smoke-build each loader jar (compile + assemble). Loaders have no test source set,
+  # so a clean jar is their coverage. Only runs once lint + test pass.
+  build:
+    name: build (${{ matrix.loader }})
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        loader: [fabric, neoforge]
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-build
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Build ${{ matrix.loader }} jar
+        run: ./gradlew :${{ matrix.loader }}:jar --console=plain

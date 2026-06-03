@@ -1,0 +1,22 @@
+name: Setup build
+description: JDK 25 (Temurin) + Gradle with encrypted cache for Iron Tanks CI
+
+# Composite actions can't read the `secrets` context directly, so the caller passes
+# the Gradle cache encryption key in as an input.
+inputs:
+  cache-encryption-key:
+    description: Gradle cache encryption key (pass secrets.GRADLE_ENCRYPTION_KEY)
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
+      with:
+        distribution: temurin
+        java-version: '25'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
+      with:
+        cache-encryption-key: ${{ inputs.cache-encryption-key }}

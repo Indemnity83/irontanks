@@ -4,8 +4,34 @@
 // fluid-stacking math, void rate and upgrade rules; the `fabric` and `neoforge` modules each provide
 // their own thin Minecraft glue and depend on `core`. See the plan and CLAUDE.md for the rationale.
 
+plugins {
+    id 'com.diffplug.spotless'
+}
+
 allprojects {
     group = rootProject.maven_group
     // Version is injected by release CI via MOD_VERSION; local/dev builds get a static marker.
     version = System.getenv("MOD_VERSION") ?: "dev-local"
+}
+
+// Spotless resolves its formatter (palantir-java-format) from the root project's repositories.
+repositories {
+    mavenCentral()
+}
+
+// Formatting is enforced once at the root across all modules (no per-subproject duplication):
+// `./gradlew spotlessApply` to fix, `./gradlew spotlessCheck` is the CI lint gate.
+spotless {
+    java {
+        target 'core/src/**/*.java', 'fabric/src/**/*.java', 'neoforge/src/**/*.java'
+        palantirJavaFormat("${palantir_version}")
+        removeUnusedImports()
+        // palantir-java-format emits 4-space indentation and trims/ends files to match .editorconfig.
+    }
+    json {
+        target 'resources/**/*.json',
+               'fabric/src/main/resources/**/*.json',
+               'neoforge/src/main/resources/**/*.json'
+        gson().indentWithSpaces(2)
+    }
 }
