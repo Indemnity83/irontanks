@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dgd",
+    "gig",
+    "dgd"
+  ],
+  "key": {
+    "g": "#c:glass_panes/colorless",
+    "i": "#c:ingots/iron",
+    "d": "#c:ingots/gold"
+  },
+  "result": {
+    "id": "irontanks:iron_gold_upgrade"
+  }
+}

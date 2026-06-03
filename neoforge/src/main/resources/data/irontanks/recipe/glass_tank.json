@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "g g",
+    "g g",
+    "ggg"
+  ],
+  "key": {
+    "g": "#c:glass_blocks/colorless"
+  },
+  "result": {
+    "id": "irontanks:glass_tank"
+  }
+}
