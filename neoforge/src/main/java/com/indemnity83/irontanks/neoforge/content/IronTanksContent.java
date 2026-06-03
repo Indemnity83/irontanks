@@ -73,7 +73,7 @@ public final class IronTanksContent {
         TANK_BLOCKS.put(tier, block);
 
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, id(name));
-        BlockItem item = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
+        BlockItem item = new TankBlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);
         TAB_ITEMS.add(item);
     }
