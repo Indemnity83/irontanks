@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "irontanks:items/silver_diamond_upgrade"
-  }
-}
