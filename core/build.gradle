@@ -3,11 +3,18 @@
 // fully unit-testable without a game running. Each loader depends on it via project(':core').
 plugins {
     id 'java-library'
+    id 'jacoco'
 }
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(rootProject.java_version.toInteger())
     withSourcesJar()
+}
+
+// JaCoCo 0.8.14 is the first release that officially supports Java 25 bytecode (class major v69);
+// Gradle's bundled default is older and would fail to instrument. Bump in lockstep with java_version.
+jacoco {
+    toolVersion = rootProject.jacoco_version
 }
 
 repositories {
@@ -38,5 +45,16 @@ test {
     testLogging {
         events 'passed', 'skipped', 'failed'
         exceptionFormat = 'full'
+    }
+    finalizedBy jacocoTestReport
+}
+
+// XML report is what Codecov consumes; HTML is handy for local inspection.
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
     }
 }

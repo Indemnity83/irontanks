@@ -49,7 +49,15 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Run core tests
-        run: ./gradlew :core:test --console=plain
+        run: ./gradlew :core:jacocoTestReport --console=plain
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: core/build/reports/jacoco/test/jacocoTestReport.xml
+          flags: core
+          fail_ci_if_error: false
 
   # Smoke-build each loader jar (compile + assemble). Loaders have no test source set,
   # so a clean jar is their coverage. Only runs once lint + test pass.
