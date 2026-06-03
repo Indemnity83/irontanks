@@ -1,0 +1,9 @@
+{
+  "parent": "irontanks:block/tank",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "end": "irontanks:block/glasstank/end",
+    "side": "irontanks:block/glasstank/side",
+    "particle": "irontanks:block/glasstank/side"
+  }
+}
