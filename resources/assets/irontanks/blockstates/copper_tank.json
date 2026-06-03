@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "joined_below=false": { "model": "irontanks:block/copper_tank" },
+    "joined_below=true": { "model": "irontanks:block/copper_tank_stacked" }
+  }
+}

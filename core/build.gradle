@@ -1,0 +1,30 @@
+// Pure-logic module: tank tiers, fluid-stacking math, void rate, upgrade rules.
+// Deliberately a plain java-library — NO Minecraft, Loom or ModDevGradle here, so this code is
+// fully unit-testable without a game running. Each loader depends on it via project(':core').
+plugins {
+    id 'java-library'
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(rootProject.java_version.toInteger())
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:${rootProject.junit_version}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "org.assertj:assertj-core:${rootProject.assertj_version}"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat = 'full'
+    }
+}

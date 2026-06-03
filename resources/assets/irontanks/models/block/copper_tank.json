@@ -1,0 +1,8 @@
+{
+  "parent": "irontanks:block/tank",
+  "textures": {
+    "end": "irontanks:block/coppertank/end",
+    "side": "irontanks:block/coppertank/side",
+    "particle": "irontanks:block/coppertank/side"
+  }
+}

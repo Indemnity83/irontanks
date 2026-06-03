@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "irontanks:item/glass_copper_upgrade"
+  }
+}

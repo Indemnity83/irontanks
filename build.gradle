@@ -1,70 +1,11 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
-}
+// Root of the Iron Tanks multiloader project for Minecraft 26.1.
+//
+// Architecture: a pure-logic `core` module (no Minecraft on its classpath) holds the tank tiers,
+// fluid-stacking math, void rate and upgrade rules; the `fabric` and `neoforge` modules each provide
+// their own thin Minecraft glue and depend on `core`. See the plan and CLAUDE.md for the rationale.
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-
-// Build settings come from gradle.properties and are available as project properties:
-// minecraft_version, forge_version, mappings, java_version, buildcraft_version.
-
-// Version is injected by release CI via the MOD_VERSION env var (e.g. "2.2.0+mc1.12.2").
-// Local/dev builds get a static marker — released versions come from release-please.
-version = System.getenv("MOD_VERSION") ?: "dev-local"
-group = "com.indemnity83.irontanks"
-archivesBaseName = "irontanks"
-
-sourceCompatibility = targetCompatibility = project.java_version
-compileJava {
-    sourceCompatibility = targetCompatibility = project.java_version
-}
-
-minecraft {
-    version = "${project.minecraft_version}-${project.forge_version}"
-    mappings = project.mappings
-    runDir = "run"
-
-    // replacing stuff in the source
-    replace "\${version}", project.version
-    replace "\${mcversion}", version
-    // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
-    replace "(gradle_replace_mcversion,)", "[" + version + "]"
-    replace "(gradle_replace_forgeversion,)", "[" + project.forge_version + ",)"
-    replace "(gradle_replace_buildcraftversion,)", "[" + project.buildcraft_version + ",)"
-}
-
-repositories {
-    maven {
-        name "BuildCraft"
-        url "https://mod-buildcraft.com/maven"
-    }
-}
-
-dependencies {
-    deobfCompile "com.mod-buildcraft:buildcraft:" + project.buildcraft_version
-}
-
-processResources
-{
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        // replace version and mcversion
-        // ${version}   and    ${mcversion}    are the exact strings being replaced
-        expand "version":project.version, "mcversion":project.minecraft.version
-    }
-
-    // copy everything else, that's not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+allprojects {
+    group = rootProject.maven_group
+    // Version is injected by release CI via MOD_VERSION; local/dev builds get a static marker.
+    version = System.getenv("MOD_VERSION") ?: "dev-local"
 }

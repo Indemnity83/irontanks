@@ -1,0 +1,72 @@
+// Fabric loader module. Depends on the pure-logic :core and embeds its classes in the mod jar
+// (core is a plain library, not a separate mod, so it is not loaded as its own jar at runtime).
+plugins {
+    id 'java-library'
+    id 'net.fabricmc.fabric-loom'
+}
+
+// Fabric is lenient about versions, but keep parity with the NeoForge module's dev version.
+version = System.getenv("MOD_VERSION") ?: "0.0.0-dev"
+
+base {
+    archivesName = rootProject.archives_base_name
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(rootProject.java_version.toInteger())
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+loom {
+    splitEnvironmentSourceSets()
+    mods {
+        "irontanks" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
+    implementation project(':core')
+}
+
+// Embed the pure-logic core classes directly into the mod jar.
+tasks.named('jar') {
+    from(project(':core').sourceSets.main.output)
+}
+
+// Shared assets + data (blockstates, models, textures, recipes, lang) live in /resources and
+// are folded into this loader's resource output, so they reach both the mod jar and the dev resource
+// root. Loader-specific resources (fabric.mod.json) stay in this module's own resources.
+sourceSets.main.resources.srcDir(rootProject.file('resources'))
+
+processResources {
+    def bounds = rootProject.minecraft_compatibility_versions.split(',').collect { it.trim() }
+    if (bounds.size() != 2 || bounds.any { it.isEmpty() }) {
+        throw new GradleException("minecraft_compatibility_versions must be formatted as '<min>,<next>'")
+    }
+    var props = [
+        version                       : project.version,
+        minecraft_version             : rootProject.minecraft_version,
+        fabric_minecraft_version_range: ">=${bounds[0]} <${bounds[1]}",
+        fabric_loader_version         : rootProject.fabric_loader_version,
+        fabric_version                : rootProject.fabric_version,
+        java_version                  : rootProject.java_version,
+    ]
+    inputs.properties(props)
+    filesMatching('fabric.mod.json') {
+        expand props
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = rootProject.java_version.toInteger()
+}

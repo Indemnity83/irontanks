@@ -1,0 +1,79 @@
+// NeoForge loader module. Depends on the pure-logic :core and embeds its classes in the mod jar
+// (core is a plain library, not a separate mod, so it is not loaded as its own jar at runtime).
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev'
+}
+
+// NeoForge requires a valid Maven/SemVer version in neoforge.mods.toml; the root's "dev-local" marker
+// is rejected by FML at load time. CI injects a real version via MOD_VERSION.
+version = System.getenv("MOD_VERSION") ?: "0.0.0-dev"
+
+base {
+    archivesName = rootProject.archives_base_name
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(rootProject.java_version.toInteger())
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':core')
+}
+
+neoForge {
+    version = rootProject.neoforge_version
+    runs {
+        client {
+            client()
+            gameDirectory = project.file('runs/client')
+        }
+        server {
+            server()
+            gameDirectory = project.file('runs/server')
+        }
+    }
+    mods {
+        irontanks {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+// Embed the pure-logic core classes directly into the mod jar.
+tasks.named('jar') {
+    from(project(':core').sourceSets.main.output)
+}
+
+// Shared assets + data (blockstates, models, textures, recipes, lang) live in /resources and
+// are folded into this loader's resource output, so they reach both the mod jar and the dev resource
+// root. Loader-specific resources (neoforge.mods.toml) stay in this module's own resources.
+sourceSets.main.resources.srcDir(rootProject.file('resources'))
+
+processResources {
+    def bounds = rootProject.minecraft_compatibility_versions.split(',').collect { it.trim() }
+    if (bounds.size() != 2 || bounds.any { it.isEmpty() }) {
+        throw new GradleException("minecraft_compatibility_versions must be formatted as '<min>,<next>'")
+    }
+    var props = [
+        version                         : project.version,
+        minecraft_version               : rootProject.minecraft_version,
+        neoforge_minecraft_version_range: "[${bounds[0]}, ${bounds[1]})",
+        neoforge_version                : rootProject.neoforge_version,
+        neoforge_loader_version_range   : rootProject.neoforge_loader_version_range,
+        mod_id                          : rootProject.mod_id,
+    ]
+    inputs.properties(props)
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand props
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = rootProject.java_version.toInteger()
+}

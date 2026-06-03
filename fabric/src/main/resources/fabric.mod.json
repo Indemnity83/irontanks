@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "irontanks",
+  "version": "${version}",
+  "name": "Iron Tanks",
+  "description": "Tiered-capacity and special-purpose fluid tanks.",
+  "authors": ["Kyle Klaus (@indemnity83)"],
+  "contact": {
+    "homepage": "https://github.com/Indemnity83/irontanks",
+    "issues": "https://github.com/Indemnity83/irontanks/issues",
+    "sources": "https://github.com/Indemnity83/irontanks"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.indemnity83.irontanks.fabric.IronTanksFabric"],
+    "client": ["com.indemnity83.irontanks.fabric.client.IronTanksFabricClient"]
+  },
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_version}",
+    "java": ">=${java_version}",
+    "minecraft": "${fabric_minecraft_version_range}"
+  }
+}

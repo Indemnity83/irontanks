@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
+            name = 'NeoForge'
+            url = 'https://maven.neoforged.net/releases/'
+        }
+        gradlePluginPortal()
+    }
+    plugins {
+        // Versions come from gradle.properties so subproject plugins {} blocks omit them.
+        id 'net.fabricmc.fabric-loom' version "${loom_version}"
+        id 'net.neoforged.moddev' version "${moddev_version}"
+    }
+}
+
+rootProject.name = 'irontanks'
+
+// core: pure-logic module, no Minecraft. neoforge + fabric: per-loader glue.
+include 'core'
+include 'neoforge'
+include 'fabric'

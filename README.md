@@ -1,29 +1,69 @@
-## Iron Tanks
+# Iron Tanks
 
-Iron Tanks is a [Buildcraft](https://minecraft.curseforge.com/projects/buildcraft) add-on for Minecraft which adds tiered capacity and special purpose tanks to the game. Iron Tanks follows strict Minecraft physics, meaning a one block space can hold 8x more stuff as long as you build the container out of diamond, and as long as you surround the glass container with obsidian blocks, it will be explosion proof. These tanks and more can add hours of fun and excitement to the game:
+**Tiered fluid tanks that obey Minecraft physics** — the better the material, the more a single
+block holds, and obsidian-clad tanks shrug off explosions. Stack them and they merge into one tall
+tank; upgrade them in place without spilling a drop.
 
- - Tiered capacity tanks, [Glass](https://github.com/Indemnity83/irontanks/wiki#glass-tank) (16 buckets), [Copper](https://github.com/Indemnity83/irontanks/wiki#copper-tank) (24 buckets), [Iron](https://github.com/Indemnity83/irontanks/wiki#iron-tank) (32 buckets), [Silver](https://github.com/Indemnity83/irontanks/wiki#silver-tank) (42 buckets), [Gold](https://github.com/Indemnity83/irontanks/wiki#gold-tank) (48 buckets) and [Diamond](https://github.com/Indemnity83/irontanks/wiki#diamond-tank) (64 buckets) each building on the proceeding tank to cram more and more stuff in the same cube of space!
- - In place [upgrade items](https://github.com/Indemnity83/irontanks/wiki#upgrades) so you don't have to worry about running out of space
- - Explosion proof [Obsidian](https://github.com/Indemnity83/irontanks/wiki#obsidian-tank) tanks
- - The Void tank destroys fluids that enter it. 
- - For testing, and creative worlds there is the Creative tank which provides an infinite supply of whatever fluid you put in it.
-  
+[![Check Code](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml/badge.svg?branch=mc/26.1)](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml)
+[![Modrinth](https://img.shields.io/modrinth/dt/iron-tanks?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/iron-tanks)
+[![CurseForge](https://img.shields.io/curseforge/dt/236226?logo=curseforge&label=CurseForge)](https://www.curseforge.com/minecraft/mc-mods/iron-tanks)
+![Minecraft 26.1](https://img.shields.io/badge/Minecraft-26.1-brightgreen)
+![Loaders: NeoForge | Fabric](https://img.shields.io/badge/loader-NeoForge%20%7C%20Fabric-blue)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt)
+
+> [!IMPORTANT]
+> **Iron Tanks is a storage mod, not a plumbing one.** On its own, the only way to move fluid in or
+> out of a tank is by hand with a bucket. It's designed to pair with a **fluid-transport mod** — any
+> pipes or pumps that speak the standard fluid API can fill and drain tanks directly. No specific mod
+> is required, and there's no longer any BuildCraft dependency.
+
+## Tanks
+
+Each tier crams more fluid into the same one-block footprint:
+
+| Tank | Capacity | Notes |
+|---|---:|---|
+| [Glass](https://github.com/Indemnity83/irontanks/wiki#glass-tank) | 16 buckets | The starting tank — craft it from glass |
+| [Copper](https://github.com/Indemnity83/irontanks/wiki#copper-tank) | 27 buckets | |
+| [Iron](https://github.com/Indemnity83/irontanks/wiki#iron-tank) | 32 buckets | |
+| [Silver](https://github.com/Indemnity83/irontanks/wiki#silver-tank) | 43 buckets | Needs a mod that adds silver ingots |
+| [Gold](https://github.com/Indemnity83/irontanks/wiki#gold-tank) | 48 buckets | |
+| [Diamond](https://github.com/Indemnity83/irontanks/wiki#diamond-tank) | 64 buckets | |
+| [Emerald](https://github.com/Indemnity83/irontanks/wiki#emerald-tank) | 96 buckets | |
+| [Obsidian](https://github.com/Indemnity83/irontanks/wiki#obsidian-tank) | 64 buckets | Explosion-proof |
+| **Void** | — | Destroys any fluid pumped into it |
+| **Creative** | ∞ | Infinite source of whatever you put in it (creative/testing) |
+
+- **Stack them.** Connected tanks share one fluid and render as a single continuous body — liquids
+  settle to the bottom, gases rise to the top.
+- **Upgrade in place.** [Upgrade items](https://github.com/Indemnity83/irontanks/wiki#upgrades)
+  promote a placed tank to a higher tier without losing its contents.
+
 ## Download & Installation
 
-If you want to get started with Iron Tanks today, head over to the [Curse page](https://minecraft.curseforge.com/projects/iron-tanks) where you'll find the most recent version ready to go. Simply download the most recent release for your version of Minecraft, and stick it in the mods folder of your Forge modded Minecraft game. Remember though that this is an add-on to [Buildcraft](https://minecraft.curseforge.com/projects/buildcraft), so you need to at least have Buildcraft installed or nothing will work. 
+Grab the latest build for your loader from
+[Modrinth](https://modrinth.com/mod/iron-tanks) or
+[CurseForge](https://www.curseforge.com/minecraft/mc-mods/iron-tanks) and drop it in your `mods` folder:
+
+| Loader | File | Also needs |
+|---|---|---|
+| **NeoForge** | `irontanks-…+mc<version>.neoforge.jar` | nothing |
+| **Fabric** | `irontanks-…+mc<version>.fabric.jar` | [Fabric API](https://modrinth.com/mod/fabric-api) |
+
+> Minecraft 1.12.2 and earlier live on the `mc/*` branches and remain BuildCraft add-ons — see those
+> releases.
 
 ## Contributing
 
-Want to help out? There are plenty of things you can do even if you don't know how to write Java. 
+You don't need to write Java to help:
 
-1. [Spread the word](https://minecraft.curseforge.com/projects/iron-tanks)! This is super easy, and the more support you give to the addon, the more support we're able to push back out to the community
-2. [Add or Improve a Translation](https://poeditor.com/join/project/tDDvawNto9) Go check out the and contriute translations of the addon in your language. 
-3. [Submit an Issue](http://github.com/indemnity83/irontanks/issues). If you find something wrong, or that you think could be improved please submit an issue.
-4. [Submit an Pull Request](http://github.com/indemnity83/irontanks/pulls). Know some Java? Want to submit a fix or feature? please do!
-
-Thank you
+1. **Spread the word** — every bit of support helps the mod keep improving.
+2. **Translate it** — add or improve a language.
+3. **[Report an issue](https://github.com/indemnity83/irontanks/issues)** if something's wrong or could be better.
+4. **[Open a pull request](https://github.com/indemnity83/irontanks/pulls)** — see `CLAUDE.md` for the
+   build setup (a `core` + `fabric` + `neoforge` multiloader Gradle project on JDK 25).
 
 ## License
 
-Iron Tanks is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT). And since it's open source that means its free to use however you wish, you do not need any special permission to use this add-on/mod in any modpack for any purpose. 
-
+Iron Tanks is open-source under the [MIT license](http://opensource.org/licenses/MIT) — free to use in
+any modpack, for any purpose, no permission needed.

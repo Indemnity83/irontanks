@@ -1,0 +1,102 @@
+name: Build (Pre-release)
+
+on:
+  workflow_dispatch:
+    inputs:
+      number:
+        description: "Pre-release number (1, 2, 3...)"
+        required: true
+        default: "1"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        loader: [fabric, neoforge]
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Extract version information
+        id: version
+        env:
+          INPUT_NUMBER: ${{ inputs.number }}
+          MATRIX_LOADER: ${{ matrix.loader }}
+        run: |
+          set -euo pipefail
+
+          BASE_VERSION="$(jq -r '."."' .release-please-manifest.json)"
+          if [[ -z "$BASE_VERSION" || "$BASE_VERSION" == "null" ]]; then
+            echo "Failed to resolve BASE_VERSION from .release-please-manifest.json" >&2
+            exit 1
+          fi
+
+          NUMBER="$INPUT_NUMBER"
+          [[ "$NUMBER" =~ ^[1-9][0-9]*$ ]] || { echo "Invalid number: must be a positive integer"; exit 1; }
+          PRE_VERSION="${BASE_VERSION}-pre.${NUMBER}"
+
+          MC_VERSION="$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)"
+          LOADER="$MATRIX_LOADER"
+          FULL_VERSION="${PRE_VERSION}+mc${MC_VERSION}.${LOADER}"
+
+          [[ "$LOADER" == "neoforge" ]] && LOADER_SHORT="n" || LOADER_SHORT="f"
+          MODRINTH_VERSION="${PRE_VERSION}+mc${MC_VERSION}.${LOADER_SHORT}"
+          (( ${#MODRINTH_VERSION} > 32 )) && MODRINTH_VERSION="${MODRINTH_VERSION:0:32}"
+
+          {
+            echo "pre_version=$PRE_VERSION"
+            echo "modrinth_version=$MODRINTH_VERSION"
+            echo "full_version=$FULL_VERSION"
+            echo "minecraft_version=$MC_VERSION"
+            echo "loader=$LOADER"
+          } >> "$GITHUB_OUTPUT"
+          echo "📦 Building $FULL_VERSION"
+
+      - name: Build with Gradle
+        run: ./gradlew :${{ matrix.loader }}:jar --console=plain
+        env:
+          MOD_VERSION: ${{ steps.version.outputs.full_version }}
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: irontanks-${{ steps.version.outputs.full_version }}
+          path: ${{ matrix.loader }}/build/libs/irontanks-${{ steps.version.outputs.full_version }}.jar
+
+      - name: Publish to Modrinth and CurseForge
+        uses: Kir-Antipov/mc-publish@995edadc13559a8b28d0b7e6571229f067ec7659 # v3.3
+        with:
+          loaders: ${{ matrix.loader }}
+          game-versions: ${{ steps.version.outputs.minecraft_version }}
+
+          modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-version: ${{ steps.version.outputs.modrinth_version }}
+
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          version-type: beta
+          version: ${{ steps.version.outputs.full_version }}
+          name: "Iron Tanks v${{ steps.version.outputs.pre_version }} for ${{ steps.version.outputs.loader }} ${{ steps.version.outputs.minecraft_version }}"
+
+          files: ${{ matrix.loader }}/build/libs/irontanks-${{ steps.version.outputs.full_version }}.jar
