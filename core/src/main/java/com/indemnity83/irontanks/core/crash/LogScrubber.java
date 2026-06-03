@@ -64,8 +64,10 @@ public final class LogScrubber {
         if (home != null && !home.isBlank()) {
             value = value.replace(home, "~");
         }
-        if (user != null && !user.isBlank()) {
-            value = value.replace(user, "<user>");
+        // Whole-word match only, and skip very short logins, so a common username like "root" can't
+        // mangle unrelated text such as "rootCause". (Home-dir paths are handled separately above.)
+        if (user != null && user.length() >= 3) {
+            value = value.replaceAll("\\b" + Pattern.quote(user) + "\\b", "<user>");
         }
         value = UNIX_HOME.matcher(value).replaceAll("$1/<user>");
         value = WINDOWS_HOME.matcher(value).replaceAll("$1<user>");

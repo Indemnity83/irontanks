@@ -30,7 +30,7 @@ public final class CrashReportingBootstrap {
             ServerPlayConnectionEvents.JOIN.register(
                     (handler, sender, server) -> CrashReportNotifier.maybeNotify(handler.player));
         } catch (Throwable t) {
-            LOGGER.warn("Could not initialize crash reporting: {}", t.toString());
+            LOGGER.warn("Could not initialize crash reporting", t);
         }
     }
 }

@@ -45,6 +45,24 @@ class LogScrubberTest {
     }
 
     @Test
+    void redactsWholeWordUsernameButNotEmbeddedOrShortMatches() {
+        String original = System.getProperty("user.name");
+        try {
+            System.setProperty("user.name", "root");
+            assertThat(LogScrubber.redact("logged in as root")).isEqualTo("logged in as <user>");
+            assertThat(LogScrubber.redact("rootCause: boom")).isEqualTo("rootCause: boom");
+
+            // Names shorter than 3 chars are too collision-prone to replace at all.
+            System.setProperty("user.name", "mc");
+            assertThat(LogScrubber.redact("running as mc on mcServer")).isEqualTo("running as mc on mcServer");
+        } finally {
+            if (original != null) {
+                System.setProperty("user.name", original);
+            }
+        }
+    }
+
+    @Test
     void handlesNullAndEmpty() {
         assertThat(LogScrubber.redact(null)).isNull();
         assertThat(LogScrubber.redact("")).isEmpty();

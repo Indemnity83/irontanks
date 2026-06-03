@@ -40,7 +40,7 @@ public final class CrashReportNotifier {
             return;
         }
         if (NOTIFIED_THIS_SESSION.add(player.getUUID())) {
-            player.sendSystemMessage(invite(CrashReporting.isEnabled()));
+            player.sendSystemMessage(invite(CrashReporting.isActive()));
         }
     }
 

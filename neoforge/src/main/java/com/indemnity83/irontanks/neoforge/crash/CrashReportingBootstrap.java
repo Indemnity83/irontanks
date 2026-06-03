@@ -37,7 +37,7 @@ public final class CrashReportingBootstrap {
                 }
             });
         } catch (Throwable t) {
-            LOGGER.warn("Could not initialize crash reporting: {}", t.toString());
+            LOGGER.warn("Could not initialize crash reporting", t);
         }
     }
 }

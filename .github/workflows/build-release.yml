@@ -21,6 +21,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Mapped to a job env so the "Create Sentry release" step can gate on it (secrets can't be used in `if`).
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -94,7 +97,7 @@ jobs:
         run: ls -lh ${{ matrix.loader }}/build/libs/
 
       - name: Create Sentry release
-        if: github.event_name != 'workflow_dispatch' || inputs.publish
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.publish) && env.SENTRY_AUTH_TOKEN != '' }}
         uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
