@@ -58,6 +58,8 @@ class LogScrubberTest {
         } finally {
             if (original != null) {
                 System.setProperty("user.name", original);
+            } else {
+                System.clearProperty("user.name");
             }
         }
     }
