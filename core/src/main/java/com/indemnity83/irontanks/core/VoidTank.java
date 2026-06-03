@@ -10,8 +10,7 @@ package com.indemnity83.irontanks.core;
  */
 public final class VoidTank {
 
-    private VoidTank() {
-    }
+    private VoidTank() {}
 
     /** Maximum millibuckets destroyed per tick. */
     public static final long RATE = 20;

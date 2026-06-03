@@ -1,6 +1,10 @@
 {
   "variants": {
-    "joined_below=false": { "model": "irontanks:block/emerald_tank" },
-    "joined_below=true": { "model": "irontanks:block/emerald_tank_stacked" }
+    "joined_below=false": {
+      "model": "irontanks:block/emerald_tank"
+    },
+    "joined_below=true": {
+      "model": "irontanks:block/emerald_tank_stacked"
+    }
   }
 }

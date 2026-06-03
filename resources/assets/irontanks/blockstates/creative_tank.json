@@ -1,6 +1,10 @@
 {
   "variants": {
-    "joined_below=false": { "model": "irontanks:block/creative_tank" },
-    "joined_below=true": { "model": "irontanks:block/creative_tank" }
+    "joined_below=false": {
+      "model": "irontanks:block/creative_tank"
+    },
+    "joined_below=true": {
+      "model": "irontanks:block/creative_tank"
+    }
   }
 }

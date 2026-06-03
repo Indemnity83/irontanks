@@ -28,11 +28,9 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
     private static final long DROPLETS_PER_MB = FluidConstants.BUCKET / TankTier.BUCKET_VOLUME;
 
     /** A tank and its contents at transaction start, restored on abort. */
-    public record Slot(TankBlockEntity tank, FluidVariant fluid, long amount) {
-    }
+    public record Slot(TankBlockEntity tank, FluidVariant fluid, long amount) {}
 
-    public record Snapshot(List<Slot> slots) {
-    }
+    public record Snapshot(List<Slot> slots) {}
 
     private final TankBlockEntity origin;
 
