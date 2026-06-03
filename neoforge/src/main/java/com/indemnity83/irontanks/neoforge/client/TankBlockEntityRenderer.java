@@ -59,7 +59,9 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
             // 26.1 resolves fluid sprites/tint through the baked fluid-model set.
             FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluidState);
             state.sprite = model.stillMaterial().sprite();
-            state.tintColor = model.tintSource().color(fluidState.createLegacyBlock());
+            // tintSource is null for untinted fluids (e.g. lava); fall back to no tint (white).
+            var tintSource = model.tintSource();
+            state.tintColor = tintSource == null ? 0xFFFFFFFF : tintSource.color(fluidState.createLegacyBlock());
         } else {
             state.sprite = null;
         }
