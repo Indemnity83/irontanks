@@ -108,6 +108,10 @@ jobs:
         with:
           loaders: ${{ matrix.loader }}
           game-versions: ${{ steps.version.outputs.minecraft_version }}
+          # Pre-releases target whatever MC version (incl. pre-releases/snapshots) the branch builds
+          # against, so there's nothing to filter to "releases". mc-publish defaults this to "releases",
+          # which would drop a pre-release game version and fail the upload — so force it off.
+          game-version-filter: none
 
           modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
