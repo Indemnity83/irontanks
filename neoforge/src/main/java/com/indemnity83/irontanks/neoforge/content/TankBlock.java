@@ -13,8 +13,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -25,6 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -34,9 +34,12 @@ import org.jetbrains.annotations.Nullable;
 public class TankBlock extends BaseEntityBlock {
 
     public static final MapCodec<TankBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.STRING.xmap(TankTier::valueOf, TankTier::name).fieldOf("tier").forGetter(TankBlock::tier),
-            propertiesCodec()
-    ).apply(instance, TankBlock::new));
+                    Codec.STRING
+                            .xmap(TankTier::valueOf, TankTier::name)
+                            .fieldOf("tier")
+                            .forGetter(TankBlock::tier),
+                    propertiesCodec())
+            .apply(instance, TankBlock::new));
 
     /** True when a connecting tank sits directly below, so the seamless {@code side_stacked} texture is used. */
     public static final BooleanProperty JOINED_BELOW = BooleanProperty.create("joined_below");
@@ -66,7 +69,12 @@ public class TankBlock extends BaseEntityBlock {
     /** Right-click with a bucket (or any fluid container) to fill the tank or fill the container from it. */
     @Override
     protected InteractionResult useItemOn(
-            ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
             BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof TankBlockEntity
                 && FluidUtil.interactWithFluidHandler(player, hand, level, pos, hit.getDirection())) {
@@ -78,14 +86,21 @@ public class TankBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockState below = context.getLevel().getBlockState(context.getClickedPos().below());
+        BlockState below =
+                context.getLevel().getBlockState(context.getClickedPos().below());
         return defaultBlockState().setValue(JOINED_BELOW, joinsWithBelow(below));
     }
 
     @Override
     protected BlockState updateShape(
-            BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos,
-            Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+            BlockState state,
+            LevelReader level,
+            ScheduledTickAccess scheduledTickAccess,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighborPos,
+            BlockState neighborState,
+            RandomSource random) {
         if (direction == Direction.DOWN) {
             state = state.setValue(JOINED_BELOW, joinsWithBelow(neighborState));
         }
@@ -119,8 +134,10 @@ public class TankBlock extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide() ? null
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide()
+                ? null
                 : createTickerHelper(type, IronTanksContent.TANK_BLOCK_ENTITY, TankBlockEntity::serverTick);
     }
 }

@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -20,8 +21,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.core.BlockPos;
 
 /**
  * Stores a single fluid amount for one tank. Every connected tank in a vertical column holds the same
@@ -87,7 +86,8 @@ public class TankBlockEntity extends BlockEntity {
 
     // ==================== ticking ====================
 
-    public static void serverTick(net.minecraft.world.level.Level level, BlockPos pos, BlockState state, TankBlockEntity be) {
+    public static void serverTick(
+            net.minecraft.world.level.Level level, BlockPos pos, BlockState state, TankBlockEntity be) {
         be.tick();
     }
 
@@ -157,7 +157,8 @@ public class TankBlockEntity extends BlockEntity {
                 tank.setContentsRaw(targetFluid, target);
                 tank.setChanged();
                 if (level != null && !level.isClientSide()) {
-                    level.sendBlockUpdated(tank.worldPosition, tank.getBlockState(), tank.getBlockState(), Block.UPDATE_ALL);
+                    level.sendBlockUpdated(
+                            tank.worldPosition, tank.getBlockState(), tank.getBlockState(), Block.UPDATE_ALL);
                 }
                 changed = true;
             }

@@ -14,8 +14,7 @@ package com.indemnity83.irontanks.core;
  */
 public final class FluidColumn {
 
-    private FluidColumn() {
-    }
+    private FluidColumn() {}
 
     /** Total capacity of the column (sum of per-tank capacities). */
     public static long totalCapacity(long[] capacities) {

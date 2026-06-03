@@ -1,6 +1,5 @@
 {
   "itemGroup.irontanks.tanks": "Iron Tanks",
-
   "block.irontanks.glass_tank": "Glass Tank",
   "block.irontanks.copper_tank": "Copper Tank",
   "block.irontanks.iron_tank": "Iron Tank",
@@ -11,7 +10,6 @@
   "block.irontanks.emerald_tank": "Emerald Tank",
   "block.irontanks.void_tank": "Void Tank",
   "block.irontanks.creative_tank": "Creative Tank",
-
   "item.irontanks.glass_copper_upgrade": "Glass to Copper Tank Upgrade",
   "item.irontanks.glass_iron_upgrade": "Glass to Iron Tank Upgrade",
   "item.irontanks.copper_iron_upgrade": "Copper to Iron Tank Upgrade",
@@ -21,7 +19,6 @@
   "item.irontanks.gold_diamond_upgrade": "Gold to Diamond Tank Upgrade",
   "item.irontanks.diamond_obsidian_upgrade": "Diamond to Obsidian Tank Upgrade",
   "item.irontanks.diamond_emerald_upgrade": "Diamond to Emerald Tank Upgrade",
-
   "irontanks.tooltip.capacity": "Holds %s buckets",
   "irontanks.tooltip.void_tank": "Destroys fluids",
   "irontanks.tooltip.creative_tank": "Dispenses an infinite amount"

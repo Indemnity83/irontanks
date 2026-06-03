@@ -10,8 +10,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
  */
 public final class IronTanksClient {
 
-    private IronTanksClient() {
-    }
+    private IronTanksClient() {}
 
     public static void register(IEventBus modBus) {
         modBus.addListener(IronTanksClient::registerRenderers);

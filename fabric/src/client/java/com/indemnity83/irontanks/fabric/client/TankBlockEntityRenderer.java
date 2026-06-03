@@ -33,8 +33,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
     private static final float FLOOR = 0.0F;
     private static final float FULL_SURFACE = 15.5F / 16F;
 
-    public TankBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-    }
+    public TankBlockEntityRenderer(BlockEntityRendererProvider.Context context) {}
 
     @Override
     public TankRenderState createRenderState() {
@@ -63,7 +62,10 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
         if (state.hasFluid) {
             FluidState fluidState = tank.fluidVariant().getFluid().defaultFluidState();
             // 26.1 resolves fluid sprites/tint through the baked fluid-model set.
-            FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluidState);
+            FluidModel model = Minecraft.getInstance()
+                    .getModelManager()
+                    .getFluidStateModelSet()
+                    .get(fluidState);
             state.sprite = model.stillMaterial().sprite();
             // Biome-tinted fluids (water) need world context via colorInWorld; tintSource is null for
             // untinted fluids (lava) — fall back to no tint (white) in both the null and non-client cases.
@@ -91,35 +93,64 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
         float wallTop = state.renderTop ? surface : 1.0F;
         boolean renderTop = state.renderTop;
 
-        queue.submitCustomGeometry(pose, RenderTypes.translucentMovingBlock(),
+        queue.submitCustomGeometry(
+                pose,
+                RenderTypes.translucentMovingBlock(),
                 (entry, buffer) -> renderFluid(entry, buffer, sprite, color, light, surface, wallTop, renderTop));
     }
 
     private static void renderFluid(
-            PoseStack.Pose entry, VertexConsumer buffer, TextureAtlasSprite sprite, int color, int light,
-            float surface, float wallTop, boolean renderTop) {
+            PoseStack.Pose entry,
+            VertexConsumer buffer,
+            TextureAtlasSprite sprite,
+            int color,
+            int light,
+            float surface,
+            float wallTop,
+            boolean renderTop) {
         if (renderTop) {
             // Top surface (normal +Y), seen from above.
-            quad(entry, buffer, sprite, color, light, 0, 1, 0,
-                    MIN, surface, MIN, MIN, surface, MAX, MAX, surface, MAX, MAX, surface, MIN);
+            quad(
+                    entry, buffer, sprite, color, light, 0, 1, 0, MIN, surface, MIN, MIN, surface, MAX, MAX, surface,
+                    MAX, MAX, surface, MIN);
         }
         // North (-Z) and South (+Z) walls.
-        quad(entry, buffer, sprite, color, light, 0, 0, -1,
-                MIN, FLOOR, MIN, MAX, FLOOR, MIN, MAX, wallTop, MIN, MIN, wallTop, MIN);
-        quad(entry, buffer, sprite, color, light, 0, 0, 1,
-                MAX, FLOOR, MAX, MIN, FLOOR, MAX, MIN, wallTop, MAX, MAX, wallTop, MAX);
+        quad(
+                entry, buffer, sprite, color, light, 0, 0, -1, MIN, FLOOR, MIN, MAX, FLOOR, MIN, MAX, wallTop, MIN, MIN,
+                wallTop, MIN);
+        quad(
+                entry, buffer, sprite, color, light, 0, 0, 1, MAX, FLOOR, MAX, MIN, FLOOR, MAX, MIN, wallTop, MAX, MAX,
+                wallTop, MAX);
         // West (-X) and East (+X) walls.
-        quad(entry, buffer, sprite, color, light, -1, 0, 0,
-                MIN, FLOOR, MAX, MIN, FLOOR, MIN, MIN, wallTop, MIN, MIN, wallTop, MAX);
-        quad(entry, buffer, sprite, color, light, 1, 0, 0,
-                MAX, FLOOR, MIN, MAX, FLOOR, MAX, MAX, wallTop, MAX, MAX, wallTop, MIN);
+        quad(
+                entry, buffer, sprite, color, light, -1, 0, 0, MIN, FLOOR, MAX, MIN, FLOOR, MIN, MIN, wallTop, MIN, MIN,
+                wallTop, MAX);
+        quad(
+                entry, buffer, sprite, color, light, 1, 0, 0, MAX, FLOOR, MIN, MAX, FLOOR, MAX, MAX, wallTop, MAX, MAX,
+                wallTop, MIN);
     }
 
     private static void quad(
-            PoseStack.Pose entry, VertexConsumer buffer, TextureAtlasSprite sprite, int color, int light,
-            float nx, float ny, float nz,
-            float x1, float y1, float z1, float x2, float y2, float z2,
-            float x3, float y3, float z3, float x4, float y4, float z4) {
+            PoseStack.Pose entry,
+            VertexConsumer buffer,
+            TextureAtlasSprite sprite,
+            int color,
+            int light,
+            float nx,
+            float ny,
+            float nz,
+            float x1,
+            float y1,
+            float z1,
+            float x2,
+            float y2,
+            float z2,
+            float x3,
+            float y3,
+            float z3,
+            float x4,
+            float y4,
+            float z4) {
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
         float v0 = sprite.getV0();
@@ -137,8 +168,18 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
     }
 
     private static void vertex(
-            PoseStack.Pose entry, VertexConsumer buffer, int color, int light,
-            float nx, float ny, float nz, float x, float y, float z, float u, float v) {
+            PoseStack.Pose entry,
+            VertexConsumer buffer,
+            int color,
+            int light,
+            float nx,
+            float ny,
+            float nz,
+            float x,
+            float y,
+            float z,
+            float u,
+            float v) {
         buffer.addVertex(entry, x, y, z)
                 .setColor(color)
                 .setUv(u, v)

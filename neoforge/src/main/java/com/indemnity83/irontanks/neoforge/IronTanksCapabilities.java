@@ -12,8 +12,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
  */
 public final class IronTanksCapabilities {
 
-    private IronTanksCapabilities() {
-    }
+    private IronTanksCapabilities() {}
 
     public static void register(IEventBus modBus) {
         modBus.addListener(IronTanksCapabilities::registerCapabilities);

@@ -44,26 +44,24 @@ class FluidColumnTest {
 
     @Test
     void settleRejectsNegativeOrOverfull() {
-        assertThatThrownBy(() -> FluidColumn.settle(COLUMN, -1, false))
-                .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> FluidColumn.settle(COLUMN, 3001, false))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> FluidColumn.settle(COLUMN, -1, false)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> FluidColumn.settle(COLUMN, 3001, false)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void fillableCapsAtRemainingRoom() {
-        assertThat(FluidColumn.fillable(3000, 1000, 500)).isEqualTo(500);   // fits
-        assertThat(FluidColumn.fillable(3000, 2800, 500)).isEqualTo(200);   // clipped to room
-        assertThat(FluidColumn.fillable(3000, 3000, 500)).isZero();         // full
-        assertThat(FluidColumn.fillable(3000, 1000, 0)).isZero();           // nothing requested
-        assertThat(FluidColumn.fillable(3000, 1000, -5)).isZero();          // negative request
+        assertThat(FluidColumn.fillable(3000, 1000, 500)).isEqualTo(500); // fits
+        assertThat(FluidColumn.fillable(3000, 2800, 500)).isEqualTo(200); // clipped to room
+        assertThat(FluidColumn.fillable(3000, 3000, 500)).isZero(); // full
+        assertThat(FluidColumn.fillable(3000, 1000, 0)).isZero(); // nothing requested
+        assertThat(FluidColumn.fillable(3000, 1000, -5)).isZero(); // negative request
     }
 
     @Test
     void drainableCapsAtCurrentContents() {
-        assertThat(FluidColumn.drainable(1500, 500)).isEqualTo(500);   // fits
-        assertThat(FluidColumn.drainable(300, 500)).isEqualTo(300);    // clipped to contents
-        assertThat(FluidColumn.drainable(0, 500)).isZero();            // empty
-        assertThat(FluidColumn.drainable(1500, 0)).isZero();           // nothing requested
+        assertThat(FluidColumn.drainable(1500, 500)).isEqualTo(500); // fits
+        assertThat(FluidColumn.drainable(300, 500)).isEqualTo(300); // clipped to contents
+        assertThat(FluidColumn.drainable(0, 500)).isZero(); // empty
+        assertThat(FluidColumn.drainable(1500, 0)).isZero(); // nothing requested
     }
 }

@@ -15,7 +15,9 @@ public class TankRenderState extends BlockEntityRenderState {
     public boolean full;
     /** Draw the fluid's top surface here; false when connected fluid continues above, so columns merge. */
     public boolean renderTop;
+
     @Nullable
     public TextureAtlasSprite sprite;
+
     public int tintColor = 0xFFFFFFFF;
 }

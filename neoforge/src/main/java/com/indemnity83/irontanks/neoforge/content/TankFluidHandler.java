@@ -20,11 +20,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         implements ResourceHandler<FluidResource> {
 
     /** A tank and its contents at transaction start, restored on abort. */
-    public record Slot(TankBlockEntity tank, FluidResource fluid, long amount) {
-    }
+    public record Slot(TankBlockEntity tank, FluidResource fluid, long amount) {}
 
-    public record Snapshot(List<Slot> slots) {
-    }
+    public record Snapshot(List<Slot> slots) {}
 
     private final TankBlockEntity origin;
 
