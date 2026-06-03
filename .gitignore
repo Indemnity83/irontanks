@@ -1,9 +1,10 @@
-## gradle
-/.gradle
-/build
+## gradle (root and every subproject)
+.gradle/
+build/
 
-## ForgeGradle
+## run dirs
 /run
+**/runs/
 
 ## eclipse
 /eclipse
