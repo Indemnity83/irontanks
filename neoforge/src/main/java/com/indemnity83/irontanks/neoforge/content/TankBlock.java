@@ -81,6 +81,18 @@ public class TankBlock extends BaseEntityBlock {
                 && belowTank.tier() != TankTier.CREATIVE;
     }
 
+    /** Hide the shared top/bottom face between two connecting tanks so a vertical stack looks seamless. */
+    @Override
+    protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
+        if (direction.getAxis() == Direction.Axis.Y
+                && tier != TankTier.CREATIVE
+                && neighborState.getBlock() instanceof TankBlock neighbor
+                && neighbor.tier() != TankTier.CREATIVE) {
+            return true;
+        }
+        return super.skipRendering(state, neighborState, direction);
+    }
+
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
