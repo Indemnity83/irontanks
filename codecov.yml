@@ -1,0 +1,34 @@
+# Codecov configuration for Iron Tanks.
+# Only the pure-logic `core` module has tests today; fabric/neoforge are smoke-built only
+# and are ignored so they never report as 0%-covered or drag the project status down.
+coverage:
+  status:
+    project:
+      core:
+        target: auto
+        threshold: 1% # absorb noise from tiny line-count swings; tune up if flaky
+        flags:
+          - core
+        paths:
+          - core/
+    patch:
+      core:
+        target: auto
+        threshold: 1%
+        flags:
+          - core
+        paths:
+          - core/
+
+flags:
+  core:
+    paths:
+      - core/
+    carryforward: true # PRs that don't touch core keep the last known core coverage
+
+# Loaders have no tests; keep them out of coverage entirely.
+ignore:
+  - "fabric/**"
+  - "neoforge/**"
+  - "**/build/**"
+  - "**/*.gradle"
