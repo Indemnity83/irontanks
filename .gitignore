@@ -4,6 +4,7 @@ build/
 
 ## run dirs
 /run
+**/run/
 **/runs/
 
 ## eclipse

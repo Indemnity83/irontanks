@@ -1,0 +1,18 @@
+{
+  "itemGroup.irontanks.tanks": "Iron Tanks",
+
+  "block.irontanks.glass_tank": "Glass Tank",
+  "block.irontanks.copper_tank": "Copper Tank",
+  "block.irontanks.iron_tank": "Iron Tank",
+  "block.irontanks.silver_tank": "Silver Tank",
+  "block.irontanks.gold_tank": "Gold Tank",
+  "block.irontanks.diamond_tank": "Diamond Tank",
+  "block.irontanks.obsidian_tank": "Obsidian Tank",
+  "block.irontanks.emerald_tank": "Emerald Tank",
+  "block.irontanks.void_tank": "Void Tank",
+  "block.irontanks.creative_tank": "Creative Tank",
+
+  "irontanks.tooltip.capacity": "Holds %s buckets",
+  "irontanks.tooltip.void_tank": "Destroys fluids",
+  "irontanks.tooltip.creative_tank": "Dispenses an infinite amount"
+}

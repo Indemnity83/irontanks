@@ -19,6 +19,7 @@ pluginManagement {
 
 rootProject.name = 'irontanks'
 
-// core: pure-logic module, no Minecraft. fabric added as it is built out.
+// core: pure-logic module, no Minecraft. neoforge + fabric: per-loader glue.
 include 'core'
 include 'neoforge'
+include 'fabric'
