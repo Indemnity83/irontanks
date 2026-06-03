@@ -60,13 +60,29 @@ public class TankBlockEntity extends BlockEntity {
         this.fluid = this.amount == 0 ? FluidResource.EMPTY : fluid;
     }
 
-    /** Persist + sync after an external content change, then rebalance the column. */
-    public void onContentsChanged() {
+    /** Persist + push this tile to clients (no rebalance). */
+    public void sync() {
         setChanged();
         if (level != null && !level.isClientSide()) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
         }
+    }
+
+    /** Persist + sync after an external content change, then rebalance the column. */
+    public void onContentsChanged() {
+        sync();
         balanceColumn();
+    }
+
+    /** This tank's vertical column, ordered bottom-to-top (creative tanks stay isolated). */
+    public List<TankBlockEntity> columnTanks() {
+        return column();
+    }
+
+    /** Whether the connecting tank directly above currently holds fluid (used to merge fluid visually). */
+    public boolean hasFluidAbove() {
+        TankBlockEntity above = neighbour(this, Direction.UP);
+        return above != null && connects(this, above) && above.amount() > 0;
     }
 
     // ==================== ticking ====================
