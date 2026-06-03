@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -59,9 +60,12 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
             // 26.1 resolves fluid sprites/tint through the baked fluid-model set.
             FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluidState);
             state.sprite = model.stillMaterial().sprite();
-            // tintSource is null for untinted fluids (e.g. lava); fall back to no tint (white).
+            // Biome-tinted fluids (water) need world context via colorInWorld; tintSource is null for
+            // untinted fluids (lava) — fall back to no tint (white) in both the null and non-client cases.
             var tintSource = model.tintSource();
-            state.tintColor = tintSource == null ? 0xFFFFFFFF : tintSource.color(fluidState.createLegacyBlock());
+            state.tintColor = tintSource != null && level instanceof BlockAndTintGetter tintGetter
+                    ? tintSource.colorInWorld(fluidState.createLegacyBlock(), tintGetter, tank.getBlockPos())
+                    : 0xFFFFFFFF;
         } else {
             state.sprite = null;
         }
@@ -108,10 +112,16 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
         float u1 = sprite.getU1();
         float v0 = sprite.getV0();
         float v1 = sprite.getV1();
+        // Front face.
         vertex(entry, buffer, color, light, nx, ny, nz, x1, y1, z1, u0, v1);
         vertex(entry, buffer, color, light, nx, ny, nz, x2, y2, z2, u1, v1);
         vertex(entry, buffer, color, light, nx, ny, nz, x3, y3, z3, u1, v0);
         vertex(entry, buffer, color, light, nx, ny, nz, x4, y4, z4, u0, v0);
+        // Back face (reverse winding, flipped normal) so it shows from both sides regardless of culling.
+        vertex(entry, buffer, color, light, -nx, -ny, -nz, x4, y4, z4, u0, v0);
+        vertex(entry, buffer, color, light, -nx, -ny, -nz, x3, y3, z3, u1, v0);
+        vertex(entry, buffer, color, light, -nx, -ny, -nz, x2, y2, z2, u1, v1);
+        vertex(entry, buffer, color, light, -nx, -ny, -nz, x1, y1, z1, u0, v1);
     }
 
     private static void vertex(
