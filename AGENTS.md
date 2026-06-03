@@ -50,9 +50,11 @@ ground-up multiloader rewrite; it does **not** share code or build setup with th
 **Never push or commit directly to an `mc/*` branch.** These are protected. All work — including in
 auto mode — goes through a feature branch and a PR into the matching `mc/*` branch.
 
-1. Create a feature branch first: `git checkout -b descriptive-branch-name`
+1. Create a feature branch with **Git Town** so it is parented correctly:
+   `git town hack descriptive-branch-name` (Git Town's `main-branch` is `mc/26.1`, so the new branch
+   is parented to it automatically — don't use a bare `git checkout -b`)
 2. Make commits on the feature branch
-3. Push the feature branch: `git push origin descriptive-branch-name`
+3. Push the feature branch: `git push -u origin descriptive-branch-name` (or `git town propose`)
 4. Open a PR targeting the `mc/*` branch you started from
 
 **In auto mode:** still pause and confirm before any `git push` when the current branch is `mc/*` or
@@ -194,6 +196,9 @@ so the files reach both the mod jar and the dev resource root — no per-loader 
 ### Conventions
 
 - **Put real behavior in `core`** and keep the loader glue thin; share the math, not the MC code.
+- **Bug fixes are test-driven:** first write a failing `core` test that reproduces the bug and watch it
+  fail, then make the fix that turns it green. Push the buggy logic into `core` if it isn't there yet so
+  it can be covered — keep loader glue too thin to need its own tests.
 - **Tiers are data-driven:** adding a tier is a `TankTier` entry + per-loader registration + its asset
   set + recipes, not new architecture.
 - Special tanks (void/creative) are tier-driven branches in the shared `TankBlockEntity`, not subclasses.
@@ -271,8 +276,8 @@ Publishing needs repo **secrets** `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `GRADLE_
 
 ## Documentation
 
-- `CLAUDE.md` (this file) — primary development guidance for Claude Code
-- `AGENTS.md` — the same guidance for other coding agents (keep in sync with this file)
+- `CLAUDE.md` — primary development guidance for Claude Code (keep in sync with this file)
+- `AGENTS.md` (this file) — the same guidance for other coding agents
 - `README.md` — user-facing project overview
 - `CHANGELOG.md` — auto-generated release notes
 - [Iron Tanks wiki](https://github.com/Indemnity83/irontanks/wiki) — tank tiers, capacities, recipes
