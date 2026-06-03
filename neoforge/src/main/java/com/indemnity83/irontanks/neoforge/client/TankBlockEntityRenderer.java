@@ -3,7 +3,9 @@ package com.indemnity83.irontanks.neoforge.client;
 import com.indemnity83.irontanks.neoforge.content.TankBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
@@ -11,21 +13,15 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
-import net.minecraft.client.resources.model.sprite.SpriteId;
-import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Draws the fluid level inside a tank. The fluid surface height tracks the tank's fill ratio; geometry
- * is submitted as custom quads inset to match the glass model's inner box (2..14 px).
- *
- * <p>TODO(neoforge-fluid-model): on this NeoForge beta the per-fluid still sprite and tint moved to the
- * new fluid-model system ({@code RegisterFluidModelsEvent} / {@code FluidTintSources}). Until that is
- * wired and verified in-game, the surface uses the water still sprite + a water tint as a placeholder so
- * the fill level is visible; the geometry/pipeline below is the real renderer.
+ * Draws the fluid level inside a tank: the fluid's own still sprite and tint, at a surface height that
+ * tracks the tank's fill ratio. Geometry is submitted as custom quads inset to match the glass model's
+ * inner box (2..14 px).
  */
 public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEntity, TankRenderState> {
 
@@ -35,14 +31,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
     private static final float FLOOR = 0.5F / 16F;
     private static final float CEIL = 15.5F / 16F;
 
-    private static final SpriteId STILL_SPRITE = new SpriteId(
-            TextureAtlas.LOCATION_BLOCKS, Identifier.fromNamespaceAndPath("minecraft", "block/water_still"));
-    private static final int FLUID_TINT = 0xFF3F76E4;
-
-    private final SpriteGetter sprites;
-
     public TankBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        this.sprites = context.sprites();
     }
 
     @Override
@@ -61,10 +50,19 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 
         long capacity = tank.capacity();
         long amount = tank.amount();
-        state.hasFluid = !tank.fluidResource().isEmpty() && amount > 0 && capacity > 0;
+        Level level = tank.getLevel();
+        state.hasFluid = !tank.fluidResource().isEmpty() && amount > 0 && capacity > 0 && level != null;
         state.fillRatio = state.hasFluid ? Math.min(1.0F, (float) amount / capacity) : 0.0F;
-        state.sprite = state.hasFluid ? stillSprite() : null;
-        state.tintColor = FLUID_TINT;
+
+        if (state.hasFluid) {
+            FluidState fluidState = tank.fluidResource().value().defaultFluidState();
+            // 26.1 resolves fluid sprites/tint through the baked fluid-model set.
+            FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluidState);
+            state.sprite = model.stillMaterial().sprite();
+            state.tintColor = model.tintSource().color(fluidState.createLegacyBlock());
+        } else {
+            state.sprite = null;
+        }
     }
 
     @Override
@@ -73,16 +71,13 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
             return;
         }
         TextureAtlasSprite sprite = state.sprite;
+        // getTintColor may omit alpha (0x00RRGGBB); force opaque so the surface is visible.
         int color = (state.tintColor & 0xFF000000) == 0 ? state.tintColor | 0xFF000000 : state.tintColor;
         int light = state.lightCoords;
         float surface = FLOOR + state.fillRatio * (CEIL - FLOOR);
 
         queue.submitCustomGeometry(pose, RenderTypes.translucentMovingBlock(),
                 (entry, buffer) -> renderFluid(entry, buffer, sprite, color, light, surface));
-    }
-
-    private TextureAtlasSprite stillSprite() {
-        return sprites.get(STILL_SPRITE);
     }
 
     private static void renderFluid(

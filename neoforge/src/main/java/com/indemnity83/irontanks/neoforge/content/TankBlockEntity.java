@@ -130,7 +130,7 @@ public class TankBlockEntity extends BlockEntity {
             return false;
         }
         long[] capacities = column.stream().mapToLong(TankBlockEntity::capacity).toArray();
-        boolean gas = false; // TODO: detect gaseous fluids on 26.1 and pass true so gases rise
+        boolean gas = shared.value().getFluidType().isLighterThanAir();
         long[] settled = FluidColumn.settle(capacities, total, gas);
         boolean changed = false;
         for (int i = 0; i < column.size(); i++) {
