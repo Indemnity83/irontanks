@@ -104,7 +104,7 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         }
         updateSnapshots(transaction);
         distribute(column, resource, total + room);
-        return (int) room;
+        return clampToInt(room);
     }
 
     @Override
@@ -131,7 +131,15 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         }
         updateSnapshots(transaction);
         distribute(column, current, total - taken);
-        return (int) taken;
+        return clampToInt(taken);
+    }
+
+    /**
+     * Narrows a non-negative mB {@code amount} to {@code int}, clamping at {@link Integer#MAX_VALUE} so a
+     * tall column of high-tier tanks can't wrap a {@code long} total to a negative or truncated value.
+     */
+    private static int clampToInt(long amount) {
+        return (int) Math.min(amount, Integer.MAX_VALUE);
     }
 
     /** Settles {@code total} mB across the column (via {@code core}) and writes each tank's share. */
