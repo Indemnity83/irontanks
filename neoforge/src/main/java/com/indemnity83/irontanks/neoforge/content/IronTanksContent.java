@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.neoforge.content;
 
 import com.indemnity83.irontanks.core.TankTier;
+import com.indemnity83.irontanks.core.TankUpgrade;
 import com.indemnity83.irontanks.neoforge.IronTanksNeoForge;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -44,6 +45,9 @@ public final class IronTanksContent {
         for (TankTier tier : TankTier.values()) {
             registerTank(tier);
         }
+        for (TankUpgrade upgrade : TankUpgrade.values()) {
+            registerUpgrade(upgrade);
+        }
 
         TANK_BLOCK_ENTITY = Registry.register(
                 BuiltInRegistries.BLOCK_ENTITY_TYPE,
@@ -70,6 +74,14 @@ public final class IronTanksContent {
 
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, id(name));
         BlockItem item = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
+        TAB_ITEMS.add(item);
+    }
+
+    private static void registerUpgrade(TankUpgrade upgrade) {
+        String name = upgrade.name().toLowerCase(Locale.ROOT) + "_upgrade";
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, id(name));
+        UpgradeItem item = new UpgradeItem(upgrade, new Item.Properties().setId(itemKey));
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);
         TAB_ITEMS.add(item);
     }
