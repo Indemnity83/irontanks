@@ -3,6 +3,7 @@
 plugins {
     id 'java-library'
     id 'net.neoforged.moddev'
+    id 'io.sentry.jvm.gradle'
 }
 
 // NeoForge requires a valid Maven/SemVer version in neoforge.mods.toml; the root's "dev-local" marker
@@ -24,6 +25,17 @@ repositories {
 
 dependencies {
     implementation project(':core')
+
+    // Sentry crash-reporting SDK. core uses it but doesn't bundle it (its dep is compileOnly), so the
+    // loader supplies it: implementation puts it on the dev runtime classpath, jarJar nests it
+    // jar-in-jar for shipped builds. The version range lets JarJar dedupe against any copy another mod
+    // ships while preferring our pinned version. Gson/Log4j2 that core also needs come from Minecraft.
+    jarJar(implementation("io.sentry:sentry")) {
+        version {
+            strictly "[${rootProject.sentry_version},9.0.0)"
+            prefer "${rootProject.sentry_version}"
+        }
+    }
 }
 
 neoForge {
@@ -76,4 +88,27 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.release = rootProject.java_version.toInteger()
+}
+
+// Sentry source-context upload (so stack traces show inline source in Sentry). Gated on the
+// SENTRY_AUTH_TOKEN secret: local/PR builds without it skip the upload entirely and never fail.
+// We manage the SDK dependency ourselves above, so the plugin's auto-install/telemetry stay off.
+def sentryAuthToken = System.getenv("SENTRY_AUTH_TOKEN")
+sentry {
+    includeSourceContext = sentryAuthToken != null && !sentryAuthToken.isEmpty()
+    org = "indmenity83"
+    projectName = "irontanks-mod"
+    authToken = sentryAuthToken
+    autoInstallation {
+        enabled = false
+    }
+    telemetry = false
+}
+
+// The Sentry plugin emits generated metadata into the main resources, which withSourcesJar() also
+// picks up; declare the dependency so Gradle 9 doesn't reject the implicit one on `build`.
+tasks.named('sourcesJar') {
+    dependsOn(tasks.matching {
+        it.name.toLowerCase().startsWith('generatesentry') || it.name == 'collectExternalDependenciesForSentry'
+    })
 }

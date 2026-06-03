@@ -31,6 +31,8 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ inputs.tag || github.ref }}
+          # Full history so the Sentry release step can auto-associate commits.
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
@@ -85,9 +87,25 @@ jobs:
         run: ./gradlew :${{ matrix.loader }}:jar --console=plain
         env:
           MOD_VERSION: ${{ steps.version.outputs.full_version }}
+          # Enables Sentry source-context upload during the build (gated on the token being present).
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: List build artifacts
         run: ls -lh ${{ matrix.loader }}/build/libs/
+
+      - name: Create Sentry release
+        if: github.event_name != 'workflow_dispatch' || inputs.publish
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: indmenity83
+          SENTRY_PROJECT: irontanks-mod
+        with:
+          # Matches the runtime SDK's release: "irontanks@" + modVersion (one per loader jar).
+          release: irontanks@${{ steps.version.outputs.full_version }}
+          set_commits: auto
+          finalize: true
+          environment: production
 
       - name: Upload JAR
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

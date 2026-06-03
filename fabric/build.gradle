@@ -3,6 +3,7 @@
 plugins {
     id 'java-library'
     id 'net.fabricmc.fabric-loom'
+    id 'io.sentry.jvm.gradle'
 }
 
 // Fabric is lenient about versions, but keep parity with the NeoForge module's dev version.
@@ -36,6 +37,12 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
     implementation project(':core')
+
+    // Sentry crash-reporting SDK. core uses it but doesn't bundle it (its dep is compileOnly), so the
+    // loader supplies it: implementation puts it on the dev runtime classpath, include nests it
+    // jar-in-jar for shipped builds. Gson/Log4j2 that core also needs are provided by Minecraft.
+    implementation "io.sentry:sentry:${rootProject.sentry_version}"
+    include "io.sentry:sentry:${rootProject.sentry_version}"
 }
 
 // Embed the pure-logic core classes directly into the mod jar.
@@ -69,4 +76,27 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.release = rootProject.java_version.toInteger()
+}
+
+// Sentry source-context upload (so stack traces show inline source in Sentry). Gated on the
+// SENTRY_AUTH_TOKEN secret: local/PR builds without it skip the upload entirely and never fail.
+// We manage the SDK dependency ourselves above, so the plugin's auto-install/telemetry stay off.
+def sentryAuthToken = System.getenv("SENTRY_AUTH_TOKEN")
+sentry {
+    includeSourceContext = sentryAuthToken != null && !sentryAuthToken.isEmpty()
+    org = "indmenity83"
+    projectName = "irontanks-mod"
+    authToken = sentryAuthToken
+    autoInstallation {
+        enabled = false
+    }
+    telemetry = false
+}
+
+// The Sentry plugin emits generated metadata into the main resources, which withSourcesJar() also
+// picks up; declare the dependency so Gradle 9 doesn't reject the implicit one on `build`.
+tasks.named('sourcesJar') {
+    dependsOn(tasks.matching {
+        it.name.toLowerCase().startsWith('generatesentry') || it.name == 'collectExternalDependenciesForSentry'
+    })
 }

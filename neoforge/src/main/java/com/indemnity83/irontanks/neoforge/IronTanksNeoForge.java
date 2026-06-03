@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.neoforge;
 
 import com.indemnity83.irontanks.neoforge.client.IronTanksClient;
 import com.indemnity83.irontanks.neoforge.content.IronTanksContent;
+import com.indemnity83.irontanks.neoforge.crash.CrashReportingBootstrap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -28,6 +29,9 @@ public final class IronTanksNeoForge {
         if (FMLEnvironment.getDist().isClient()) {
             IronTanksClient.register(modBus);
         }
+
+        // Opt-in (default off) sanitized crash reporting.
+        CrashReportingBootstrap.init();
     }
 
     private synchronized void onRegister(RegisterEvent event) {

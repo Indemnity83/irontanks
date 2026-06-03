@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.fabric;
 
 import com.indemnity83.irontanks.fabric.content.IronTanksContent;
 import com.indemnity83.irontanks.fabric.content.TankFluidStorage;
+import com.indemnity83.irontanks.fabric.crash.CrashReportingBootstrap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import org.slf4j.Logger;
@@ -25,5 +26,8 @@ public final class IronTanksFabric implements ModInitializer {
         // Expose every tank's fluid storage so pipes/pumps can fill and drain it.
         FluidStorage.SIDED.registerForBlockEntity(
                 (tank, direction) -> new TankFluidStorage(tank), IronTanksContent.TANK_BLOCK_ENTITY);
+
+        // Opt-in (default off) sanitized crash reporting.
+        CrashReportingBootstrap.init();
     }
 }
