@@ -69,6 +69,7 @@ toolchains, so changes do **not** cherry-pick between them — port by hand. Wit
 ```bash
 ./gradlew build                 # Build everything: core (+ unit tests), fabric, neoforge
 ./gradlew :core:test            # Run the pure-logic unit tests (no Minecraft, fast)
+./gradlew :core:jacocoTestReport # Run core tests + write the JaCoCo coverage report (XML for Codecov)
 ./gradlew :neoforge:runClient   # Launch the NeoForge dev client
 ./gradlew :fabric:runClient     # Launch the Fabric dev client
 ./gradlew :neoforge:jar         # Build just the NeoForge mod jar
@@ -145,7 +146,9 @@ than the source-injection / Architectury approaches; Iron Tanks is the testbed f
 - `VoidTank` — the 20 mB/tick self-destruction rate.
 - `TankUpgrade` — the upgrade graph (which tier promotes to which).
 
-`core` has JUnit tests and no MC dependency, so `./gradlew :core:test` runs instantly.
+`core` has JUnit tests and no MC dependency, so `./gradlew :core:test` runs instantly. It's the only
+module with a test source set; **JaCoCo** measures its coverage (`:core:jacocoTestReport`, pinned to a
+Java-25-capable tool version) and CI uploads the report to **Codecov** (see **CI / Automation**).
 
 ### Loader glue (mirrored in `neoforge/` and `fabric/`, package `…irontanks.<loader>`)
 
@@ -203,8 +206,9 @@ so the files reach both the mod jar and the dev resource root — no per-loader 
   Run `./gradlew spotlessApply` to fix and `./gradlew spotlessCheck` to verify.
 - Single-line `if`/`for` allowed; prefer braces for multi-line bodies; keep nesting ≤ 3 levels.
 - **CI** (`check-code.yml`, JDK 25, on PRs into `mc/**`) splits into three jobs: `lint`
-  (`spotlessCheck`), `test` (`:core:test`), and a `build` matrix that smoke-builds each loader jar
-  once lint + test pass. Formatting is now a hard CI gate, not just the PR-title check.
+  (`spotlessCheck`), `test` (`:core:jacocoTestReport`, which also uploads coverage to Codecov), and a
+  `build` matrix that smoke-builds each loader jar once lint + test pass. Formatting is now a hard CI
+  gate, not just the PR-title check.
 
 ## Commit Messages
 
@@ -248,8 +252,11 @@ GitHub Actions in `.github/workflows/`:
 
 - **`check-pr.yml`** — validates the PR title (no-scope conventional commit, lowercase subject).
 - **`check-code.yml`** — JDK 25 on push/PR into `mc/**`; three jobs: `lint` (`spotlessCheck`), `test`
-  (`:core:test`), and a `build` matrix (`[fabric, neoforge]`) that smoke-builds each loader jar and
-  runs only after lint + test pass. JDK/Gradle setup is shared via the `setup-build` composite action.
+  (`:core:jacocoTestReport`), and a `build` matrix (`[fabric, neoforge]`) that smoke-builds each loader
+  jar and runs only after lint + test pass. JDK/Gradle setup is shared via the `setup-build` composite
+  action. The `test` job uploads JaCoCo coverage to **Codecov** via `codecov/codecov-action` (needs the
+  `CODECOV_TOKEN` secret); `codecov.yml` scopes the `project`/`patch` `auto` status checks to `core/`
+  and ignores the (test-free) loader modules.
 - **`prepare-release.yml`** — runs release-please on pushes to `mc/*`.
 - **`build-release.yml`** — on a published release (or manual `workflow_dispatch`), builds **both** loader
   jars (matrix `[fabric, neoforge]`) and, when publishing, uploads to Modrinth/CurseForge via `mc-publish`
