@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/Indemnity83/irontanks/compare/mc1.12.2-v2.1.0...mc1.12.2-v2.2.0) (2026-06-03)
+
+
+### Added
+
+* add configuration for Creative Tank breakability settings ([#91](https://github.com/Indemnity83/irontanks/issues/91)) ([2a63b2b](https://github.com/Indemnity83/irontanks/commit/2a63b2b7db5d72c958ee3f99876e452d186d25ef))
+
 ## [2.1.0](https://github.com/Indemnity83/irontanks/compare/mc1.12.2-v1.1.16...mc1.12.2-v2.1.0) (2026-06-01)
 
 
