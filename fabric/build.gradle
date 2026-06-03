@@ -6,9 +6,6 @@ plugins {
     id 'io.sentry.jvm.gradle'
 }
 
-// Fabric is lenient about versions, but keep parity with the NeoForge module's dev version.
-version = System.getenv("MOD_VERSION") ?: "0.0.0-dev"
-
 base {
     archivesName = rootProject.archives_base_name
 }

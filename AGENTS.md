@@ -87,9 +87,11 @@ toolchains, so changes do **not** cherry-pick between them — port by hand. Wit
 - `neoforge/build/libs/irontanks-<version>.jar`
 - `fabric/build/libs/irontanks-<version>.jar`
 
-Local/dev builds default the version to `0.0.0-dev` (NeoForge rejects a non-SemVer version like
-`dev-local` at load time). CI injects the real version via the `MOD_VERSION` env var — never hard-code
-a version in source. A dev client needs JDK 25 (the project toolchain).
+Local/dev builds default the version to `0.0.0-dev-local` (NeoForge's FML rejects a version without a
+leading numeric component at load time — a bare `dev-local` throws `InvalidModFileException`). The
+fallback is defined once in the root `allprojects` block and inherited by both loaders. CI injects the
+real version via the `MOD_VERSION` env var — never hard-code a version in source. A dev client needs
+JDK 25 (the project toolchain).
 
 ### Version Management
 

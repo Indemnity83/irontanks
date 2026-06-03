@@ -11,7 +11,11 @@ plugins {
 allprojects {
     group = rootProject.maven_group
     // Version is injected by release CI via MOD_VERSION; local/dev builds get a static marker.
-    version = System.getenv("MOD_VERSION") ?: "dev-local"
+    // The marker must be SemVer: NeoForge's FML rejects a version without a leading numeric component at
+    // load time (a bare "dev-local" throws InvalidModFileException "Illegal version number specified
+    // dev-local" — verified via :neoforge:runServer). "0.0.0-dev-local" keeps FML happy while still
+    // reading as clearly unversioned. Single source of truth — the loader modules inherit this.
+    version = System.getenv("MOD_VERSION") ?: "0.0.0-dev-local"
 }
 
 // Spotless resolves its formatter (palantir-java-format) from the root project's repositories.
