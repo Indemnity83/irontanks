@@ -8,7 +8,7 @@ tank; upgrade them in place without spilling a drop.
 [![Modrinth](https://img.shields.io/modrinth/dt/iron-tanks?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/iron-tanks)
 ![Minecraft 26.1](https://img.shields.io/badge/Minecraft-26.1-brightgreen)
 ![Loaders: NeoForge | Fabric](https://img.shields.io/badge/loader-NeoForge%20%7C%20Fabric-blue)
-[![License: MIT](https://img.shields.io/github/license/Indemnity83/irontanks)](LICENSE.txt)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt)
 
 > [!IMPORTANT]
 > **Iron Tanks is a storage mod, not a plumbing one.** On its own, the only way to move fluid in or
