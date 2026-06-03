@@ -1,5 +1,6 @@
 {
   "variants": {
-    "": { "model": "irontanks:block/diamond_tank" }
+    "joined_below=false": { "model": "irontanks:block/diamond_tank" },
+    "joined_below=true": { "model": "irontanks:block/diamond_tank_stacked" }
   }
 }
