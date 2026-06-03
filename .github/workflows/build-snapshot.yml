@@ -14,6 +14,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Mapped to a job env so the "Create Sentry release" step can gate on it (secrets can't be used in `if`).
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -72,6 +75,22 @@ jobs:
         run: ./gradlew :${{ matrix.loader }}:jar --console=plain
         env:
           MOD_VERSION: ${{ steps.version.outputs.full_version }}
+          # Enables Sentry source-context upload during the build (gated on the token being present).
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+      - name: Create Sentry release
+        if: ${{ env.SENTRY_AUTH_TOKEN != '' }}
+        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528 # v3.7.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: indmenity83
+          SENTRY_PROJECT: irontanks-mod
+        with:
+          release: irontanks@${{ steps.version.outputs.full_version }}
+          set_commits: auto
+          finalize: true
+          # Snapshots are pre-release; keep them out of the production deploy stream.
+          environment: preview
 
       - name: Upload JAR
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

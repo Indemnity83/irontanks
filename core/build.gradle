@@ -15,10 +15,22 @@ repositories {
 }
 
 dependencies {
+    // Crash reporting (com.indemnity83.irontanks.core.crash). All three are provided at runtime —
+    // Sentry by each loader's jar-in-jar bundle, Gson + Log4j2 by Minecraft — so they are compileOnly
+    // here (never bundled by core) and testImplementation so the pure-logic tests can exercise them.
+    compileOnly "io.sentry:sentry:${rootProject.sentry_version}"
+    compileOnly "com.google.code.gson:gson:${rootProject.gson_version}"
+    compileOnly "org.apache.logging.log4j:log4j-core:${rootProject.log4j_version}"
+    compileOnly "org.slf4j:slf4j-api:${rootProject.slf4j_version}"
+
     testImplementation platform("org.junit:junit-bom:${rootProject.junit_version}")
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation "org.assertj:assertj-core:${rootProject.assertj_version}"
+    testImplementation "io.sentry:sentry:${rootProject.sentry_version}"
+    testImplementation "com.google.code.gson:gson:${rootProject.gson_version}"
+    testImplementation "org.apache.logging.log4j:log4j-core:${rootProject.log4j_version}"
+    testRuntimeOnly "org.slf4j:slf4j-api:${rootProject.slf4j_version}"
 }
 
 test {

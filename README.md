@@ -53,6 +53,14 @@ Grab the latest build for your loader from
 > Minecraft 1.12.2 and earlier live on the `mc/*` branches and remain BuildCraft add-ons — see those
 > releases.
 
+## Crash reporting (opt-in)
+
+Iron Tanks can send **sanitized crash reports** to help fix bugs — but it's **off by default** and
+sends nothing until an operator turns it on with `/irontanks diagnostics enable`. Only Iron Tanks'
+own errors are captured, and personal info (usernames, paths, IPs, UUIDs, secrets) is stripped before
+anything leaves your machine. Run `/irontanks diagnostics preview` to see exactly what a report looks
+like. Full details in **[CRASH_REPORTING.md](CRASH_REPORTING.md)**.
+
 ## Contributing
 
 You don't need to write Java to help:
