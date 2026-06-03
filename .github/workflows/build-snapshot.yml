@@ -1,22 +1,15 @@
-name: Build (Release)
+name: Build (Snapshot)
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
-      tag:
-        description: "Release tag to build (e.g. mc26.1-v2.2.0) - produces 2.2.0+mc<version>.<loader>"
-        required: true
-        type: string
-      publish:
-        description: "Actually publish (otherwise build only)"
-        required: true
-        default: false
-        type: boolean
+      rev:
+        description: "Revision letter if multiple builds in same week (a,b,c...)"
+        required: false
+        default: "a"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -30,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
@@ -46,48 +39,39 @@ jobs:
       - name: Extract version information
         id: version
         env:
-          GH_EVENT: ${{ github.event_name }}
-          INPUT_TAG: ${{ inputs.tag }}
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_REV: ${{ inputs.rev }}
           MATRIX_LOADER: ${{ matrix.loader }}
         run: |
-          if [[ "$GH_EVENT" == "workflow_dispatch" ]]; then
-            TAG="$INPUT_TAG"
-          else
-            TAG="$RELEASE_TAG"
-          fi
+          set -euo pipefail
 
-          # Tag format: mc26.1-v2.2.0 (component-based for release-please tracking)
-          if [[ "$TAG" =~ ^mc([0-9.]+)-v(.+)$ ]]; then
-            VERSION="${BASH_REMATCH[2]}"
-          else
-            echo "::warning::Tag didn't match expected format: $TAG"
-            VERSION="${TAG#v}"
-          fi
-          VERSION="${VERSION#v}"
+          # Minecraft-style snapshot id: 26w23a (year, week, revision letter)
+          YY="$(date -u +%g)"
+          WW="$(date -u +%V)"
+          REV="$(echo "$INPUT_REV" | head -c1 | tr '[:upper:]' '[:lower:]')"
+          [[ "$REV" =~ ^[a-z]$ ]] || { echo "Invalid rev (use a single letter)"; exit 1; }
+          PRE_ID="${YY}w${WW}${REV}"
 
           MC_VERSION="$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)"
           LOADER="$MATRIX_LOADER"
+          FULL_VERSION="${PRE_ID}+mc${MC_VERSION}.${LOADER}"
 
-          # SemVer build metadata distinguishes the two loader jars: 2.2.0+mc26.1.2.fabric
-          FULL_VERSION="${VERSION}+mc${MC_VERSION}.${LOADER}"
+          [[ "$LOADER" == "neoforge" ]] && LOADER_SHORT="n" || LOADER_SHORT="f"
+          MODRINTH_VERSION="${PRE_ID}+mc${MC_VERSION}.${LOADER_SHORT}"
+          (( ${#MODRINTH_VERSION} > 32 )) && MODRINTH_VERSION="${MODRINTH_VERSION:0:32}"
 
           {
-            echo "tag=$TAG"
-            echo "version=$VERSION"
+            echo "pre_id=$PRE_ID"
+            echo "modrinth_version=$MODRINTH_VERSION"
             echo "full_version=$FULL_VERSION"
             echo "minecraft_version=$MC_VERSION"
             echo "loader=$LOADER"
           } >> "$GITHUB_OUTPUT"
-          echo "📦 $LOADER: irontanks-$FULL_VERSION.jar (MC $MC_VERSION)"
+          echo "📦 Building $FULL_VERSION"
 
       - name: Build with Gradle
         run: ./gradlew :${{ matrix.loader }}:jar --console=plain
         env:
           MOD_VERSION: ${{ steps.version.outputs.full_version }}
-
-      - name: List build artifacts
-        run: ls -lh ${{ matrix.loader }}/build/libs/
 
       - name: Upload JAR
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -96,7 +80,6 @@ jobs:
           path: ${{ matrix.loader }}/build/libs/irontanks-${{ steps.version.outputs.full_version }}.jar
 
       - name: Publish to Modrinth and CurseForge
-        if: github.event_name != 'workflow_dispatch' || inputs.publish
         uses: Kir-Antipov/mc-publish@995edadc13559a8b28d0b7e6571229f067ec7659 # v3.3
         with:
           loaders: ${{ matrix.loader }}
@@ -104,17 +87,13 @@ jobs:
 
           modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-version: ${{ steps.version.outputs.modrinth_version }}
 
           curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-tag: ${{ steps.version.outputs.tag }}
-
-          version-type: release
-          name: "Iron Tanks v${{ steps.version.outputs.version }} for ${{ steps.version.outputs.loader }} ${{ steps.version.outputs.minecraft_version }}"
-          version: "${{ steps.version.outputs.full_version }}"
+          version-type: alpha
+          version: ${{ steps.version.outputs.full_version }}
+          name: "Iron Tanks ${{ steps.version.outputs.pre_id }} for ${{ steps.version.outputs.loader }} ${{ steps.version.outputs.minecraft_version }}"
 
           files: ${{ matrix.loader }}/build/libs/irontanks-${{ steps.version.outputs.full_version }}.jar
-
-          changelog: ${{ github.event.release.body || format('Release {0}', steps.version.outputs.full_version) }}

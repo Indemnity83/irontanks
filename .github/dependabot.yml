@@ -1,5 +1,33 @@
 version: 2
 updates:
+  # --- mc/26.1 (NeoForge + Fabric multiloader) ---
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "mc/26.1"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+    ignore:
+      # Loom and ModDevGradle are pinned to their current major lines; major bumps
+      # change the build model and need a manual port.
+      - dependency-name: "net.fabricmc:fabric-loom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "net.neoforged.moddev*"
+        update-types: ["version-update:semver-major"]
+      # MC 26.1 needs Gradle 9.x (Loom 1.16 + MDG 2.x); don't propose Gradle 10+.
+      - dependency-name: "gradle-wrapper"
+        versions: [">=10.0"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "mc/26.1"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+
   # --- mc/1.12.2 ---
   - package-ecosystem: "gradle"
     directory: "/"

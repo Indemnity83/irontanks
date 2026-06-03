@@ -9,7 +9,7 @@ plugins {
 version = System.getenv("MOD_VERSION") ?: "0.0.0-dev"
 
 base {
-    archivesName = "${rootProject.archives_base_name}-fabric"
+    archivesName = rootProject.archives_base_name
 }
 
 java {
