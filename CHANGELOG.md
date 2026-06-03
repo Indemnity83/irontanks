@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.0.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v2.1.0...mc26.1-v3.0.0) (2026-06-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* rebuild as a NeoForge + Fabric multiloader for Minecraft 26.1 ([#104](https://github.com/Indemnity83/irontanks/issues/104))
+
+### Added
+
+* add opt-in crash reporting ([#109](https://github.com/Indemnity83/irontanks/issues/109)) ([14d558d](https://github.com/Indemnity83/irontanks/commit/14d558d592904eee9b28fdb325ff1b583ec8d44a))
+* rebuild as a NeoForge + Fabric multiloader for Minecraft 26.1 ([#104](https://github.com/Indemnity83/irontanks/issues/104)) ([108ff7e](https://github.com/Indemnity83/irontanks/commit/108ff7e78fbd902ec1f178658b6a565455c34138))
+
+
+### Fixed
+
+* prevent fluid amount overflow in the NeoForge tank adapter ([#118](https://github.com/Indemnity83/irontanks/issues/118)) ([8b05cbc](https://github.com/Indemnity83/irontanks/commit/8b05cbc29e1e3d9c7a8d6adb256000691b31dc1c))
+
 ## [2.1.0](https://github.com/Indemnity83/irontanks/compare/mc1.12.2-v1.1.16...mc1.12.2-v2.1.0) (2026-06-01)
 
 
