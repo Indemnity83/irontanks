@@ -6,6 +6,7 @@ tank; upgrade them in place without spilling a drop.
 
 [![Check Code](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml/badge.svg?branch=mc/26.1)](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml)
 [![Modrinth](https://img.shields.io/modrinth/dt/iron-tanks?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/iron-tanks)
+[![CurseForge](https://img.shields.io/curseforge/dt/236226?logo=curseforge&label=CurseForge)](https://www.curseforge.com/minecraft/mc-mods/iron-tanks)
 ![Minecraft 26.1](https://img.shields.io/badge/Minecraft-26.1-brightgreen)
 ![Loaders: NeoForge | Fabric](https://img.shields.io/badge/loader-NeoForge%20%7C%20Fabric-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt)
