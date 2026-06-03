@@ -6,7 +6,7 @@
     "ooo"
   ],
   "key": {
-    "o": "minecraft:obsidian",
+    "o": "#c:obsidian",
     "d": "#c:gems/diamond"
   },
   "result": {
