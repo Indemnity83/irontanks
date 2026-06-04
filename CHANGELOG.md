@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.1.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.0.0...mc26.1-v3.1.0) (2026-06-04)
+
+
+### Added
+
+* show what a tank is holding ([b02c7e1](https://github.com/Indemnity83/irontanks/commit/b02c7e1210648d4943ecb3a45686181b7747d269))
+* show what a tank is holding ([#127](https://github.com/Indemnity83/irontanks/issues/127)) ([b02c7e1](https://github.com/Indemnity83/irontanks/commit/b02c7e1210648d4943ecb3a45686181b7747d269))
+* store potions in tanks with bottles ([#126](https://github.com/Indemnity83/irontanks/issues/126)) ([769785e](https://github.com/Indemnity83/irontanks/commit/769785e32c2de309a0dba099dce71c7e5d63b2a0))
+
+
+### Fixed
+
+* tank fluid level no longer dips when topped off ([db1e033](https://github.com/Indemnity83/irontanks/commit/db1e0332b5c0df27f8866f2b76c7131d1cc5b683))
+* tank fluid level no longer dips when topped off ([#128](https://github.com/Indemnity83/irontanks/issues/128)) ([db1e033](https://github.com/Indemnity83/irontanks/commit/db1e0332b5c0df27f8866f2b76c7131d1cc5b683))
+
 ## [3.0.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v2.1.0...mc26.1-v3.0.0) (2026-06-03)
 
 
