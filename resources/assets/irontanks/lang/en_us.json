@@ -24,5 +24,6 @@
   "irontanks.tooltip.creative_tank": "Dispenses an infinite amount",
   "irontanks.readout.empty": "Empty",
   "irontanks.readout.line": "%1$s · %2$s",
-  "irontanks.readout.amount": "%1$s / %2$s mB"
+  "irontanks.readout.amount": "%1$s / %2$s mB",
+  "irontanks.readout.potion": "%1$s × %2$s"
 }

@@ -34,9 +34,17 @@ public final class TankReadout {
             return Component.translatable("irontanks.readout.empty");
         }
 
+        // Potions move only in bottles, so count them in bottles; plain fluids read in millibuckets.
+        PotionContents potion = fluid.get(DataComponents.POTION_CONTENTS);
+        if (potion != null) {
+            return Component.translatable(
+                    "irontanks.readout.potion",
+                    potionLabel(potion, tank.getLevel()),
+                    total / TankTier.DROPLETS_PER_BOTTLE);
+        }
         return Component.translatable(
                 "irontanks.readout.line",
-                labelFor(fluid, tank.getLevel()),
+                fluid.getHoverName(),
                 Component.translatable(
                         "irontanks.readout.amount",
                         total / TankTier.DROPLETS_PER_MB,
@@ -56,12 +64,6 @@ public final class TankReadout {
             }
         }
         return false;
-    }
-
-    /** The fluid's display name, or a potion's effect line when it carries potion contents. */
-    private static Component labelFor(FluidResource fluid, Level level) {
-        PotionContents potion = fluid.get(DataComponents.POTION_CONTENTS);
-        return potion != null ? potionLabel(potion, level) : fluid.getHoverName();
     }
 
     /** The potion's effect line ("Strength II (3:00)"), or its base name when it has no effects. */
