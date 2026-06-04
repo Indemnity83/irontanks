@@ -43,6 +43,21 @@ public final class TankReadout {
                         capacity / TankTier.DROPLETS_PER_MB));
     }
 
+    /**
+     * Whether the tank column holds a potion (water carrying a {@code potion_contents} component). Jade's
+     * native fluid bar already shows plain fluids, so the HUD adds our line only for potions — which are
+     * sealed from the fluid API and so would otherwise be invisible there.
+     */
+    public static boolean isPotion(TankBlockEntity tank) {
+        for (TankBlockEntity t : tank.columnTanks()) {
+            FluidResource fluid = t.fluidResource();
+            if (!fluid.isEmpty() && fluid.get(DataComponents.POTION_CONTENTS) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** The fluid's display name, or a potion's effect line when it carries potion contents. */
     private static Component labelFor(FluidResource fluid, Level level) {
         PotionContents potion = fluid.get(DataComponents.POTION_CONTENTS);
