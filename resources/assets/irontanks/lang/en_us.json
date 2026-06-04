@@ -26,5 +26,6 @@
   "irontanks.readout.line": "%1$s · %2$s",
   "irontanks.readout.amount": "%1$s / %2$s mB",
   "irontanks.readout.potion": "%1$s × %2$s",
-  "irontanks.readout.potion_of": "Potion of %s"
+  "irontanks.readout.potion_of": "Potion of %s",
+  "config.jade.plugin_irontanks.tank": "Tank Contents"
 }
