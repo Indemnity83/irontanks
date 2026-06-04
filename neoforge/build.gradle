@@ -31,6 +31,9 @@ dependencies {
     // Optional Jade HUD integration: compile-only so we implement its plugin API without making Jade a
     // hard dependency. The @WailaPlugin class only loads when Jade (a client mod) is actually present.
     compileOnly "maven.modrinth:jade:${rootProject.jade_neoforge_version}"
+    // Dev-only: load Jade in runClient so the HUD integration can be exercised. runtimeOnly (ModDevGradle's
+    // recommended way to add dev mods) puts it on the run classpath but never in the shipped jar.
+    runtimeOnly "maven.modrinth:jade:${rootProject.jade_neoforge_version}"
 
     // Sentry crash-reporting SDK. core uses it but doesn't bundle it (its dep is compileOnly), so the
     // loader supplies it: implementation puts it on the dev runtime classpath, jarJar nests it
