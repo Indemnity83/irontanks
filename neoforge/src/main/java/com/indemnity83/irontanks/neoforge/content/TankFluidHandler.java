@@ -88,6 +88,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             return 0;
         }
         List<TankBlockEntity> column = column();
+        if (mixed(column)) {
+            return 0; // distinct fluids joined into one column: leave them alone, never aggregate
+        }
         FluidResource current = shared(column);
         if (isPotion(current) || isPotion(resource)) {
             return 0; // sealed: potions are deposited only via depositBottle
@@ -119,6 +122,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             return 0;
         }
         List<TankBlockEntity> column = column();
+        if (mixed(column)) {
+            return 0; // distinct fluids joined into one column: leave them alone, never aggregate
+        }
         FluidResource current = shared(column);
         if (isPotion(current)) {
             return 0; // sealed: potions are drawn only via extractBottle
@@ -157,6 +163,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             return false;
         }
         List<TankBlockEntity> column = column();
+        if (mixed(column)) {
+            return false; // distinct fluids joined into one column: leave them alone
+        }
         FluidResource current = shared(column);
         if (!current.isEmpty() && !current.equals(resource)) {
             return false;
@@ -183,6 +192,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             return false;
         }
         List<TankBlockEntity> column = column();
+        if (mixed(column)) {
+            return false; // distinct fluids joined into one column: leave them alone
+        }
         FluidResource current = shared(column);
         if (current.isEmpty() || !current.equals(resource)) {
             return false;
@@ -237,6 +249,28 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             }
         }
         return FluidResource.EMPTY;
+    }
+
+    /**
+     * Whether the column holds two or more distinct fluids — e.g. two pre-filled tanks joined by a third.
+     * {@link #shared(List)} only reports the first one, so the fluid API would otherwise sum the whole
+     * column and redistribute it as that single fluid, converting the others. Operations refuse to act on
+     * such a column, mirroring {@link TankBlockEntity#balanceColumn()}, which leaves it unsettled.
+     */
+    private static boolean mixed(List<TankBlockEntity> column) {
+        FluidResource seen = FluidResource.EMPTY;
+        for (TankBlockEntity tank : column) {
+            FluidResource fluid = tank.fluidResource();
+            if (fluid.isEmpty()) {
+                continue;
+            }
+            if (seen.isEmpty()) {
+                seen = fluid;
+            } else if (!seen.equals(fluid)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
