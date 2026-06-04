@@ -21,5 +21,11 @@
   "item.irontanks.diamond_emerald_upgrade": "Diamond to Emerald Tank Upgrade",
   "irontanks.tooltip.capacity": "Holds %s buckets",
   "irontanks.tooltip.void_tank": "Destroys fluids",
-  "irontanks.tooltip.creative_tank": "Dispenses an infinite amount"
+  "irontanks.tooltip.creative_tank": "Dispenses an infinite amount",
+  "irontanks.readout.empty": "Empty",
+  "irontanks.readout.line": "%1$s · %2$s",
+  "irontanks.readout.amount": "%1$s / %2$s mB",
+  "irontanks.readout.potion": "%1$s × %2$s",
+  "irontanks.readout.potion_of": "Potion of %s",
+  "config.jade.plugin_irontanks.tank": "Tank Contents"
 }
