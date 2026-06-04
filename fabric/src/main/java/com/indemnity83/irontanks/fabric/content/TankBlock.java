@@ -104,6 +104,16 @@ public class TankBlock extends BaseEntityBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
 
+    /** Empty-hand right-click reads the tank's contents out to the action bar. */
+    @Override
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!level.isClientSide() && level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
+            player.sendOverlayMessage(TankReadout.describe(tank));
+        }
+        return InteractionResult.SUCCESS;
+    }
+
     /**
      * Deposits a potion (held {@link Items#POTION}) into the tank or draws one out into a held
      * {@link Items#GLASS_BOTTLE}. Returns whether a full bottle's worth actually transferred — on the

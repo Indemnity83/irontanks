@@ -20,6 +20,9 @@
     ],
     "client": [
       "com.indemnity83.irontanks.fabric.client.IronTanksFabricClient"
+    ],
+    "jade": [
+      "com.indemnity83.irontanks.fabric.client.compat.JadeTankPlugin"
     ]
   },
   "depends": {

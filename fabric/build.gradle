@@ -17,6 +17,12 @@ java {
 
 repositories {
     mavenCentral()
+    // Jade is published on the Modrinth maven (optional HUD integration below).
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
 }
 
 loom {
@@ -34,6 +40,14 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
     implementation project(':core')
+
+    // Optional Jade HUD integration: compile-only, on the client source set where the @WailaPlugin class
+    // lives. The 26.1 Fabric toolchain is Mojang-mapped (as is Jade's jar), so no remapping is needed and
+    // a plain clientCompileOnly suffices. The class only loads when Jade is actually installed.
+    clientCompileOnly "maven.modrinth:jade:${rootProject.jade_fabric_version}"
+    // Dev-only: load Jade in runClient so the HUD integration can actually be exercised. runtimeOnly (not
+    // include), so it is not bundled in the shipped jar and Jade stays optional in production.
+    clientRuntimeOnly "maven.modrinth:jade:${rootProject.jade_fabric_version}"
 
     // Sentry crash-reporting SDK. core uses it but doesn't bundle it (its dep is compileOnly), so the
     // loader supplies it: implementation puts it on the dev runtime classpath, include nests it
