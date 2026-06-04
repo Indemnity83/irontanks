@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -142,7 +141,8 @@ public class TankBlock extends BaseEntityBlock {
         }
 
         // Empty glass bottle: only water can be bottled (a non-water fluid leaves the bottle empty).
-        FluidVariant current = sharedFluid(storage);
+        // currentFluid() (not the pipe-facing view) so a sealed potion is still bottle-drawable.
+        FluidVariant current = storage.currentFluid();
         if (current.isBlank() || current.getFluid() != Fluids.WATER) {
             return false;
         }
@@ -158,12 +158,6 @@ public class TankBlock extends BaseEntityBlock {
         level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
         consumeAndReturn(player, hand, stack, bottleFor(current));
         return true;
-    }
-
-    /** The single fluid the column currently holds, read through the storage's aggregate view. */
-    private static FluidVariant sharedFluid(TankFluidStorage storage) {
-        StorageView<FluidVariant> view = storage.iterator().next();
-        return view.getResource();
     }
 
     /** A water bottle with no effects, custom color, or name — stored as plain water so it stacks with it. */

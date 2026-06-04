@@ -4,6 +4,7 @@ import com.indemnity83.irontanks.core.FluidColumn;
 import com.indemnity83.irontanks.core.TankTier;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.core.component.DataComponents;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
@@ -46,12 +47,17 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
     @Override
     public FluidResource getResource(int index) {
         checkIndex(index);
-        return shared(column());
+        FluidResource current = shared(column());
+        // A stored potion is bottle-only: hide it from the fluid API so pipes/buckets can't drain it.
+        return isPotion(current) ? FluidResource.EMPTY : current;
     }
 
     @Override
     public long getAmountAsLong(int index) {
         checkIndex(index);
+        if (isPotion(shared(column()))) {
+            return 0; // potion is bottle-only: report empty to the fluid API
+        }
         // The column stores droplets; the NeoForge transfer API speaks millibuckets.
         return totalDroplets(column()) / TankTier.DROPLETS_PER_MB;
     }
@@ -59,6 +65,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
     @Override
     public long getCapacityAsLong(int index, FluidResource resource) {
         checkIndex(index);
+        if (isPotion(shared(column()))) {
+            return 0; // sealed while holding a potion
+        }
         return capacityDroplets(column()) / TankTier.DROPLETS_PER_MB;
     }
 
@@ -66,6 +75,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
     public boolean isValid(int index, FluidResource resource) {
         checkIndex(index);
         FluidResource current = shared(column());
+        if (isPotion(current) || isPotion(resource)) {
+            return false; // potions never move through the fluid API
+        }
         return current.isEmpty() || current.equals(resource);
     }
 
@@ -77,6 +89,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         }
         List<TankBlockEntity> column = column();
         FluidResource current = shared(column);
+        if (isPotion(current) || isPotion(resource)) {
+            return 0; // sealed: potions are deposited only via depositBottle
+        }
         if (!current.isEmpty() && !current.equals(resource)) {
             return 0;
         }
@@ -105,6 +120,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         }
         List<TankBlockEntity> column = column();
         FluidResource current = shared(column);
+        if (isPotion(current)) {
+            return 0; // sealed: potions are drawn only via extractBottle
+        }
         if (current.isEmpty() || !current.equals(resource)) {
             return 0;
         }
@@ -119,6 +137,14 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         updateSnapshots(transaction);
         distribute(column, current, totalDroplets(column) - take * TankTier.DROPLETS_PER_MB);
         return (int) take;
+    }
+
+    /**
+     * The column's actual fluid, including a stored potion. Unlike {@link #getResource} this is not
+     * sealed, so the bottle interaction can see and draw a potion that the fluid API hides from pipes.
+     */
+    public FluidResource currentFluid() {
+        return shared(column());
     }
 
     /**
@@ -211,6 +237,15 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             }
         }
         return FluidResource.EMPTY;
+    }
+
+    /**
+     * Whether a fluid is a stored potion — water carrying a {@code potion_contents} component. Potions
+     * are bottle-only: this adapter hides them from pipes/pumps so a potion can never be drained out (and
+     * silently degraded to water) or topped up through the fluid API. Bottle I/O bypasses these methods.
+     */
+    private static boolean isPotion(FluidResource fluid) {
+        return !fluid.isEmpty() && fluid.get(DataComponents.POTION_CONTENTS) != null;
     }
 
     @Override

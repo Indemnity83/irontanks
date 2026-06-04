@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
+import net.minecraft.core.component.DataComponents;
 
 /**
  * Exposes a whole vertical tank column to Fabric's Transfer API as one {@link Storage}{@code
@@ -51,6 +52,9 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
         }
         List<TankBlockEntity> column = column();
         FluidVariant current = shared(column);
+        if (isPotion(current) || isPotion(resource)) {
+            return 0; // sealed: potions are deposited only via depositBottle
+        }
         if (!current.isBlank() && !current.equals(resource)) {
             return 0;
         }
@@ -75,6 +79,9 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
         }
         List<TankBlockEntity> column = column();
         FluidVariant current = shared(column);
+        if (isPotion(current)) {
+            return 0; // sealed: potions are drawn only via extractBottle
+        }
         if (current.isBlank() || !current.equals(resource)) {
             return 0;
         }
@@ -88,6 +95,14 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
         updateSnapshots(transaction);
         distribute(column, current, totalDroplets(column) - taken);
         return taken;
+    }
+
+    /**
+     * The column's actual fluid, including a stored potion. Unlike the sealed {@link ColumnView}, this is
+     * not hidden, so the bottle interaction can see and draw a potion that the fluid API hides from pipes.
+     */
+    public FluidVariant currentFluid() {
+        return shared(column());
     }
 
     /**
@@ -156,17 +171,19 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
 
         @Override
         public FluidVariant getResource() {
-            return shared(column());
+            // A stored potion is bottle-only: present the tank as blank so pipes/pumps can't drain it.
+            FluidVariant current = shared(column());
+            return isPotion(current) ? FluidVariant.blank() : current;
         }
 
         @Override
         public long getAmount() {
-            return totalDroplets(column());
+            return isPotion(shared(column())) ? 0 : totalDroplets(column());
         }
 
         @Override
         public long getCapacity() {
-            return capacityDroplets(column());
+            return isPotion(shared(column())) ? 0 : capacityDroplets(column());
         }
     }
 
@@ -194,6 +211,15 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
             long amount = settled[i];
             column.get(i).setContentsRaw(amount == 0 ? FluidVariant.blank() : fluid, amount);
         }
+    }
+
+    /**
+     * Whether a fluid is a stored potion — water carrying a {@code potion_contents} component. Potions
+     * are bottle-only: this adapter hides them from pipes/pumps so a potion can never be drained out (and
+     * silently degraded to water) or topped up through the fluid API. Bottle I/O bypasses these methods.
+     */
+    private static boolean isPotion(FluidVariant fluid) {
+        return !fluid.isBlank() && fluid.get(DataComponents.POTION_CONTENTS) != null;
     }
 
     private static FluidVariant shared(List<TankBlockEntity> column) {

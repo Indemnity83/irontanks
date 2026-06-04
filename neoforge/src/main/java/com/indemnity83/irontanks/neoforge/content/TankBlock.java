@@ -136,7 +136,8 @@ public class TankBlock extends BaseEntityBlock {
         }
 
         // Empty glass bottle: only water can be bottled (a non-water fluid leaves the bottle empty).
-        FluidResource current = handler.getResource(0);
+        // currentFluid() (not the pipe-facing getResource) so a sealed potion is still bottle-drawable.
+        FluidResource current = handler.currentFluid();
         if (current.isEmpty() || current.getFluid() != Fluids.WATER) {
             return false;
         }
