@@ -11,8 +11,6 @@ import org.jetbrains.annotations.Nullable;
 public class TankRenderState extends BlockEntityRenderState {
     public boolean hasFluid;
     public float fillRatio;
-    /** This tank is completely full (so its fluid fills the block height). */
-    public boolean full;
     /** Draw the fluid's top surface here; false when connected fluid continues above, so columns merge. */
     public boolean renderTop;
 

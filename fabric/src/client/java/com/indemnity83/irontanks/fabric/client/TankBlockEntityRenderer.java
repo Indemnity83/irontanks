@@ -29,9 +29,8 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
     // The tank model's inner box is 2..14 px; inset the fluid horizontally to avoid z-fighting the walls.
     private static final float MIN = 2.5F / 16F;
     private static final float MAX = 13.5F / 16F;
-    // Fluid sits on the block floor (0) and a full tank's visible surface stops just shy of the lid.
+    // Fluid sits on the block floor (0); a full tank fills the whole block height — no top/bottom padding.
     private static final float FLOOR = 0.0F;
-    private static final float FULL_SURFACE = 15.5F / 16F;
 
     public TankBlockEntityRenderer(BlockEntityRendererProvider.Context context) {}
 
@@ -54,7 +53,6 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
         Level level = tank.getLevel();
         state.hasFluid = !tank.fluidVariant().isBlank() && amount > 0 && capacity > 0 && level != null;
         state.fillRatio = state.hasFluid ? Math.min(1.0F, (float) amount / capacity) : 0.0F;
-        state.full = state.hasFluid && amount >= capacity;
         // If connected fluid continues above, hide this tank's surface and let its fluid reach the top so
         // the two tanks read as one continuous column.
         state.renderTop = state.hasFluid && !tank.hasFluidAbove();
@@ -87,8 +85,8 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
         // getTintColor may omit alpha (0x00RRGGBB); force opaque so the surface is visible.
         int color = (state.tintColor & 0xFF000000) == 0 ? state.tintColor | 0xFF000000 : state.tintColor;
         int light = state.lightCoords;
-        // Visible surface height; a full tank stops just shy of the lid.
-        float surface = state.full ? FULL_SURFACE : state.fillRatio;
+        // Visible surface height tracks the fill ratio exactly — 1.0 when full, with no top padding.
+        float surface = state.fillRatio;
         // Walls reach the surface where it's visible, or the full block height where fluid continues above.
         float wallTop = state.renderTop ? surface : 1.0F;
         boolean renderTop = state.renderTop;
