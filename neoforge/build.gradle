@@ -17,10 +17,20 @@ java {
 
 repositories {
     mavenCentral()
+    // Jade is published on the Modrinth maven (optional HUD integration below).
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
 }
 
 dependencies {
     implementation project(':core')
+
+    // Optional Jade HUD integration: compile-only so we implement its plugin API without making Jade a
+    // hard dependency. The @WailaPlugin class only loads when Jade (a client mod) is actually present.
+    compileOnly "maven.modrinth:jade:${rootProject.jade_neoforge_version}"
 
     // Sentry crash-reporting SDK. core uses it but doesn't bundle it (its dep is compileOnly), so the
     // loader supplies it: implementation puts it on the dev runtime classpath, jarJar nests it
