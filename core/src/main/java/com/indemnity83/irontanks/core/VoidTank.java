@@ -12,8 +12,8 @@ public final class VoidTank {
 
     private VoidTank() {}
 
-    /** Maximum millibuckets destroyed per tick. */
-    public static final long RATE = 20;
+    /** Maximum fluid destroyed per tick, in droplets (20 mB/tick — BuildCraft's default pipe rate). */
+    public static final long RATE = 20L * TankTier.DROPLETS_PER_MB; // 1620
 
     /** How much this tank destroys this tick, given its own current contents. Never negative. */
     public static long drainPerTick(long current) {

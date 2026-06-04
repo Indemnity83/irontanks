@@ -205,7 +205,13 @@ public class TankBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        output.putLong("Amount", amount);
+        // Store millibuckets (the historical key, unchanged) plus the sub-mB droplet remainder, so old
+        // v3.0.0 worlds (mB only) still load correctly and this stays a non-breaking, additive change.
+        output.putLong("Amount", amount / TankTier.DROPLETS_PER_MB);
+        long remainder = amount % TankTier.DROPLETS_PER_MB;
+        if (remainder != 0) {
+            output.putInt("Rem", (int) remainder);
+        }
         if (!fluid.isBlank()) {
             output.store("Fluid", FluidVariant.CODEC, fluid);
         }
@@ -214,7 +220,7 @@ public class TankBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        amount = input.getLongOr("Amount", 0L);
+        amount = input.getLongOr("Amount", 0L) * TankTier.DROPLETS_PER_MB + input.getIntOr("Rem", 0);
         fluid = input.read("Fluid", FluidVariant.CODEC).orElse(FluidVariant.blank());
         if (amount <= 0) {
             fluid = FluidVariant.blank();
