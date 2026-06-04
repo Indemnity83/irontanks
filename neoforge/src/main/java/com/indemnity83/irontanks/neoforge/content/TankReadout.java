@@ -73,9 +73,11 @@ public final class TankReadout {
             float tickRate = level != null ? level.tickRateManager().tickrate() : 20.0F;
             PotionContents.addPotionTooltip(potion.getAllEffects(), lines::add, 1.0F, tickRate);
             if (!lines.isEmpty()) {
-                return lines.getFirst();
+                // The effect line is e.g. "Strength II (3:00)"; frame it as "Potion of …".
+                return Component.translatable("irontanks.readout.potion_of", lines.getFirst());
             }
         }
+        // Effectless potions (mundane/awkward/thick/water) already read as proper item names.
         return potion.getName("item.minecraft.potion.effect.");
     }
 }

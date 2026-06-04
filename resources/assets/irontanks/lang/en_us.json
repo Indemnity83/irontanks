@@ -25,5 +25,6 @@
   "irontanks.readout.empty": "Empty",
   "irontanks.readout.line": "%1$s · %2$s",
   "irontanks.readout.amount": "%1$s / %2$s mB",
-  "irontanks.readout.potion": "%1$s × %2$s"
+  "irontanks.readout.potion": "%1$s × %2$s",
+  "irontanks.readout.potion_of": "Potion of %s"
 }
