@@ -52,21 +52,14 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
     @Override
     public long getAmountAsLong(int index) {
         checkIndex(index);
-        long total = 0;
-        for (TankBlockEntity tank : column()) {
-            total += tank.amount();
-        }
-        return total;
+        // The column stores droplets; the NeoForge transfer API speaks millibuckets.
+        return totalDroplets(column()) / TankTier.DROPLETS_PER_MB;
     }
 
     @Override
     public long getCapacityAsLong(int index, FluidResource resource) {
         checkIndex(index);
-        long capacity = 0;
-        for (TankBlockEntity tank : column()) {
-            capacity += tank.capacity();
-        }
-        return capacity;
+        return capacityDroplets(column()) / TankTier.DROPLETS_PER_MB;
     }
 
     @Override
@@ -77,9 +70,9 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
     }
 
     @Override
-    public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    public int insert(int index, FluidResource resource, int amountMb, TransactionContext transaction) {
         checkIndex(index);
-        if (resource.isEmpty() || amount <= 0) {
+        if (resource.isEmpty() || amountMb <= 0) {
             return 0;
         }
         List<TankBlockEntity> column = column();
@@ -90,27 +83,24 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
         if (creative()) {
             updateSnapshots(transaction);
             origin.setContentsRaw(resource, origin.capacity()); // define the source, stay full
-            return amount;
+            return amountMb;
         }
-        long capacity = 0;
-        long total = 0;
-        for (TankBlockEntity tank : column) {
-            capacity += tank.capacity();
-            total += tank.amount();
-        }
-        long room = FluidColumn.fillable(capacity, total, amount);
-        if (room <= 0) {
+        // Only whole millibuckets cross this boundary: floor the room so an existing sub-mB bottle
+        // fraction is never partially filled (which would create fluid against the pipe's mB accounting).
+        long roomMb = roomDroplets(column) / TankTier.DROPLETS_PER_MB;
+        long take = Math.min(amountMb, roomMb);
+        if (take <= 0) {
             return 0;
         }
         updateSnapshots(transaction);
-        distribute(column, resource, total + room);
-        return clampToInt(room);
+        distribute(column, resource, totalDroplets(column) + take * TankTier.DROPLETS_PER_MB);
+        return (int) take;
     }
 
     @Override
-    public int extract(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    public int extract(int index, FluidResource resource, int amountMb, TransactionContext transaction) {
         checkIndex(index);
-        if (resource.isEmpty() || amount <= 0) {
+        if (resource.isEmpty() || amountMb <= 0) {
             return 0;
         }
         List<TankBlockEntity> column = column();
@@ -119,30 +109,90 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
             return 0;
         }
         if (creative()) {
-            return amount; // endless supply: never depletes
+            return amountMb; // endless supply: never depletes
         }
+        long availMb = totalDroplets(column) / TankTier.DROPLETS_PER_MB;
+        long take = Math.min(amountMb, availMb);
+        if (take <= 0) {
+            return 0;
+        }
+        updateSnapshots(transaction);
+        distribute(column, current, totalDroplets(column) - take * TankTier.DROPLETS_PER_MB);
+        return (int) take;
+    }
+
+    /**
+     * Deposits exactly one bottle (⅓ bucket, {@link TankTier#DROPLETS_PER_BOTTLE} droplets) of {@code
+     * resource} into the column, all-or-nothing. Works in droplets so the bottle is exact, bypassing the
+     * whole-mB quantization of {@link #insert}. Returns whether a full bottle fit.
+     */
+    public boolean depositBottle(FluidResource resource, TransactionContext transaction) {
+        if (resource.isEmpty()) {
+            return false;
+        }
+        List<TankBlockEntity> column = column();
+        FluidResource current = shared(column);
+        if (!current.isEmpty() && !current.equals(resource)) {
+            return false;
+        }
+        if (creative()) {
+            updateSnapshots(transaction);
+            origin.setContentsRaw(resource, origin.capacity());
+            return true;
+        }
+        if (roomDroplets(column) < TankTier.DROPLETS_PER_BOTTLE) {
+            return false;
+        }
+        updateSnapshots(transaction);
+        distribute(column, resource, totalDroplets(column) + TankTier.DROPLETS_PER_BOTTLE);
+        return true;
+    }
+
+    /**
+     * Draws exactly one bottle of {@code resource} out of the column, all-or-nothing. Returns whether a
+     * full bottle was present.
+     */
+    public boolean extractBottle(FluidResource resource, TransactionContext transaction) {
+        if (resource.isEmpty()) {
+            return false;
+        }
+        List<TankBlockEntity> column = column();
+        FluidResource current = shared(column);
+        if (current.isEmpty() || !current.equals(resource)) {
+            return false;
+        }
+        if (creative()) {
+            return true; // endless supply: never depletes
+        }
+        if (totalDroplets(column) < TankTier.DROPLETS_PER_BOTTLE) {
+            return false;
+        }
+        updateSnapshots(transaction);
+        distribute(column, current, totalDroplets(column) - TankTier.DROPLETS_PER_BOTTLE);
+        return true;
+    }
+
+    private static long totalDroplets(List<TankBlockEntity> column) {
         long total = 0;
         for (TankBlockEntity tank : column) {
             total += tank.amount();
         }
-        long taken = FluidColumn.drainable(total, amount);
-        if (taken <= 0) {
-            return 0;
+        return total;
+    }
+
+    private static long capacityDroplets(List<TankBlockEntity> column) {
+        long capacity = 0;
+        for (TankBlockEntity tank : column) {
+            capacity += tank.capacity();
         }
-        updateSnapshots(transaction);
-        distribute(column, current, total - taken);
-        return clampToInt(taken);
+        return capacity;
     }
 
-    /**
-     * Narrows a non-negative mB {@code amount} to {@code int}, clamping at {@link Integer#MAX_VALUE} so a
-     * tall column of high-tier tanks can't wrap a {@code long} total to a negative or truncated value.
-     */
-    private static int clampToInt(long amount) {
-        return (int) Math.min(amount, Integer.MAX_VALUE);
+    private static long roomDroplets(List<TankBlockEntity> column) {
+        return capacityDroplets(column) - totalDroplets(column);
     }
 
-    /** Settles {@code total} mB across the column (via {@code core}) and writes each tank's share. */
+    /** Settles {@code total} droplets across the column (via {@code core}) and writes each tank's share. */
     private static void distribute(List<TankBlockEntity> column, FluidResource fluid, long total) {
         long[] capacities = column.stream().mapToLong(TankBlockEntity::capacity).toArray();
         boolean gas = fluid.value().getFluidType().isLighterThanAir();

@@ -5,13 +5,23 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -24,6 +34,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,7 +77,12 @@ public class TankBlock extends BaseEntityBlock {
         builder.add(JOINED_BELOW);
     }
 
-    /** Right-click with a bucket (or any fluid container) to fill the tank or fill the container from it. */
+    /**
+     * Right-click to move fluid between the tank and the held item: a bucket (or any fluid container)
+     * fills/drains a full bucket; a potion bottle deposits its contents and an empty glass bottle draws
+     * a bottle (1/3 bucket) back out. Potions are stored as water carrying a {@code potion_contents}
+     * component, so water bottles merge with real water and only water can be bottled back.
+     */
     @Override
     protected InteractionResult useItemOn(
             ItemStack stack,
@@ -76,11 +92,110 @@ public class TankBlock extends BaseEntityBlock {
             Player player,
             InteractionHand hand,
             BlockHitResult hit) {
-        if (level.getBlockEntity(pos) instanceof TankBlockEntity tank
-                && FluidStorageUtil.interactWithFluidStorage(new TankFluidStorage(tank), player, hand)) {
-            return InteractionResult.SUCCESS;
+        if (level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
+            if (stack.is(Items.POTION) || stack.is(Items.GLASS_BOTTLE)) {
+                return bottleInteraction(stack, level, pos, player, hand, tank)
+                        ? InteractionResult.SUCCESS
+                        : InteractionResult.PASS;
+            }
+            if (FluidStorageUtil.interactWithFluidStorage(new TankFluidStorage(tank), player, hand)) {
+                return InteractionResult.SUCCESS;
+            }
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hit);
+    }
+
+    /**
+     * Deposits a potion (held {@link Items#POTION}) into the tank or draws one out into a held
+     * {@link Items#GLASS_BOTTLE}. Returns whether a full bottle's worth actually transferred — on the
+     * client this is a non-committing dry run so the result matches the server without mutating state.
+     */
+    private static boolean bottleInteraction(
+            ItemStack stack, Level level, BlockPos pos, Player player, InteractionHand hand, TankBlockEntity tank) {
+        boolean commit = !level.isClientSide();
+        TankFluidStorage storage = new TankFluidStorage(tank);
+
+        if (stack.is(Items.POTION)) {
+            PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+            if (contents == null) {
+                return false; // not a real potion; let vanilla handle it (e.g. drinking)
+            }
+            FluidVariant resource = isPlainWater(contents)
+                    ? FluidVariant.of(Fluids.WATER)
+                    : FluidVariant.of(
+                            Fluids.WATER,
+                            DataComponentPatch.builder()
+                                    .set(DataComponents.POTION_CONTENTS, contents)
+                                    .build());
+            try (Transaction tx = Transaction.openOuter()) {
+                if (!storage.depositBottle(resource, tx)) {
+                    return false;
+                }
+                if (!commit) {
+                    return true;
+                }
+                tx.commit();
+            }
+            level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+            consumeAndReturn(player, hand, stack, new ItemStack(Items.GLASS_BOTTLE));
+            return true;
+        }
+
+        // Empty glass bottle: only water can be bottled (a non-water fluid leaves the bottle empty).
+        FluidVariant current = sharedFluid(storage);
+        if (current.isBlank() || current.getFluid() != Fluids.WATER) {
+            return false;
+        }
+        try (Transaction tx = Transaction.openOuter()) {
+            if (!storage.extractBottle(current, tx)) {
+                return false;
+            }
+            if (!commit) {
+                return true;
+            }
+            tx.commit();
+        }
+        level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+        consumeAndReturn(player, hand, stack, bottleFor(current));
+        return true;
+    }
+
+    /** The single fluid the column currently holds, read through the storage's aggregate view. */
+    private static FluidVariant sharedFluid(TankFluidStorage storage) {
+        StorageView<FluidVariant> view = storage.iterator().next();
+        return view.getResource();
+    }
+
+    /** A water bottle with no effects, custom color, or name — stored as plain water so it stacks with it. */
+    private static boolean isPlainWater(PotionContents contents) {
+        return contents.is(Potions.WATER)
+                && contents.customEffects().isEmpty()
+                && contents.customColor().isEmpty()
+                && contents.customName().isEmpty();
+    }
+
+    /** The filled bottle a water column hands back: the stored potion, or a plain water bottle. */
+    private static ItemStack bottleFor(FluidVariant water) {
+        PotionContents contents = water.get(DataComponents.POTION_CONTENTS);
+        if (contents == null) {
+            return PotionContents.createItemStack(Items.POTION, Potions.WATER);
+        }
+        ItemStack bottle = new ItemStack(Items.POTION);
+        bottle.set(DataComponents.POTION_CONTENTS, contents);
+        return bottle;
+    }
+
+    /** Consume one of the held item and give back the result, mirroring vanilla bottle handling. */
+    private static void consumeAndReturn(Player player, InteractionHand hand, ItemStack held, ItemStack result) {
+        if (player.getAbilities().instabuild) {
+            return; // creative: don't consume the held item or spawn duplicates
+        }
+        held.shrink(1);
+        if (held.isEmpty()) {
+            player.setItemInHand(hand, result);
+        } else if (!player.getInventory().add(result)) {
+            player.drop(result, false);
+        }
     }
 
     @Nullable

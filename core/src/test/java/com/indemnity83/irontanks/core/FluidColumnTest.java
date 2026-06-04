@@ -64,4 +64,33 @@ class FluidColumnTest {
         assertThat(FluidColumn.drainable(0, 500)).isZero(); // empty
         assertThat(FluidColumn.drainable(1500, 0)).isZero(); // nothing requested
     }
+
+    @Test
+    void bucketAndBottleTransfersAreExactAndReversibleInDroplets() {
+        // Tracking fluid in droplets makes bottles (⅓ bucket) exact integers, so mixing buckets, bottles
+        // and arbitrary pipe transfers never drifts. Walks the edge case: bucket + 3 bottles, a 200 mB
+        // pipe pull, then two bottles out — deterministic to the droplet, and reversible.
+        long bucket = TankTier.DROPLETS_PER_BUCKET; // 81_000
+        long bottle = TankTier.DROPLETS_PER_BOTTLE; // 27_000
+        long pipe200mb = 200L * TankTier.DROPLETS_PER_MB; // 16_200
+        long cap = TankTier.GLASS.capacity();
+
+        long total = 0;
+        total += FluidColumn.fillable(cap, total, bucket); // +bucket
+        for (int i = 0; i < 3; i++) total += FluidColumn.fillable(cap, total, bottle); // +3 bottles
+        assertThat(total).isEqualTo(2000L * TankTier.DROPLETS_PER_MB); // exactly 2000 mB
+
+        total -= FluidColumn.drainable(total, pipe200mb); // pipe pulls 200 mB
+        total -= FluidColumn.drainable(total, bottle); // two bottles out
+        total -= FluidColumn.drainable(total, bottle);
+        assertThat(total).isEqualTo(91_800); // 1133⅓ mB, exact
+        assertThat(total / TankTier.DROPLETS_PER_MB).isEqualTo(1133); // displayed mB
+        assertThat(total % TankTier.DROPLETS_PER_MB).isEqualTo(27); // ⅓ mB carried as remainder
+
+        // Reversible: the two bottles and the pipe amount put it back to exactly 2000 mB.
+        total += FluidColumn.fillable(cap, total, bottle);
+        total += FluidColumn.fillable(cap, total, bottle);
+        total += FluidColumn.fillable(cap, total, pipe200mb);
+        assertThat(total).isEqualTo(2000L * TankTier.DROPLETS_PER_MB);
+    }
 }

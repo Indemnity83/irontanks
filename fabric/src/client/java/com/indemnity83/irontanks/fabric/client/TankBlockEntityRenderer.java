@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
@@ -73,6 +74,12 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
             state.tintColor = tintSource != null && level instanceof BlockAndTintGetter tintGetter
                     ? tintSource.colorInWorld(fluidState.createLegacyBlock(), tintGetter, tank.getBlockPos())
                     : 0xFFFFFFFF;
+            // A potion is stored as water carrying a potion_contents component; tint it by the potion's
+            // own color so each potion reads distinctly instead of as plain water.
+            var potion = tank.fluidVariant().get(DataComponents.POTION_CONTENTS);
+            if (potion != null) {
+                state.tintColor = potion.getColor();
+            }
         } else {
             state.sprite = null;
         }
