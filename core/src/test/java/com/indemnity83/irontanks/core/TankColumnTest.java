@@ -122,6 +122,13 @@ class TankColumnTest {
     }
 
     @Test
+    void isPotionDelegatesToTheKind() {
+        TankColumn<FakeFluid> col = column(FakeCell.of(1000));
+        assertThat(col.isPotion(POTION)).isTrue();
+        assertThat(col.isPotion(WATER)).isFalse();
+    }
+
+    @Test
     void detectsMixedColumns() {
         assertThat(column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000, LAVA, 400))
                         .mixed())
@@ -191,6 +198,13 @@ class TankColumnTest {
     }
 
     @Test
+    void insertIntoFullColumnMovesNothing() {
+        FakeCell a = FakeCell.of(1000, WATER, 1000);
+        assertThat(column(a).insert(WATER, 500, 1, IGNORE)).isZero();
+        assertThat(a.amount()).isEqualTo(1000);
+    }
+
+    @Test
     void creativeInsertDefinesSourceAndStaysFull() {
         FakeCell creative = new FakeCell(TankTier.CREATIVE, 1000, null, 0);
         long moved = column(creative).insert(WATER, 50 * MB, MB, IGNORE);
@@ -224,6 +238,29 @@ class TankColumnTest {
         assertThat(column(FakeCell.of(1000, POTION, 400)).extract(POTION, 100, 1, IGNORE))
                 .isZero();
         assertThat(column(FakeCell.of(1000)).extract(WATER, 100, 1, IGNORE)).isZero();
+    }
+
+    @Test
+    void extractIgnoresBlankAndNonPositive() {
+        assertThat(column(FakeCell.of(1000, WATER, 400)).extract(null, 100, 1, IGNORE))
+                .isZero();
+        assertThat(column(FakeCell.of(1000, WATER, 400)).extract(WATER, 0, 1, IGNORE))
+                .isZero();
+    }
+
+    @Test
+    void extractRejectsMixedColumn() {
+        assertThat(column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000, LAVA, 400))
+                        .extract(WATER, 100, 1, IGNORE))
+                .isZero();
+    }
+
+    @Test
+    void extractMovesNothingBelowOneQuantum() {
+        // Less than a whole millibucket is present; a pipe draining in mB can take nothing.
+        FakeCell a = FakeCell.of(1000 * MB, WATER, 40);
+        assertThat(column(a).extract(WATER, 1000 * MB, MB, IGNORE)).isZero();
+        assertThat(a.amount()).isEqualTo(40);
     }
 
     @Test
@@ -271,6 +308,23 @@ class TankColumnTest {
         FakeCell a = FakeCell.of(1000 * MB, WATER, BOTTLE - 1);
         assertThat(column(a).extractBottle(WATER, IGNORE)).isFalse();
         assertThat(a.amount()).isEqualTo(BOTTLE - 1);
+    }
+
+    @Test
+    void depositBottleRejectsBlank() {
+        assertThat(column(FakeCell.of(1000 * MB)).depositBottle(null, IGNORE)).isFalse();
+    }
+
+    @Test
+    void extractBottleRejectsBlankMixedAndAbsent() {
+        assertThat(column(FakeCell.of(1000 * MB, WATER, BOTTLE)).extractBottle(null, IGNORE))
+                .isFalse();
+        assertThat(column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000, LAVA, 400))
+                        .extractBottle(WATER, IGNORE))
+                .isFalse();
+        assertThat(column(FakeCell.of(1000 * MB)).extractBottle(WATER, IGNORE)).isFalse();
+        assertThat(column(FakeCell.of(1000 * MB, WATER, BOTTLE)).extractBottle(LAVA, IGNORE))
+                .isFalse();
     }
 
     @Test
