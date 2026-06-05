@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.neoforge.content;
 
-import com.indemnity83.irontanks.core.FluidColumn;
+import com.indemnity83.irontanks.core.TankCell;
+import com.indemnity83.irontanks.core.TankColumn;
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.VoidTank;
 import java.util.ArrayDeque;
@@ -24,11 +25,11 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Stores a single fluid amount for one tank. Every connected tank in a vertical column holds the same
- * fluid, so a column's contents are a single total redistributed by {@link FluidColumn}: liquids settle
+ * fluid, so a column's contents are a single total redistributed by {@link TankColumn}: liquids settle
  * to the bottom, gases rise. Void tanks destroy their own contents each tick; creative tanks never join
  * a column. All distribution math lives in {@code core}; this class is just the Minecraft wiring.
  */
-public class TankBlockEntity extends BlockEntity {
+public class TankBlockEntity extends BlockEntity implements TankCell<FluidResource> {
 
     private FluidResource fluid = FluidResource.EMPTY;
     private long amount;
@@ -57,6 +58,23 @@ public class TankBlockEntity extends BlockEntity {
     public void setContentsRaw(FluidResource fluid, long amount) {
         this.amount = Math.max(0, amount);
         this.fluid = this.amount == 0 ? FluidResource.EMPTY : fluid;
+    }
+
+    // ---- TankCell<FluidResource>: the core seam (tier/capacity/amount above already satisfy it) ----
+
+    @Override
+    public FluidResource fluid() {
+        return fluid;
+    }
+
+    @Override
+    public void setContents(FluidResource fluid, long amount) {
+        setContentsRaw(fluid, amount);
+    }
+
+    /** This tank's column as the loader-agnostic {@link TankColumn} the fluid algorithm runs on. */
+    public TankColumn<FluidResource> asColumn() {
+        return new TankColumn<>(this, columnTanks(), FluidResourceKind.INSTANCE);
     }
 
     /** Persist + push this tile to clients (no rebalance). */
@@ -125,45 +143,11 @@ public class TankBlockEntity extends BlockEntity {
         if (level == null || level.isClientSide()) {
             return false;
         }
-        List<TankBlockEntity> column = column();
-        if (column.size() <= 1) {
-            return false;
+        List<TankCell<FluidResource>> changed = asColumn().rebalance();
+        for (TankCell<FluidResource> cell : changed) {
+            ((TankBlockEntity) cell).sync();
         }
-        FluidResource shared = FluidResource.EMPTY;
-        long total = 0;
-        for (TankBlockEntity tank : column) {
-            if (tank.fluid.isEmpty()) {
-                continue;
-            }
-            if (shared.isEmpty()) {
-                shared = tank.fluid;
-            } else if (!shared.equals(tank.fluid)) {
-                return false; // mixed fluids: leave the column alone
-            }
-            total += tank.amount;
-        }
-        if (shared.isEmpty()) {
-            return false;
-        }
-        long[] capacities = column.stream().mapToLong(TankBlockEntity::capacity).toArray();
-        boolean gas = shared.value().getFluidType().isLighterThanAir();
-        long[] settled = FluidColumn.settle(capacities, total, gas);
-        boolean changed = false;
-        for (int i = 0; i < column.size(); i++) {
-            TankBlockEntity tank = column.get(i);
-            long target = settled[i];
-            FluidResource targetFluid = target == 0 ? FluidResource.EMPTY : shared;
-            if (tank.amount != target || !tank.fluid.equals(targetFluid)) {
-                tank.setContentsRaw(targetFluid, target);
-                tank.setChanged();
-                if (level != null && !level.isClientSide()) {
-                    level.sendBlockUpdated(
-                            tank.worldPosition, tank.getBlockState(), tank.getBlockState(), Block.UPDATE_ALL);
-                }
-                changed = true;
-            }
-        }
-        return changed;
+        return !changed.isEmpty();
     }
 
     /** This column, ordered bottom-to-top. Creative tanks never connect, so they stay isolated. */

@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.fabric.content;
 
-import com.indemnity83.irontanks.core.FluidColumn;
+import com.indemnity83.irontanks.core.TankCell;
+import com.indemnity83.irontanks.core.TankColumn;
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.VoidTank;
 import java.util.ArrayDeque;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -25,13 +25,14 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Stores a single fluid amount (in millibuckets, matching {@code core}) for one tank. Every connected
- * tank in a vertical column holds the same fluid, so a column's contents are a single total
- * redistributed by {@link FluidColumn}: liquids settle to the bottom, gases rise. Void tanks destroy
- * their own contents each tick; creative tanks never join a column. Distribution math lives in
- * {@code core}; this is just the Fabric wiring.
+ * Stores a single fluid amount (in droplets, the unit {@code core} uses and Fabric speaks natively) for
+ * one tank. Every connected tank in a vertical column holds the same fluid, so a column's contents are a
+ * single total redistributed by {@link TankColumn}: liquids settle to the bottom, gases rise. Void tanks
+ * destroy their own contents each tick; creative tanks never join a column. Distribution math lives in
+ * {@code core}; this is just the Fabric wiring. On disk the amount is saved as millibuckets plus a
+ * sub-mB droplet remainder (see {@link #saveAdditional}), converting via {@link TankTier#DROPLETS_PER_MB}.
  */
-public class TankBlockEntity extends BlockEntity {
+public class TankBlockEntity extends BlockEntity implements TankCell<FluidVariant> {
 
     private FluidVariant fluid = FluidVariant.blank();
     private long amount;
@@ -44,7 +45,7 @@ public class TankBlockEntity extends BlockEntity {
         return getBlockState().getBlock() instanceof TankBlock tank ? tank.tier() : TankTier.GLASS;
     }
 
-    /** Capacity in millibuckets. */
+    /** Capacity in droplets. */
     public long capacity() {
         return tier().capacity();
     }
@@ -61,6 +62,23 @@ public class TankBlockEntity extends BlockEntity {
     public void setContentsRaw(FluidVariant fluid, long amount) {
         this.amount = Math.max(0, amount);
         this.fluid = this.amount == 0 ? FluidVariant.blank() : fluid;
+    }
+
+    // ---- TankCell<FluidVariant>: the core seam (tier/capacity/amount above already satisfy it) ----
+
+    @Override
+    public FluidVariant fluid() {
+        return fluid;
+    }
+
+    @Override
+    public void setContents(FluidVariant fluid, long amount) {
+        setContentsRaw(fluid, amount);
+    }
+
+    /** This tank's column as the loader-agnostic {@link TankColumn} the fluid algorithm runs on. */
+    public TankColumn<FluidVariant> asColumn() {
+        return new TankColumn<>(this, columnTanks(), FluidVariantKind.INSTANCE);
     }
 
     /** Persist + push this tile to clients (no rebalance). */
@@ -125,41 +143,11 @@ public class TankBlockEntity extends BlockEntity {
         if (level == null || level.isClientSide()) {
             return false;
         }
-        List<TankBlockEntity> column = column();
-        if (column.size() <= 1) {
-            return false;
+        List<TankCell<FluidVariant>> changed = asColumn().rebalance();
+        for (TankCell<FluidVariant> cell : changed) {
+            ((TankBlockEntity) cell).sync();
         }
-        FluidVariant shared = FluidVariant.blank();
-        long total = 0;
-        for (TankBlockEntity tank : column) {
-            if (tank.fluid.isBlank()) {
-                continue;
-            }
-            if (shared.isBlank()) {
-                shared = tank.fluid;
-            } else if (!shared.equals(tank.fluid)) {
-                return false; // mixed fluids: leave the column alone
-            }
-            total += tank.amount;
-        }
-        if (shared.isBlank()) {
-            return false;
-        }
-        long[] capacities = column.stream().mapToLong(TankBlockEntity::capacity).toArray();
-        boolean gas = FluidVariantAttributes.isLighterThanAir(shared);
-        long[] settled = FluidColumn.settle(capacities, total, gas);
-        boolean changed = false;
-        for (int i = 0; i < column.size(); i++) {
-            TankBlockEntity tank = column.get(i);
-            long target = settled[i];
-            FluidVariant targetFluid = target == 0 ? FluidVariant.blank() : shared;
-            if (tank.amount != target || !tank.fluid.equals(targetFluid)) {
-                tank.setContentsRaw(targetFluid, target);
-                tank.sync();
-                changed = true;
-            }
-        }
-        return changed;
+        return !changed.isEmpty();
     }
 
     /** This column, ordered bottom-to-top. Creative tanks never connect, so they stay isolated. */
