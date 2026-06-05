@@ -13,5 +13,5 @@
   "item.irontanks.silver_gold_upgrade": "Silber zu Goldbehälter Upgrade",
   "item.irontanks.gold_diamond_upgrade": "Gold zu Diamantbehälter Upgrade",
   "item.irontanks.diamond_obsidian_upgrade": "Diamant zu Obsidiantbehälter Upgrade",
-  "irontanks.tooltip.capacity": "hält %s eimer"
+  "irontanks.tooltip.capacity": "hält %s Eimer"
 }
