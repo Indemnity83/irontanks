@@ -1,0 +1,19 @@
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
+
+files:
+  - source: /resources/assets/irontanks/lang/en_us.json
+    translation: /resources/assets/irontanks/lang/%locale%.json
+    # Crowdin emits region codes like pt-BR; Minecraft wants lowercase pt_br, so map
+    # each enabled Crowdin language to its Minecraft locale filename. Extend this as
+    # languages are enabled in the Crowdin project.
+    languages_mapping:
+      locale:
+        de: de_de
+        es-ES: es_es
+        pt-BR: pt_br
+        ru: ru_ru
+        zh-CN: zh_cn
+    # en_pt (Pirate Speak) is not a standard Crowdin language and is maintained by hand;
+    # it is intentionally left out of the mapping so the sync never overwrites it.

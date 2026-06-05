@@ -66,10 +66,18 @@ like. Full details in **[CRASH_REPORTING.md](CRASH_REPORTING.md)**.
 You don't need to write Java to help:
 
 1. **Spread the word** — every bit of support helps the mod keep improving.
-2. **Translate it** — add or improve a language.
+2. **[Translate it](#translating)** — add or improve a language on Crowdin.
 3. **[Report an issue](https://github.com/indemnity83/irontanks/issues)** if something's wrong or could be better.
 4. **[Open a pull request](https://github.com/indemnity83/irontanks/pulls)** — see `CLAUDE.md` for the
    build setup (a `core` + `fabric` + `neoforge` multiloader Gradle project on JDK 25).
+
+## Translating
+
+Iron Tanks is translated on [Crowdin](https://crowdin.com/project/iron-tanks). You don't need to touch
+the code — pick your language, translate the strings, and a bot opens a pull request with the results.
+New and updated translations sync automatically; English is the source language.
+
+Don't see your language? Open an issue and it'll be added to the project.
 
 ## License
 
