@@ -1,0 +1,23 @@
+{
+  "block.irontanks.copper_tank": "Медная цистерна",
+  "block.irontanks.iron_tank": "Железная цистерна",
+  "block.irontanks.silver_tank": "Серебряная цистерна",
+  "block.irontanks.gold_tank": "Золотая цистерна",
+  "block.irontanks.diamond_tank": "Алмазная цистерна",
+  "block.irontanks.obsidian_tank": "Обсидиановая цистерна",
+  "block.irontanks.emerald_tank": "Изумрудная цистерна",
+  "block.irontanks.void_tank": "Пустотная цистерна",
+  "block.irontanks.creative_tank": "Креативная цистерна",
+  "item.irontanks.glass_copper_upgrade": "Улучшение из стеклянной в медную цистерну",
+  "item.irontanks.glass_iron_upgrade": "Улучшение из стеклянной в железную цистерну",
+  "item.irontanks.copper_iron_upgrade": "Улучшение из медной в железную цистерну",
+  "item.irontanks.copper_silver_upgrade": "Улучшение из медной в серебряную цистерну",
+  "item.irontanks.iron_gold_upgrade": "Улучшение из железной в золотую цистерну",
+  "item.irontanks.silver_gold_upgrade": "Улучшение из серебряной в золотую цистерну",
+  "item.irontanks.gold_diamond_upgrade": "Улучшение из золотой в алмазную цистерну",
+  "item.irontanks.diamond_obsidian_upgrade": "Улучшение из алмазной в обсидиановую цистерну",
+  "item.irontanks.diamond_emerald_upgrade": "Улучшение из алмазной в изумрудную цистерну",
+  "irontanks.tooltip.capacity": "Удерживает %s ведер",
+  "irontanks.tooltip.void_tank": "Уничтожает жидкости",
+  "irontanks.tooltip.creative_tank": "Хранит неограниченное кол-во жидкости"
+}

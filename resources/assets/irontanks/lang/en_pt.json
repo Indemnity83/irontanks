@@ -1,0 +1,19 @@
+{
+  "block.irontanks.copper_tank": "Copper Cask",
+  "block.irontanks.iron_tank": "Iron Cask",
+  "block.irontanks.silver_tank": "Silver Cask",
+  "block.irontanks.gold_tank": "Gold Cask",
+  "block.irontanks.diamond_tank": "Diamond Cask",
+  "block.irontanks.obsidian_tank": "Obsidian Cask",
+  "block.irontanks.emerald_tank": "Emerald Cask",
+  "item.irontanks.glass_copper_upgrade": "Glass t' Copper Cask Upgrade",
+  "item.irontanks.glass_iron_upgrade": "Glass t' Iron Cask Upgrade",
+  "item.irontanks.copper_iron_upgrade": "Copper t' Iron Cask Upgrade",
+  "item.irontanks.copper_silver_upgrade": "Copper t' Silver Cask Upgrade",
+  "item.irontanks.iron_gold_upgrade": "Iron t' Gold Cask Upgrade",
+  "item.irontanks.silver_gold_upgrade": "Silver t' Gold Cask Upgrade",
+  "item.irontanks.gold_diamond_upgrade": "Gold t' Diamond Cask Upgrade",
+  "item.irontanks.diamond_obsidian_upgrade": "Diamond t' Obsidian Cask Upgrade",
+  "item.irontanks.diamond_emerald_upgrade": "Diamond t' Emerald Cask Upgrade",
+  "irontanks.tooltip.capacity": "Holds %s buckets"
+}
