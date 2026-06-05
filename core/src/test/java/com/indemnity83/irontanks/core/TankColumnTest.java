@@ -292,6 +292,14 @@ class TankColumnTest {
     }
 
     @Test
+    void depositBottleTopsUpTheSameFluid() {
+        FakeCell a = FakeCell.of(1000 * MB, WATER, BOTTLE);
+        assertThat(column(a).depositBottle(WATER, IGNORE)).isTrue();
+        assertThat(a.amount()).isEqualTo(2 * BOTTLE);
+        assertThat(a.fluid()).isEqualTo(WATER);
+    }
+
+    @Test
     void depositBottleFailsWithoutRoom() {
         FakeCell a = FakeCell.of(BOTTLE - 1);
         assertThat(column(a).depositBottle(WATER, IGNORE)).isFalse();
@@ -365,6 +373,17 @@ class TankColumnTest {
         FakeCell bottom = FakeCell.of(1000, WATER, 1000);
         FakeCell top = FakeCell.of(1000, WATER, 200);
         assertThat(column(bottom, top).rebalance()).isEmpty();
+    }
+
+    @Test
+    void rebalanceClearsAGhostFluidWhoseAmountIsAlreadyZero() {
+        // A cell that still names a fluid but holds nothing (amount 0) is inconsistent; rebalance
+        // normalises it to empty even though its amount already matches the settled target.
+        FakeCell ghost = new FakeCell(TankTier.GLASS, 1000, WATER, 0);
+        List<TankCell<FakeFluid>> changed = column(ghost).rebalance();
+        assertThat(ghost.amount()).isZero();
+        assertThat(ghost.fluid()).isNull();
+        assertThat(changed).containsExactly(ghost);
     }
 
     @Test
