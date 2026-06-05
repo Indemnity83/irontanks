@@ -1,10 +1,13 @@
 {
+  "itemGroup.irontanks.tanks": "Iron Tanks",
+  "block.irontanks.glass_tank": "Glass Tank",
   "block.irontanks.copper_tank": "铜储罐",
   "block.irontanks.iron_tank": "铁储罐",
   "block.irontanks.silver_tank": "银储罐",
   "block.irontanks.gold_tank": "金储罐",
   "block.irontanks.diamond_tank": "钻石储罐",
   "block.irontanks.obsidian_tank": "黑曜石储罐",
+  "block.irontanks.emerald_tank": "Emerald Tank",
   "block.irontanks.void_tank": "虚空储罐",
   "block.irontanks.creative_tank": "创造储罐",
   "item.irontanks.glass_copper_upgrade": "储罐升级：玻璃>铜",
@@ -15,7 +18,14 @@
   "item.irontanks.silver_gold_upgrade": "储罐升级：银>金",
   "item.irontanks.gold_diamond_upgrade": "储罐升级：金>钻石",
   "item.irontanks.diamond_obsidian_upgrade": "储罐升级：钻石>黑曜石",
+  "item.irontanks.diamond_emerald_upgrade": "Diamond to Emerald Tank Upgrade",
   "irontanks.tooltip.capacity": "持有%s桶流体",
   "irontanks.tooltip.void_tank": "销毁流体",
-  "irontanks.tooltip.creative_tank": "提供无限量的流体"
+  "irontanks.tooltip.creative_tank": "提供无限量的流体",
+  "irontanks.readout.empty": "Empty",
+  "irontanks.readout.line": "%1$s · %2$s",
+  "irontanks.readout.amount": "%1$s / %2$s mB",
+  "irontanks.readout.potion": "%1$s × %2$s",
+  "irontanks.readout.potion_of": "Potion of %s",
+  "config.jade.plugin_irontanks.tank": "Tank Contents"
 }

@@ -1,4 +1,6 @@
 {
+  "itemGroup.irontanks.tanks": "Iron Tanks",
+  "block.irontanks.glass_tank": "Glass Tank",
   "block.irontanks.copper_tank": "Медная цистерна",
   "block.irontanks.iron_tank": "Железная цистерна",
   "block.irontanks.silver_tank": "Серебряная цистерна",
@@ -19,5 +21,11 @@
   "item.irontanks.diamond_emerald_upgrade": "Улучшение из алмазной в изумрудную цистерну",
   "irontanks.tooltip.capacity": "Удерживает %s ведер",
   "irontanks.tooltip.void_tank": "Уничтожает жидкости",
-  "irontanks.tooltip.creative_tank": "Хранит неограниченное кол-во жидкости"
+  "irontanks.tooltip.creative_tank": "Хранит неограниченное кол-во жидкости",
+  "irontanks.readout.empty": "Empty",
+  "irontanks.readout.line": "%1$s · %2$s",
+  "irontanks.readout.amount": "%1$s / %2$s mB",
+  "irontanks.readout.potion": "%1$s × %2$s",
+  "irontanks.readout.potion_of": "Potion of %s",
+  "config.jade.plugin_irontanks.tank": "Tank Contents"
 }

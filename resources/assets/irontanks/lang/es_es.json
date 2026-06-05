@@ -1,10 +1,15 @@
 {
+  "itemGroup.irontanks.tanks": "Iron Tanks",
+  "block.irontanks.glass_tank": "Glass Tank",
   "block.irontanks.copper_tank": "Tanque de Cobre",
   "block.irontanks.iron_tank": "Tanque de Hierro",
   "block.irontanks.silver_tank": "Tanque de Plata",
   "block.irontanks.gold_tank": "Tanque de Oro",
   "block.irontanks.diamond_tank": "Tanque de Diamante",
   "block.irontanks.obsidian_tank": "Tanque de Obsidiana",
+  "block.irontanks.emerald_tank": "Emerald Tank",
+  "block.irontanks.void_tank": "Void Tank",
+  "block.irontanks.creative_tank": "Creative Tank",
   "item.irontanks.glass_copper_upgrade": "Mejora de Tanque de Vidrio a Cobre",
   "item.irontanks.glass_iron_upgrade": "Mejora de Tanque de Vidrio a Hierro",
   "item.irontanks.copper_iron_upgrade": "Mejora de Tanque de Cobre a Hierro",
@@ -13,5 +18,14 @@
   "item.irontanks.silver_gold_upgrade": "Mejora de Tanque de Plata a Oro",
   "item.irontanks.gold_diamond_upgrade": "Mejora de Tanque de Oro a Diamante",
   "item.irontanks.diamond_obsidian_upgrade": "Mejora de Tanque de Diamante a Obsidiana",
-  "irontanks.tooltip.capacity": "tiene %s cubos"
+  "item.irontanks.diamond_emerald_upgrade": "Diamond to Emerald Tank Upgrade",
+  "irontanks.tooltip.capacity": "tiene %s cubos",
+  "irontanks.tooltip.void_tank": "Destroys fluids",
+  "irontanks.tooltip.creative_tank": "Dispenses an infinite amount",
+  "irontanks.readout.empty": "Empty",
+  "irontanks.readout.line": "%1$s · %2$s",
+  "irontanks.readout.amount": "%1$s / %2$s mB",
+  "irontanks.readout.potion": "%1$s × %2$s",
+  "irontanks.readout.potion_of": "Potion of %s",
+  "config.jade.plugin_irontanks.tank": "Tank Contents"
 }
