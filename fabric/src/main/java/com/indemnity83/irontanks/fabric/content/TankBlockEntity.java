@@ -25,11 +25,12 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Stores a single fluid amount (in millibuckets, matching {@code core}) for one tank. Every connected
- * tank in a vertical column holds the same fluid, so a column's contents are a single total
- * redistributed by {@link TankColumn}: liquids settle to the bottom, gases rise. Void tanks destroy
- * their own contents each tick; creative tanks never join a column. Distribution math lives in
- * {@code core}; this is just the Fabric wiring.
+ * Stores a single fluid amount (in droplets, the unit {@code core} uses and Fabric speaks natively) for
+ * one tank. Every connected tank in a vertical column holds the same fluid, so a column's contents are a
+ * single total redistributed by {@link TankColumn}: liquids settle to the bottom, gases rise. Void tanks
+ * destroy their own contents each tick; creative tanks never join a column. Distribution math lives in
+ * {@code core}; this is just the Fabric wiring. On disk the amount is saved as millibuckets plus a
+ * sub-mB droplet remainder (see {@link #saveAdditional}), converting via {@link TankTier#DROPLETS_PER_MB}.
  */
 public class TankBlockEntity extends BlockEntity implements TankCell<FluidVariant> {
 
@@ -44,7 +45,7 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
         return getBlockState().getBlock() instanceof TankBlock tank ? tank.tier() : TankTier.GLASS;
     }
 
-    /** Capacity in millibuckets. */
+    /** Capacity in droplets. */
     public long capacity() {
         return tier().capacity();
     }

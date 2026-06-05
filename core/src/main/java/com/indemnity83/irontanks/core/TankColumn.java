@@ -115,6 +115,7 @@ public final class TankColumn<F> {
      * potion, holds a different fluid, or is full). A creative column becomes the source and stays full.
      */
     public long insert(F resource, long maxDroplets, long quantum, Runnable onMutate) {
+        requirePositiveQuantum(quantum);
         if (kind.isEmpty(resource) || maxDroplets <= 0) {
             return 0;
         }
@@ -148,6 +149,7 @@ public final class TankColumn<F> {
      * different fluid). A creative column is endless and never depletes.
      */
     public long extract(F resource, long maxDroplets, long quantum, Runnable onMutate) {
+        requirePositiveQuantum(quantum);
         if (kind.isEmpty(resource) || maxDroplets <= 0) {
             return 0;
         }
@@ -269,5 +271,11 @@ public final class TankColumn<F> {
     /** Floors a non-negative {@code value} to a whole multiple of {@code quantum}. */
     private static long floorTo(long value, long quantum) {
         return value - (value % quantum);
+    }
+
+    private static void requirePositiveQuantum(long quantum) {
+        if (quantum <= 0) {
+            throw new IllegalArgumentException("quantum must be > 0: " + quantum);
+        }
     }
 }

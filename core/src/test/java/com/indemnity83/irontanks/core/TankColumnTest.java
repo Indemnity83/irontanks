@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,6 +196,16 @@ class TankColumnTest {
     void insertIgnoresBlankAndNonPositive() {
         assertThat(column(FakeCell.of(1000)).insert(null, 100, 1, IGNORE)).isZero();
         assertThat(column(FakeCell.of(1000)).insert(WATER, 0, 1, IGNORE)).isZero();
+    }
+
+    @Test
+    void insertAndExtractRejectNonPositiveQuantum() {
+        assertThatThrownBy(() -> column(FakeCell.of(1000)).insert(WATER, 100, 0, IGNORE))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("quantum");
+        assertThatThrownBy(() -> column(FakeCell.of(1000, WATER, 400)).extract(WATER, 100, -1, IGNORE))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("quantum");
     }
 
     @Test
