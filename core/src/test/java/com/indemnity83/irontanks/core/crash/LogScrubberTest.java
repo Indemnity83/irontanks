@@ -57,11 +57,7 @@ class LogScrubberTest {
             System.setProperty("user.name", "mc");
             assertThat(LogScrubber.redact("running as mc on mcServer")).isEqualTo("running as mc on mcServer");
         } finally {
-            if (original != null) {
-                System.setProperty("user.name", original);
-            } else {
-                System.clearProperty("user.name");
-            }
+            restore("user.name", original);
         }
     }
 
