@@ -1,0 +1,17 @@
+{
+  "block.irontanks.copper_tank": "Tanque de Cobre",
+  "block.irontanks.iron_tank": "Tanque de Hierro",
+  "block.irontanks.silver_tank": "Tanque de Plata",
+  "block.irontanks.gold_tank": "Tanque de Oro",
+  "block.irontanks.diamond_tank": "Tanque de Diamante",
+  "block.irontanks.obsidian_tank": "Tanque de Obsidiana",
+  "item.irontanks.glass_copper_upgrade": "Mejora de Tanque de Vidrio a Cobre",
+  "item.irontanks.glass_iron_upgrade": "Mejora de Tanque de Vidrio a Hierro",
+  "item.irontanks.copper_iron_upgrade": "Mejora de Tanque de Cobre a Hierro",
+  "item.irontanks.copper_silver_upgrade": "Mejora de Tanque de Cobre a Plata",
+  "item.irontanks.iron_gold_upgrade": "Mejora de Tanque de Hierro a Oro",
+  "item.irontanks.silver_gold_upgrade": "Mejora de Tanque de Plata a Oro",
+  "item.irontanks.gold_diamond_upgrade": "Mejora de Tanque de Oro a Diamante",
+  "item.irontanks.diamond_obsidian_upgrade": "Mejora de Tanque de Diamante a Obsidiana",
+  "irontanks.tooltip.capacity": "tiene %s cubos"
+}

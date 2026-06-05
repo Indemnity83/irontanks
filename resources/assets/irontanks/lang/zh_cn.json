@@ -1,0 +1,21 @@
+{
+  "block.irontanks.copper_tank": "铜储罐",
+  "block.irontanks.iron_tank": "铁储罐",
+  "block.irontanks.silver_tank": "银储罐",
+  "block.irontanks.gold_tank": "金储罐",
+  "block.irontanks.diamond_tank": "钻石储罐",
+  "block.irontanks.obsidian_tank": "黑曜石储罐",
+  "block.irontanks.void_tank": "虚空储罐",
+  "block.irontanks.creative_tank": "创造储罐",
+  "item.irontanks.glass_copper_upgrade": "储罐升级：玻璃>铜",
+  "item.irontanks.glass_iron_upgrade": "储罐升级：玻璃>铁",
+  "item.irontanks.copper_iron_upgrade": "储罐升级：铜>铁",
+  "item.irontanks.copper_silver_upgrade": "储罐升级：铜>银",
+  "item.irontanks.iron_gold_upgrade": "储罐升级：铁>金",
+  "item.irontanks.silver_gold_upgrade": "储罐升级：银>金",
+  "item.irontanks.gold_diamond_upgrade": "储罐升级：金>钻石",
+  "item.irontanks.diamond_obsidian_upgrade": "储罐升级：钻石>黑曜石",
+  "irontanks.tooltip.capacity": "持有%s桶流体",
+  "irontanks.tooltip.void_tank": "销毁流体",
+  "irontanks.tooltip.creative_tank": "提供无限量的流体"
+}

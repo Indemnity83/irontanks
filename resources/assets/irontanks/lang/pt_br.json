@@ -1,0 +1,17 @@
+{
+  "block.irontanks.copper_tank": "Tanque de Cobre",
+  "block.irontanks.iron_tank": "Tanque de Ferro",
+  "block.irontanks.silver_tank": "Tanque de Prata",
+  "block.irontanks.gold_tank": "Tanque de Ouro",
+  "block.irontanks.diamond_tank": "Tanque de Diamante",
+  "block.irontanks.obsidian_tank": "Tanque de Obsidiana",
+  "item.irontanks.glass_copper_upgrade": "Aprimoramento de Tanque de Vidro para Cobre",
+  "item.irontanks.glass_iron_upgrade": "Aprimoramento de Tanque de Vidro para Ferro",
+  "item.irontanks.copper_iron_upgrade": "Aprimoramento de Tanque de Cobre para Ferro",
+  "item.irontanks.copper_silver_upgrade": "Aprimoramento de Tanque de Cobre para Prata",
+  "item.irontanks.iron_gold_upgrade": "Aprimoramento de Tanque de Ferro para Ouro",
+  "item.irontanks.silver_gold_upgrade": "Aprimoramento de Tanque de Prata para Ouro",
+  "item.irontanks.gold_diamond_upgrade": "Aprimoramento de Tanque de Ouro para Diamante",
+  "item.irontanks.diamond_obsidian_upgrade": "Aprimoramento de Tanque de Diamante para Obsidiana",
+  "irontanks.tooltip.capacity": "Contém %s baldes"
+}
