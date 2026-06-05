@@ -9,6 +9,7 @@ import io.sentry.protocol.SentryException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,10 @@ public final class CrashReporting {
 
     // Test seam: how the live client is built. Default uses the real async-HTTP Sentry client.
     private static Function<SentryOptions, ISentryClient> clientFactory = SentryClient::new;
+
+    // Test seam: how the JVM flush-on-exit hook is registered. Default adds a real shutdown hook;
+    // tests install a no-op/recording registrar so the registration path can run without leaking hooks.
+    private static Consumer<Thread> shutdownHookRegistrar = Runtime.getRuntime()::addShutdownHook;
 
     /**
      * Load config and, if crash reporting was left enabled, start it. Call once per loader during
@@ -165,7 +170,7 @@ public final class CrashReporting {
         return renderPreview(event);
     }
 
-    private static String renderPreview(SentryEvent event) {
+    static String renderPreview(SentryEvent event) {
         StringBuilder sb = new StringBuilder("Iron Tanks crash-report preview (nothing is sent):\n");
         if (platform != null) {
             sb.append("  release: irontanks@").append(platform.modVersion()).append('\n');
@@ -227,10 +232,10 @@ public final class CrashReporting {
         if (!ACTIVE.getAndSet(false)) {
             return;
         }
-        if (bridge != null) {
-            bridge.detach();
-            bridge = null;
-        }
+        // start() assigns bridge before flipping ACTIVE on, and its failure path clears ACTIVE, so
+        // reaching here (ACTIVE was true) always means there is a live bridge to detach.
+        bridge.detach();
+        bridge = null;
         ISentryClient current = client;
         client = null;
         if (current != null) {
@@ -264,7 +269,7 @@ public final class CrashReporting {
         return options;
     }
 
-    private static String effectiveDsn() {
+    static String effectiveDsn() {
         if (config != null) {
             String override = config.crashReporting().dsnOverride();
             if (!override.isBlank()) {
@@ -275,18 +280,19 @@ public final class CrashReporting {
     }
 
     private static void persist() {
-        if (config != null && configFile != null) {
+        // Every caller reaches persist() only with a live config, so configFile is the only guard needed.
+        if (configFile != null) {
             config.save(configFile);
         }
     }
 
     private static void registerShutdownHookOnce() {
         if (SHUTDOWN_HOOK_REGISTERED.compareAndSet(false, true)) {
-            Runtime.getRuntime().addShutdownHook(new Thread(CrashReporting::flushOnExit, "irontanks-sentry-flush"));
+            shutdownHookRegistrar.accept(new Thread(CrashReporting::flushOnExit, "irontanks-sentry-flush"));
         }
     }
 
-    private static void flushOnExit() {
+    static void flushOnExit() {
         ISentryClient current = client;
         if (current != null) {
             try {
@@ -301,13 +307,28 @@ public final class CrashReporting {
 
     /** Swap the client factory and clear all state so each unit test starts clean. */
     static synchronized void resetForTesting(Function<SentryOptions, ISentryClient> factory) {
+        resetForTesting(factory, null);
+    }
+
+    /**
+     * Swap the client factory and shutdown-hook registrar and clear all state so each unit test starts
+     * clean. A null registrar defaults to a no-op, so the registration path runs without ever leaking a
+     * real JVM hook between tests.
+     */
+    static synchronized void resetForTesting(
+            Function<SentryOptions, ISentryClient> factory, Consumer<Thread> registrar) {
         stop();
         clientFactory = factory != null ? factory : SentryClient::new;
+        shutdownHookRegistrar = registrar != null ? registrar : thread -> {};
         config = null;
         platform = null;
         configFile = null;
         dsn = DEFAULT_DSN;
-        // Block real JVM shutdown hooks from being registered during tests.
-        SHUTDOWN_HOOK_REGISTERED.set(true);
+        SHUTDOWN_HOOK_REGISTERED.set(false);
+    }
+
+    /** Override the base DSN so the "enabled but no DSN configured" start() path is reachable. */
+    static void setDsnForTesting(String value) {
+        dsn = value;
     }
 }

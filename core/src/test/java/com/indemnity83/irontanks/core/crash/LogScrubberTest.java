@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.core.crash;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.sentry.Breadcrumb;
 import io.sentry.SentryEvent;
 import io.sentry.protocol.Message;
 import io.sentry.protocol.SentryException;
@@ -89,5 +90,51 @@ class LogScrubberTest {
         assertThat(event.getMessage().getFormatted()).isEqualTo("crash for <uuid> from <ip>");
         assertThat(event.getExceptions().get(0).getValue())
                 .isEqualTo("failed at /home/<user>/world with token=<redacted>");
+    }
+
+    @Test
+    void scrubNullEventReturnsNull() {
+        assertThat(LogScrubber.scrub(null)).isNull();
+    }
+
+    @Test
+    void scrubsBreadcrumbsAndToleratesMissingMessageAndExceptions() {
+        SentryEvent event = new SentryEvent();
+        Breadcrumb crumb = new Breadcrumb();
+        crumb.setMessage("saving /home/erin/world from 203.0.113.7");
+        event.addBreadcrumb(crumb);
+
+        LogScrubber.scrub(event);
+
+        assertThat(event.getMessage()).isNull();
+        assertThat(event.getExceptions()).isNull();
+        assertThat(event.getBreadcrumbs().get(0).getMessage()).isEqualTo("saving /home/<user>/world from <ip>");
+    }
+
+    @Test
+    void toleratesMissingHomeAndUserProperties() {
+        String home = System.getProperty("user.home");
+        String user = System.getProperty("user.name");
+        try {
+            System.clearProperty("user.home");
+            System.clearProperty("user.name");
+            // Generic path/IP redaction still works without the local identity properties present.
+            assertThat(LogScrubber.redact("at /Users/frank/x from 203.0.113.7"))
+                    .isEqualTo("at /Users/<user>/x from <ip>");
+
+            System.setProperty("user.home", ""); // present but blank
+            assertThat(LogScrubber.redact("blank home from 203.0.113.7")).isEqualTo("blank home from <ip>");
+        } finally {
+            restore("user.home", home);
+            restore("user.name", user);
+        }
+    }
+
+    private static void restore(String key, String value) {
+        if (value != null) {
+            System.setProperty(key, value);
+        } else {
+            System.clearProperty(key);
+        }
     }
 }

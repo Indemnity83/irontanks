@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.core.crash;
 
 import java.util.Locale;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
@@ -28,10 +29,20 @@ public final class Log4j2Bridge {
     private static final String APPENDER_NAME = "IronTanksSentryBridge";
 
     private final Consumer<Throwable> sink;
+
+    // Test seam: how the Log4j2 context is obtained. Default uses the live backend; tests inject a real
+    // context (happy path), a non-LoggerContext (degraded), or a throwing supplier (failure path).
+    private final Supplier<Object> contextSupplier;
+
     private ForwardingAppender appender;
 
     public Log4j2Bridge(Consumer<Throwable> sink) {
+        this(sink, () -> LogManager.getContext(false));
+    }
+
+    Log4j2Bridge(Consumer<Throwable> sink, Supplier<Object> contextSupplier) {
         this.sink = sink;
+        this.contextSupplier = contextSupplier;
     }
 
     /**
@@ -49,7 +60,7 @@ public final class Log4j2Bridge {
 
     public void attach() {
         try {
-            if (!(LogManager.getContext(false) instanceof LoggerContext ctx)) {
+            if (!(contextSupplier.get() instanceof LoggerContext ctx)) {
                 LOGGER.warn("Log4j2 backend unavailable; crash log capture disabled");
                 return;
             }
@@ -66,7 +77,7 @@ public final class Log4j2Bridge {
 
     public void detach() {
         try {
-            if (appender == null || !(LogManager.getContext(false) instanceof LoggerContext ctx)) {
+            if (appender == null || !(contextSupplier.get() instanceof LoggerContext ctx)) {
                 return;
             }
             ctx.getConfiguration().getRootLogger().removeAppender(APPENDER_NAME);
