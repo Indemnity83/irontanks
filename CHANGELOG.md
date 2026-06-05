@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.1.0...mc26.1-v3.1.1) (2026-06-05)
+
+
+### Fixed
+
+* restore German, Spanish, Portuguese, Russian, Chinese and Pirate translations ([#133](https://github.com/Indemnity83/irontanks/issues/133)) ([0dbd844](https://github.com/Indemnity83/irontanks/commit/0dbd844db4b37ea2aa6c450af6797b4823b516cb))
+
 ## [3.1.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.0.0...mc26.1-v3.1.0) (2026-06-04)
 
 
