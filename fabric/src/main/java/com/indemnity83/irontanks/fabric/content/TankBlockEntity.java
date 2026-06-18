@@ -93,6 +93,11 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
     /** Persist + sync after an external content change, then rebalance the column. */
     public void onContentsChanged() {
         sync();
+        // Rebalancing is server-only and needs a level. balanceColumn() guards this internally; guard the
+        // logistics branch the same way, since its engine would NPE on a null level or desync on the client.
+        if (level == null || level.isClientSide()) {
+            return;
+        }
         if (LogisticsTanks.active()) {
             // Settle the whole (possibly cross-mod) column through the shared logistics engine.
             LogisticsTanks.get().rebalanceColumn(level, worldPosition);

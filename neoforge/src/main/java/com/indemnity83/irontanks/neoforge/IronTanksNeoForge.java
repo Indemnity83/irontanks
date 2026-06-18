@@ -41,7 +41,14 @@ public final class IronTanksNeoForge {
         modBus.addListener((FMLCommonSetupEvent event) -> {
             if (ModList.get().isLoaded("logistics")
                     && com.indemnity83.irontanks.neoforge.compat.LogisticsTanks.apiPresent()) {
-                com.indemnity83.irontanks.neoforge.compat.logistics.LogisticsTanksBridge.init();
+                try {
+                    com.indemnity83.irontanks.neoforge.compat.logistics.LogisticsTanksBridge.init();
+                } catch (Throwable t) {
+                    // apiPresent() only confirms the probe class loads; a binary-incompatible logistics
+                    // build could still fail to link a method here (LinkageError/NoClassDefFoundError).
+                    // Degrade gracefully rather than crash mod init — iron tanks run without the integration.
+                    LOGGER.warn("Logistics tank integration failed to initialize; continuing without it", t);
+                }
             }
         });
 

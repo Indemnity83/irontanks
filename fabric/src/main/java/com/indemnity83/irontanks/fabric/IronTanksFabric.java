@@ -35,7 +35,14 @@ public final class IronTanksFabric implements ModInitializer {
         // id, no API) from crashing init.
         if (FabricLoader.getInstance().isModLoaded("logistics")
                 && com.indemnity83.irontanks.fabric.compat.LogisticsTanks.apiPresent()) {
-            com.indemnity83.irontanks.fabric.compat.logistics.LogisticsTanksBridge.init();
+            try {
+                com.indemnity83.irontanks.fabric.compat.logistics.LogisticsTanksBridge.init();
+            } catch (Throwable t) {
+                // apiPresent() only confirms the probe class loads; a binary-incompatible logistics build
+                // could still fail to link a method here (LinkageError/NoClassDefFoundError). Degrade
+                // gracefully rather than crash mod init — iron tanks just run without the integration.
+                LOGGER.warn("Logistics tank integration failed to initialize; continuing without it", t);
+            }
         }
 
         // Opt-in (default off) sanitized crash reporting.
