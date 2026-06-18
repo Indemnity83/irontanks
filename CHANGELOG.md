@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.1.1...mc26.1-v3.2.0) (2026-06-18)
+
+
+### Added
+
+* stack and share fluid with Logistics tanks ([#147](https://github.com/Indemnity83/irontanks/issues/147)) ([fa9aceb](https://github.com/Indemnity83/irontanks/commit/fa9aceb6c7e4e0c82dc92cac851f5eab4897fb8c))
+
 ## [3.1.1](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.1.0...mc26.1-v3.1.1) (2026-06-05)
 
 
