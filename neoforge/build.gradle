@@ -28,6 +28,16 @@ repositories {
 dependencies {
     implementation project(':core')
 
+    // Optional logistics integration: compile against the published logistics mod from the Modrinth maven
+    // (Mojang-mapped, same as the NeoForge runtime — same pattern as Jade below). compileOnly + a runtime
+    // class-presence gate means the logistics API classes are only linked when logistics is installed, and
+    // nothing is bundled. Version pinned in gradle.properties.
+    compileOnly "maven.modrinth:logistics:${rootProject.logistics_version}.neoforge"
+    // Dev-only: load the full logistics mod in runClient so cross-mod tank stacking and upgrades can be
+    // exercised. runtimeOnly (ModDevGradle's way to add dev mods) puts it on the run classpath but never in
+    // the shipped jar.
+    runtimeOnly "maven.modrinth:logistics:${rootProject.logistics_version}.neoforge"
+
     // Optional Jade HUD integration: compile-only so we implement its plugin API without making Jade a
     // hard dependency. The @WailaPlugin class only loads when Jade (a client mod) is actually present.
     compileOnly "maven.modrinth:jade:${rootProject.jade_neoforge_version}"

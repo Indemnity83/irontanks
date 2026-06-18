@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.neoforge.content;
 
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.TankUpgrade;
+import com.indemnity83.irontanks.neoforge.compat.LogisticsTanks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -30,7 +31,13 @@ public class UpgradeItem extends Item {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         BlockState state = level.getBlockState(pos);
-        if (!(state.getBlock() instanceof TankBlock tank) || tank.tier() != upgrade.from()) {
+        boolean ownSource = state.getBlock() instanceof TankBlock tank && tank.tier() == upgrade.from();
+        // A glass-tier upgrade also accepts the logistics glass tank as its source when that mod is present.
+        boolean foreignSource = !ownSource
+                && upgrade.from() == TankTier.GLASS
+                && LogisticsTanks.active()
+                && LogisticsTanks.get().isForeignTank(state);
+        if (!ownSource && !foreignSource) {
             return InteractionResult.PASS;
         }
 
@@ -39,7 +46,13 @@ public class UpgradeItem extends Item {
 
             FluidResource fluid = FluidResource.EMPTY;
             long amount = 0;
-            if (level.getBlockEntity(pos) instanceof TankBlockEntity old) {
+            if (foreignSource) {
+                LogisticsTanks.Contents contents = LogisticsTanks.get().readForeignTank(level, pos);
+                if (contents != null) {
+                    fluid = contents.fluid();
+                    amount = contents.droplets();
+                }
+            } else if (level.getBlockEntity(pos) instanceof TankBlockEntity old) {
                 fluid = old.fluidResource();
                 amount = old.amount();
             }

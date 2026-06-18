@@ -5,6 +5,7 @@ import com.indemnity83.irontanks.fabric.content.TankFluidStorage;
 import com.indemnity83.irontanks.fabric.crash.CrashReportingBootstrap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,23 @@ public final class IronTanksFabric implements ModInitializer {
         // Expose every tank's fluid storage so pipes/pumps can fill and drain it.
         FluidStorage.SIDED.registerForBlockEntity(
                 (tank, direction) -> new TankFluidStorage(tank), IronTanksContent.TANK_BLOCK_ENTITY);
+
+        // Optional: when the logistics mod is present AND ships the tank-column API, wire iron tanks into
+        // its shared tank columns so the two mods' tanks stack and share fluid, and iron upgrades work on
+        // its glass tank. The bridge class is referenced only inside this guard, so its logistics imports
+        // never link when logistics is absent. The apiPresent() probe keeps an older logistics (same mod
+        // id, no API) from crashing init.
+        if (FabricLoader.getInstance().isModLoaded("logistics")
+                && com.indemnity83.irontanks.fabric.compat.LogisticsTanks.apiPresent()) {
+            try {
+                com.indemnity83.irontanks.fabric.compat.logistics.LogisticsTanksBridge.init();
+            } catch (Throwable t) {
+                // apiPresent() only confirms the probe class loads; a binary-incompatible logistics build
+                // could still fail to link a method here (LinkageError/NoClassDefFoundError). Degrade
+                // gracefully rather than crash mod init — iron tanks just run without the integration.
+                LOGGER.warn("Logistics tank integration failed to initialize; continuing without it", t);
+            }
+        }
 
         // Opt-in (default off) sanitized crash reporting.
         CrashReportingBootstrap.init();

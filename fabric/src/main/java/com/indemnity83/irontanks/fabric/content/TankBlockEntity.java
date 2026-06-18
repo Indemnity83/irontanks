@@ -4,6 +4,7 @@ import com.indemnity83.irontanks.core.TankCell;
 import com.indemnity83.irontanks.core.TankColumn;
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.VoidTank;
+import com.indemnity83.irontanks.fabric.compat.LogisticsTanks;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -92,7 +93,17 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
     /** Persist + sync after an external content change, then rebalance the column. */
     public void onContentsChanged() {
         sync();
-        balanceColumn();
+        // Rebalancing is server-only and needs a level. balanceColumn() guards this internally; guard the
+        // logistics branch the same way, since its engine would NPE on a null level or desync on the client.
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        if (LogisticsTanks.active()) {
+            // Settle the whole (possibly cross-mod) column through the shared logistics engine.
+            LogisticsTanks.get().rebalanceColumn(level, worldPosition);
+        } else {
+            balanceColumn();
+        }
     }
 
     /** This tank's vertical column, ordered bottom-to-top (creative tanks stay isolated). */
@@ -128,7 +139,14 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
             setContentsRaw(fluid, capacity());
             changed = true;
         }
-        if (balanceColumn()) {
+        if (LogisticsTanks.active()) {
+            // Logistics elects one driver per (possibly cross-mod) column — its bottom cell — and settles
+            // the whole stack; changed cells (foreign included) sync themselves. Every other cell no-ops,
+            // so the two mods' tickers never fight over a shared column.
+            if (LogisticsTanks.get().isColumnBottom(level, worldPosition)) {
+                LogisticsTanks.get().rebalanceColumn(level, worldPosition);
+            }
+        } else if (balanceColumn()) {
             changed = true;
         }
         if (changed) {
