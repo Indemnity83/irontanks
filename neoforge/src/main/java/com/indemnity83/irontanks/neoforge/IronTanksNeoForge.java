@@ -4,7 +4,9 @@ import com.indemnity83.irontanks.neoforge.client.IronTanksClient;
 import com.indemnity83.irontanks.neoforge.content.IronTanksContent;
 import com.indemnity83.irontanks.neoforge.crash.CrashReportingBootstrap;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
@@ -29,6 +31,19 @@ public final class IronTanksNeoForge {
         if (FMLEnvironment.getDist().isClient()) {
             IronTanksClient.register(modBus);
         }
+
+        // Optional: when the logistics mod is present AND ships the tank-column API, wire iron tanks into
+        // its shared tank columns so the two mods' tanks stack and share fluid, and iron upgrades work on
+        // its glass tank. Done at common setup (ModList is populated by then); the bridge class is referenced
+        // only inside the guard, so its logistics imports never link when logistics is absent. The
+        // apiPresent() probe keeps an older logistics (same mod id, no API) from crashing init. Iron Tanks
+        // works fully standalone.
+        modBus.addListener((FMLCommonSetupEvent event) -> {
+            if (ModList.get().isLoaded("logistics")
+                    && com.indemnity83.irontanks.neoforge.compat.LogisticsTanks.apiPresent()) {
+                com.indemnity83.irontanks.neoforge.compat.logistics.LogisticsTanksBridge.init();
+            }
+        });
 
         // Opt-in (default off) sanitized crash reporting.
         CrashReportingBootstrap.init();

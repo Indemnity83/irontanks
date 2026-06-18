@@ -25,3 +25,12 @@ type="required"
 versionRange="${neoforge_minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
+
+# Optional cross-mod tank integration: iron tanks stack and share fluid with logistics tanks, and
+# iron upgrade items work on the logistics glass tank. Iron Tanks works fully without logistics.
+[[dependencies.${mod_id}]]
+modId="logistics"
+type="optional"
+versionRange="[0,)"
+ordering="AFTER"
+side="BOTH"

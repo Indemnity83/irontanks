@@ -41,6 +41,18 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
     implementation project(':core')
 
+    // Optional logistics integration: compile against the published logistics mod from the Modrinth maven
+    // (Mojang-mapped, no remapping needed — same pattern as Jade below). compileOnly + a runtime
+    // class-presence gate means the logistics API classes are only linked when logistics is installed, and
+    // nothing is bundled. Version pinned in gradle.properties.
+    compileOnly "maven.modrinth:logistics:${rootProject.logistics_version}.fabric"
+
+    // Dev-only: load the full logistics mod in runClient so cross-mod tank stacking and upgrades can be
+    // exercised. This 26.1 toolchain is Mojang-mapped end to end (same reason Jade below uses plain client*
+    // configs), so no Loom mod-remap config is needed: a plain runtimeOnly puts the jar on the run classpath
+    // where Fabric Loader discovers it and applies its access widener.
+    runtimeOnly "maven.modrinth:logistics:${rootProject.logistics_version}.fabric"
+
     // Optional Jade HUD integration: compile-only, on the client source set where the @WailaPlugin class
     // lives. The 26.1 Fabric toolchain is Mojang-mapped (as is Jade's jar), so no remapping is needed and
     // a plain clientCompileOnly suffices. The class only loads when Jade is actually installed.
