@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "joined_below=false": {
+      "model": "irontanks:block/aluminium_tank"
+    },
+    "joined_below=true": {
+      "model": "irontanks:block/aluminium_tank_stacked"
+    }
+  }
+}

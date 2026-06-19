@@ -21,6 +21,11 @@ public enum TankTier {
     /** Explosion-proof; same capacity as diamond. */
     OBSIDIAN(64),
     EMERALD(96),
+    /** Optional high tiers, gated on conventional material tags (empty by default — light up in packs). */
+    ALUMINIUM(96),
+    STAINLESSSTEEL(128),
+    TITANIUM(256),
+    TUNGSTENSTEEL(512),
     /** Destroys fluid a little each tick (see {@link VoidTank}); small buffer capacity. */
     VOID(8),
     /** Dispenses fluid endlessly; capacity is nominal since it never actually drains. */
