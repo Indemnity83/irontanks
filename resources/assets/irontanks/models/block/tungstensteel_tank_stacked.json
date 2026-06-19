@@ -1,0 +1,8 @@
+{
+  "parent": "irontanks:block/tank",
+  "textures": {
+    "end": "irontanks:block/tungstensteeltank/end",
+    "side": "irontanks:block/tungstensteeltank/side_stacked",
+    "particle": "irontanks:block/tungstensteeltank/side"
+  }
+}

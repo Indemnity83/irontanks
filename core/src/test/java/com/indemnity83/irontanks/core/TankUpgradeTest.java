@@ -21,10 +21,30 @@ class TankUpgradeTest {
     }
 
     @Test
-    void diamondBranchesToObsidianAndEmerald() {
+    void diamondBranchesToObsidianEmeraldAndAluminium() {
         assertThat(TankUpgrade.from(TankTier.DIAMOND))
                 .extracting(TankUpgrade::to)
-                .containsExactlyInAnyOrder(TankTier.OBSIDIAN, TankTier.EMERALD);
+                .containsExactlyInAnyOrder(TankTier.OBSIDIAN, TankTier.EMERALD, TankTier.ALUMINIUM);
+    }
+
+    @Test
+    void emeraldAndAluminiumBothClimbToStainlessSteel() {
+        assertThat(TankUpgrade.from(TankTier.EMERALD))
+                .extracting(TankUpgrade::to)
+                .containsExactly(TankTier.STAINLESSSTEEL);
+        assertThat(TankUpgrade.from(TankTier.ALUMINIUM))
+                .extracting(TankUpgrade::to)
+                .containsExactly(TankTier.STAINLESSSTEEL);
+    }
+
+    @Test
+    void highTiersChainStainlessToTitaniumToTungsten() {
+        assertThat(TankUpgrade.from(TankTier.STAINLESSSTEEL))
+                .extracting(TankUpgrade::to)
+                .containsExactly(TankTier.TITANIUM);
+        assertThat(TankUpgrade.from(TankTier.TITANIUM))
+                .extracting(TankUpgrade::to)
+                .containsExactly(TankTier.TUNGSTENSTEEL);
     }
 
     @Test
@@ -32,8 +52,8 @@ class TankUpgradeTest {
         for (TankUpgrade upgrade : TankUpgrade.values()) {
             assertThat(upgrade.to()).isNotEqualTo(TankTier.GLASS);
         }
-        // Obsidian and emerald are end states.
+        // Obsidian and tungsten steel are the end states.
         assertThat(TankUpgrade.from(TankTier.OBSIDIAN)).isEmpty();
-        assertThat(TankUpgrade.from(TankTier.EMERALD)).isEmpty();
+        assertThat(TankUpgrade.from(TankTier.TUNGSTENSTEEL)).isEmpty();
     }
 }

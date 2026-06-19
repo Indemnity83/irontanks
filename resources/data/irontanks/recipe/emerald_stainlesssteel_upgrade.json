@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " g ",
+    "gdg",
+    "ege"
+  ],
+  "key": {
+    "g": "#c:glass_panes/colorless",
+    "d": "#c:gems/emerald",
+    "e": "#c:ingots/stainless_steel"
+  },
+  "result": {
+    "id": "irontanks:emerald_stainlesssteel_upgrade"
+  }
+}

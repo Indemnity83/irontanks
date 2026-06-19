@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "joined_below=false": {
+      "model": "irontanks:block/tungstensteel_tank"
+    },
+    "joined_below=true": {
+      "model": "irontanks:block/tungstensteel_tank_stacked"
+    }
+  }
+}

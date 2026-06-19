@@ -17,6 +17,10 @@ class TankTierTest {
         assertThat(TankTier.DIAMOND.buckets()).isEqualTo(64);
         assertThat(TankTier.OBSIDIAN.buckets()).isEqualTo(64);
         assertThat(TankTier.EMERALD.buckets()).isEqualTo(96);
+        assertThat(TankTier.ALUMINIUM.buckets()).isEqualTo(96);
+        assertThat(TankTier.STAINLESSSTEEL.buckets()).isEqualTo(128);
+        assertThat(TankTier.TITANIUM.buckets()).isEqualTo(256);
+        assertThat(TankTier.TUNGSTENSTEEL.buckets()).isEqualTo(512);
         assertThat(TankTier.VOID.buckets()).isEqualTo(8);
         assertThat(TankTier.CREATIVE.buckets()).isEqualTo(1);
     }
