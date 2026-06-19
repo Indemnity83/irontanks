@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.3.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.2.0...mc26.1-v3.3.0) (2026-06-19)
+
+
+### Added
+
+* add extended tank tiers ([#157](https://github.com/Indemnity83/irontanks/issues/157)) ([4ff26e9](https://github.com/Indemnity83/irontanks/commit/4ff26e927425c17af8e0dce8f1ceaf9b17c88356))
+* per-tier tank hardness and blast resistance ([#164](https://github.com/Indemnity83/irontanks/issues/164)) ([f79fcd3](https://github.com/Indemnity83/irontanks/commit/f79fcd37bab13190deb27e1fe597e8f04a009621))
+* refresh metal tank textures ([#169](https://github.com/Indemnity83/irontanks/issues/169)) ([7073c4a](https://github.com/Indemnity83/irontanks/commit/7073c4a6a5c8d228f0bdd5a10ae80457ca4379e9))
+
 ## [3.2.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.1.1...mc26.1-v3.2.0) (2026-06-18)
 
 
