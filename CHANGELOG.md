@@ -10,6 +10,16 @@ overeager to tag new versions so many of these versions had no actual changes to
 the mod, and no files were actually released. These releases are marked
 [SKIPPED] in the changelog.*
 
+## [1.2.0](https://github.com/Indemnity83/irontanks/compare/mc1.7.10-v1.1.16...mc1.7.10-v1.2.0) (2026-06-19)
+
+
+### Added
+
+* add extended tank tiers ([#154](https://github.com/Indemnity83/irontanks/issues/154)) ([94a2252](https://github.com/Indemnity83/irontanks/commit/94a22527f926d0cef2e698be17ce44606da81c74))
+* per-tier tank hardness and blast resistance ([#167](https://github.com/Indemnity83/irontanks/issues/167)) ([ee79676](https://github.com/Indemnity83/irontanks/commit/ee7967683c409f44f434cccf8c9f97925de93f78))
+* refresh metal tank textures ([#172](https://github.com/Indemnity83/irontanks/issues/172)) ([6ba3908](https://github.com/Indemnity83/irontanks/commit/6ba39084e6ebf030f53a182a9437b13a1d42ed18))
+* show fluid capacity in tank tooltips ([#161](https://github.com/Indemnity83/irontanks/issues/161)) ([d1872ab](https://github.com/Indemnity83/irontanks/commit/d1872ab98b1d7fde4571b391553f516918d3e561))
+
 ## [Unreleased]
 ### Changed
  - Normalize block and item names across versions
