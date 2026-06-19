@@ -12,24 +12,25 @@ package com.indemnity83.irontanks.core;
  * everywhere else in {@code core} are tracked in droplets (see {@link #capacity()}).
  */
 public enum TankTier {
-    GLASS(16),
-    COPPER(27),
-    IRON(32),
-    SILVER(43),
-    GOLD(48),
-    DIAMOND(64),
+    // buckets, hardness (mining time), blastResistance (explosion resistance)
+    GLASS(16, 0.3F, 0.3F),
+    COPPER(27, 4.0F, 2.0F),
+    IRON(32, 5.0F, 3.0F),
+    SILVER(43, 6.0F, 5.0F),
+    GOLD(48, 7.0F, 4.0F),
+    DIAMOND(64, 8.0F, 6.0F),
     /** Explosion-proof; same capacity as diamond. */
-    OBSIDIAN(64),
-    EMERALD(96),
+    OBSIDIAN(64, 50.0F, 1200.0F),
+    EMERALD(96, 8.0F, 6.0F),
     /** Optional high tiers, gated on conventional material tags (empty by default — light up in packs). */
-    ALUMINIUM(96),
-    STAINLESSSTEEL(128),
-    TITANIUM(256),
-    TUNGSTENSTEEL(512),
+    ALUMINIUM(96, 5.0F, 4.0F),
+    STAINLESSSTEEL(128, 9.0F, 8.0F),
+    TITANIUM(256, 10.0F, 10.0F),
+    TUNGSTENSTEEL(512, 12.0F, 14.0F),
     /** Destroys fluid a little each tick (see {@link VoidTank}); small buffer capacity. */
-    VOID(8),
+    VOID(8, 5.0F, 6.0F),
     /** Dispenses fluid endlessly; capacity is nominal since it never actually drains. */
-    CREATIVE(1);
+    CREATIVE(1, 5.0F, 6.0F);
 
     /** Droplets per bucket — the canonical fluid unit (matches Fabric's {@code FluidConstants.BUCKET}). */
     public static final int DROPLETS_PER_BUCKET = 81_000;
@@ -44,9 +45,13 @@ public enum TankTier {
     public static final int DROPLETS_PER_BOTTLE = DROPLETS_PER_BUCKET / 3; // 27_000
 
     private final int buckets;
+    private final float hardness;
+    private final float blastResistance;
 
-    TankTier(int buckets) {
+    TankTier(int buckets, float hardness, float blastResistance) {
         this.buckets = buckets;
+        this.hardness = hardness;
+        this.blastResistance = blastResistance;
     }
 
     /** Capacity in whole buckets, as shown in the tank tooltip. */
@@ -57,5 +62,15 @@ public enum TankTier {
     /** Capacity in droplets, the unit fluid amounts are tracked in. */
     public long capacity() {
         return (long) buckets * DROPLETS_PER_BUCKET;
+    }
+
+    /** Block hardness (mining time) for this tier's tank. */
+    public float hardness() {
+        return hardness;
+    }
+
+    /** Explosion resistance for this tier's tank; obsidian is high enough to be blast-proof. */
+    public float blastResistance() {
+        return blastResistance;
     }
 }
