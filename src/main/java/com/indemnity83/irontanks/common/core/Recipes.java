@@ -219,7 +219,7 @@ public class Recipes {
             builder.map('g', "paneGlassColorless");
             builder.map('s', "ingotGold");
             builder.map('t', "gemDiamond");
-            builder.setResult(new ItemStack(Items.glassIronUpgrade));
+            builder.setResult(new ItemStack(Items.goldDiamondUpgrade));
             builder.register();
             builder.registerRotated();
         }
@@ -232,7 +232,7 @@ public class Recipes {
             builder.map('g', "paneGlassColorless");
             builder.map('s', "gemDiamond");
             builder.map('t', "gemEmerald");
-            builder.setResult(new ItemStack(Items.glassIronUpgrade));
+            builder.setResult(new ItemStack(Items.diamondEmeraldUpgrade));
             builder.register();
             builder.registerRotated();
         }
