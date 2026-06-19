@@ -31,11 +31,11 @@ public enum TankType{
     SILVER(43, "silvertank", Arrays.asList("ingotSilver"), Arrays.asList("tgtg4gtgt", "gggt1tggg"), 5.0F, 6.0F),
     OBSIDIAN(64, "obsidiantank", Arrays.asList("obsidian"), Arrays.asList("tgtg3gtgt"), 1200.0F, 50.0F),
     GLASS(0, "", Arrays.asList("blockGlass"), Arrays.asList(""), 0.3F, 0.3F),
-	EMERALD(96, "emeraldtank", Arrays.asList("gemEmerald"), Arrays.asList("gggt3tggg"), 6.0F, 8.0F),
-	ALUMINIUM(96, "aluminiumtank", Arrays.asList("ingotAluminium", "ingotAluminum"), Arrays.asList("gggt3tggg"), 4.0F, 5.0F),
-	STAINLESSSTEEL(128, "stainlesssteeltank", Arrays.asList("ingotStainlessSteel"), Arrays.asList("gggt8tggg", "gggt7tggg"), 8.0F, 9.0F),
-	TITANIUM(256, "titaniumtank", Arrays.asList("ingotTitanium"), Arrays.asList("gggt9tggg"), 10.0F, 10.0F),
-	TUNGSTENSTEEL(512, "tungstensteeltank", Arrays.asList("ingotTungstenSteel"), Arrays.asList("gggtztggg"), 14.0F, 12.0F);
+    EMERALD(96, "emeraldtank", Arrays.asList("gemEmerald"), Arrays.asList("gggt3tggg"), 6.0F, 8.0F),
+    ALUMINIUM(96, "aluminiumtank", Arrays.asList("ingotAluminium", "ingotAluminum"), Arrays.asList("gggt3tggg"), 4.0F, 5.0F),
+    STAINLESSSTEEL(128, "stainlesssteeltank", Arrays.asList("ingotStainlessSteel"), Arrays.asList("gggt8tggg", "gggt7tggg"), 8.0F, 9.0F),
+    TITANIUM(256, "titaniumtank", Arrays.asList("ingotTitanium"), Arrays.asList("gggt9tggg"), 10.0F, 10.0F),
+    TUNGSTENSTEEL(512, "tungstensteeltank", Arrays.asList("ingotTungstenSteel"), Arrays.asList("gggtztggg"), 14.0F, 12.0F);
 
 	/**
 	 * fluid capacity of the tank type
