@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:diamond_aluminium_upgrade"
+  },
+  "pattern": [
+    " g ",
+    "gsg",
+    "tgt"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#gemDiamond"
+    },
+    "t": {
+      "item": "#ingotAluminium"
+    },
+    "g": {
+      "item": "#paneGlassColorless"
+    }
+  }
+}

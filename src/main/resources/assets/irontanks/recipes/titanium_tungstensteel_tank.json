@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:tungstensteel_tank"
+  },
+  "pattern": [
+    " g ",
+    "gtg",
+    "mgm"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "m": {
+      "item": "#ingotTungstenSteel"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#titaniumTank"
+    }
+  }
+}

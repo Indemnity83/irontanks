@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:titanium_tungstensteel_upgrade"
+  },
+  "pattern": [
+    " g ",
+    "gsg",
+    "tgt"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#ingotTitanium"
+    },
+    "t": {
+      "item": "#ingotTungstenSteel"
+    },
+    "g": {
+      "item": "#paneGlassColorless"
+    }
+  }
+}

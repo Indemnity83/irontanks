@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:titanium_tank"
+  },
+  "pattern": [
+    " g ",
+    "gtg",
+    "mgm"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "m": {
+      "item": "#ingotTitanium"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#stainlessSteelTank"
+    }
+  }
+}
