@@ -262,5 +262,145 @@ public class Recipes {
             builder.register();
             builder.registerRotated();
         }
+
+        // --- Extended tiers: aluminium, stainless steel, titanium, tungsten steel ---
+        // Tanks craft from the prior tank surrounded by glass and the new metal; the
+        // metals are ore-dictionary gated so the tiers only craft in packs that add them.
+
+        for (String aluminium : new String[] {"ingotAluminium", "ingotAluminum"}) {
+            if (Blocks.aluminiumTank != null) {
+                RecipeBuilderShaped builder = new RecipeBuilderShaped();
+                builder.add(" g ");
+                builder.add("gtg");
+                builder.add("igi");
+                builder.map('i', aluminium);
+                builder.map('g', "blockGlassColorless");
+                builder.map('t', Blocks.diamondTank);
+                builder.setResult(new ItemStack(Blocks.aluminiumTank));
+                builder.register();
+                builder.registerRotated();
+            }
+        }
+
+        if (Blocks.stainlessSteelTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotStainlessSteel");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', Blocks.emeraldTank);
+            builder.setResult(new ItemStack(Blocks.stainlessSteelTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        if (Blocks.stainlessSteelTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotStainlessSteel");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', Blocks.aluminiumTank);
+            builder.setResult(new ItemStack(Blocks.stainlessSteelTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        if (Blocks.titaniumTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotTitanium");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', Blocks.stainlessSteelTank);
+            builder.setResult(new ItemStack(Blocks.titaniumTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        if (Blocks.tungstenSteelTank != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gtg");
+            builder.add("igi");
+            builder.map('i', "ingotTungstenSteel");
+            builder.map('g', "blockGlassColorless");
+            builder.map('t', Blocks.titaniumTank);
+            builder.setResult(new ItemStack(Blocks.tungstenSteelTank));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        for (String aluminium : new String[] {"ingotAluminium", "ingotAluminum"}) {
+            if (Items.diamondAluminiumUpgrade != null) {
+                RecipeBuilderShaped builder = new RecipeBuilderShaped();
+                builder.add(" g ");
+                builder.add("gsg");
+                builder.add("tgt");
+                builder.map('g', "paneGlassColorless");
+                builder.map('s', "gemDiamond");
+                builder.map('t', aluminium);
+                builder.setResult(new ItemStack(Items.diamondAluminiumUpgrade));
+                builder.register();
+                builder.registerRotated();
+            }
+        }
+
+        if (Items.emeraldStainlessSteelUpgrade != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gsg");
+            builder.add("tgt");
+            builder.map('g', "paneGlassColorless");
+            builder.map('s', "gemEmerald");
+            builder.map('t', "ingotStainlessSteel");
+            builder.setResult(new ItemStack(Items.emeraldStainlessSteelUpgrade));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        for (String aluminium : new String[] {"ingotAluminium", "ingotAluminum"}) {
+            if (Items.aluminiumStainlessSteelUpgrade != null) {
+                RecipeBuilderShaped builder = new RecipeBuilderShaped();
+                builder.add(" g ");
+                builder.add("gsg");
+                builder.add("tgt");
+                builder.map('g', "paneGlassColorless");
+                builder.map('s', aluminium);
+                builder.map('t', "ingotStainlessSteel");
+                builder.setResult(new ItemStack(Items.aluminiumStainlessSteelUpgrade));
+                builder.register();
+                builder.registerRotated();
+            }
+        }
+
+        if (Items.stainlessSteelTitaniumUpgrade != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gsg");
+            builder.add("tgt");
+            builder.map('g', "paneGlassColorless");
+            builder.map('s', "ingotStainlessSteel");
+            builder.map('t', "ingotTitanium");
+            builder.setResult(new ItemStack(Items.stainlessSteelTitaniumUpgrade));
+            builder.register();
+            builder.registerRotated();
+        }
+
+        if (Items.titaniumTungstenSteelUpgrade != null) {
+            RecipeBuilderShaped builder = new RecipeBuilderShaped();
+            builder.add(" g ");
+            builder.add("gsg");
+            builder.add("tgt");
+            builder.map('g', "paneGlassColorless");
+            builder.map('s', "ingotTitanium");
+            builder.map('t', "ingotTungstenSteel");
+            builder.setResult(new ItemStack(Items.titaniumTungstenSteelUpgrade));
+            builder.register();
+            builder.registerRotated();
+        }
     }
 }
