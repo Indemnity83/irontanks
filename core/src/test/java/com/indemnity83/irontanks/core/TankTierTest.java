@@ -35,15 +35,36 @@ class TankTierTest {
 
     @Test
     void hardnessAndBlastResistanceFollowTheTierTable() {
-        // Tiers get tougher up the ladder; obsidian stays explosion-proof.
+        // Tiers get tougher up the ladder; obsidian stays explosion-proof. Locks the whole table
+        // so a regression in any single entry is caught.
         assertThat(TankTier.GLASS.hardness()).isEqualTo(0.3F);
         assertThat(TankTier.GLASS.blastResistance()).isEqualTo(0.3F);
         assertThat(TankTier.COPPER.hardness()).isEqualTo(4.0F);
+        assertThat(TankTier.COPPER.blastResistance()).isEqualTo(2.0F);
+        assertThat(TankTier.IRON.hardness()).isEqualTo(5.0F);
+        assertThat(TankTier.IRON.blastResistance()).isEqualTo(3.0F);
+        assertThat(TankTier.SILVER.hardness()).isEqualTo(6.0F);
+        assertThat(TankTier.SILVER.blastResistance()).isEqualTo(5.0F);
+        assertThat(TankTier.GOLD.hardness()).isEqualTo(7.0F);
+        assertThat(TankTier.GOLD.blastResistance()).isEqualTo(4.0F);
         assertThat(TankTier.DIAMOND.hardness()).isEqualTo(8.0F);
-        assertThat(TankTier.TUNGSTENSTEEL.hardness()).isEqualTo(12.0F);
-        assertThat(TankTier.TUNGSTENSTEEL.blastResistance()).isEqualTo(14.0F);
+        assertThat(TankTier.DIAMOND.blastResistance()).isEqualTo(6.0F);
         assertThat(TankTier.OBSIDIAN.hardness()).isEqualTo(50.0F);
         assertThat(TankTier.OBSIDIAN.blastResistance()).isEqualTo(1200.0F);
+        assertThat(TankTier.EMERALD.hardness()).isEqualTo(8.0F);
+        assertThat(TankTier.EMERALD.blastResistance()).isEqualTo(6.0F);
+        assertThat(TankTier.ALUMINIUM.hardness()).isEqualTo(5.0F);
+        assertThat(TankTier.ALUMINIUM.blastResistance()).isEqualTo(4.0F);
+        assertThat(TankTier.STAINLESSSTEEL.hardness()).isEqualTo(9.0F);
+        assertThat(TankTier.STAINLESSSTEEL.blastResistance()).isEqualTo(8.0F);
+        assertThat(TankTier.TITANIUM.hardness()).isEqualTo(10.0F);
+        assertThat(TankTier.TITANIUM.blastResistance()).isEqualTo(10.0F);
+        assertThat(TankTier.TUNGSTENSTEEL.hardness()).isEqualTo(12.0F);
+        assertThat(TankTier.TUNGSTENSTEEL.blastResistance()).isEqualTo(14.0F);
+        assertThat(TankTier.VOID.hardness()).isEqualTo(5.0F);
+        assertThat(TankTier.VOID.blastResistance()).isEqualTo(6.0F);
+        assertThat(TankTier.CREATIVE.hardness()).isEqualTo(5.0F);
+        assertThat(TankTier.CREATIVE.blastResistance()).isEqualTo(6.0F);
     }
 
     @Test
