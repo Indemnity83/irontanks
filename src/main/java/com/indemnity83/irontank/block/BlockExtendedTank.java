@@ -74,7 +74,9 @@ public class BlockExtendedTank extends BlockTank {
 						"blockGlass", '0', new ItemStack(BuildCraftFactory.tankBlock, 1), '1',
 						new ItemStack(ModBlocks.ironTank, 1), '2', new ItemStack(ModBlocks.goldTank, 1), '3',
 						new ItemStack(ModBlocks.diamondTank, 1), '4', new ItemStack(ModBlocks.copperTank, 1), '5',
-						new ItemStack(ModBlocks.silverTank, 1), '6', new ItemStack(ModBlocks.obsidianTank, 1)));
+						new ItemStack(ModBlocks.silverTank, 1), '6', new ItemStack(ModBlocks.obsidianTank, 1), '7',
+						new ItemStack(ModBlocks.emeraldTank, 1), '8', new ItemStack(ModBlocks.aluminiumTank, 1), '9',
+						new ItemStack(ModBlocks.stainlessSteelTank, 1), 'z', new ItemStack(ModBlocks.titaniumTank, 1)));
 			}
 		}
 	}

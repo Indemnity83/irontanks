@@ -14,6 +14,10 @@ public class ModBlocks {
 	public static final BlockExtendedTank diamondTank = new BlockExtendedTank(TankType.DIAMOND);
 	public static final BlockExtendedTank obsidianTank = new BlockExtendedTank(TankType.OBSIDIAN);
 	public static final BlockExtendedTank emeraldTank = new BlockExtendedTank(TankType.EMERALD);
+	public static final BlockExtendedTank aluminiumTank = new BlockExtendedTank(TankType.ALUMINIUM);
+	public static final BlockExtendedTank stainlessSteelTank = new BlockExtendedTank(TankType.STAINLESSSTEEL);
+	public static final BlockExtendedTank titaniumTank = new BlockExtendedTank(TankType.TITANIUM);
+	public static final BlockExtendedTank tungstenSteelTank = new BlockExtendedTank(TankType.TUNGSTENSTEEL);
 
 	public static void init() {
 		GameRegistry.registerBlock(ironTank, ironTank.type.name);
@@ -23,6 +27,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(emeraldTank, emeraldTank.type.name);
 		GameRegistry.registerBlock(copperTank, copperTank.type.name);
 		GameRegistry.registerBlock(silverTank, silverTank.type.name);
+		GameRegistry.registerBlock(aluminiumTank, aluminiumTank.type.name);
+		GameRegistry.registerBlock(stainlessSteelTank, stainlessSteelTank.type.name);
+		GameRegistry.registerBlock(titaniumTank, titaniumTank.type.name);
+		GameRegistry.registerBlock(tungstenSteelTank, tungstenSteelTank.type.name);
 	}
 
 }
