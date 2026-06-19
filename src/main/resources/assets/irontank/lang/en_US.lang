@@ -30,3 +30,4 @@ tile.irontank:tungstensteeltank.name=Tungsten Steel Tank
 
 # Misc localizations
 itemGroup.irontank=Iron Tanks
+irontank.tooltip.capacity=Holds %s buckets
