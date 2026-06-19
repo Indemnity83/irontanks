@@ -22,6 +22,11 @@ public class ModRecipies {
 		ModItems.diamondObsidianUpgrade.addRecipe();
 		ModItems.silverDiamondUpgrade.addRecipe();
 		ModItems.diamondEmeraldUpgrade.addRecipe();
+		ModItems.diamondAluminiumUpgrade.addRecipe();
+		ModItems.emeraldStainlessSteelUpgrade.addRecipe();
+		ModItems.aluminiumStainlessSteelUpgrade.addRecipe();
+		ModItems.stainlessSteelTitaniumUpgrade.addRecipe();
+		ModItems.titaniumTungstenSteelUpgrade.addRecipe();
 
 		// Block Recipes
 		ModBlocks.copperTank.addRecipe();
@@ -31,6 +36,10 @@ public class ModRecipies {
 		ModBlocks.diamondTank.addRecipe();
 		ModBlocks.obsidianTank.addRecipe();
 		ModBlocks.emeraldTank.addRecipe();
+		ModBlocks.aluminiumTank.addRecipe();
+		ModBlocks.stainlessSteelTank.addRecipe();
+		ModBlocks.titaniumTank.addRecipe();
+		ModBlocks.tungstenSteelTank.addRecipe();
 	}
 
 }

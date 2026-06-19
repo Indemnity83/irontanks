@@ -29,7 +29,12 @@ public enum TankChangerType {
 	GLASSIRON(GLASS, IRON, "glass_iron_upgrade", "tgt", "gsg", "tgt"),
 	GLASSCOPPER(GLASS, COPPER, "glass_copper_upgrade", "ggg", "tst", "ggg"),
 	DIAMONDOBSIDIAN(DIAMOND, OBSIDIAN, "diamond_obsidian_upgrade", "tgt", "gsg", "tgt"),
-	DIAMONDEMERALD(DIAMOND, EMERALD, "diamond_emerald_upgrade", "ggg", "tst", "ggg");
+	DIAMONDEMERALD(DIAMOND, EMERALD, "diamond_emerald_upgrade", "ggg", "tst", "ggg"),
+	DIAMONDALUMINIUM(DIAMOND, ALUMINIUM, "diamond_aluminium_upgrade", "ggg", "tst", "ggg"),
+	EMERALDSTAINLESSSTEEL(EMERALD, STAINLESSSTEEL, "emerald_stainlesssteel_upgrade", "ggg", "tst", "ggg"),
+	ALUMINIUMSTAINLESSSTEEL(ALUMINIUM, STAINLESSSTEEL, "aluminium_stainlesssteel_upgrade", "ggg", "tst", "ggg"),
+	STAINLESSSTEELTITANIUM(STAINLESSSTEEL, TITANIUM, "stainlesssteel_titanium_upgrade", "ggg", "tst", "ggg"),
+	TITANIUMTUNGSTENSTEEL(TITANIUM, TUNGSTENSTEEL, "titanium_tungstensteel_upgrade", "ggg", "tst", "ggg");
 
 	/**
 	 * IronTankType that this changer will work on

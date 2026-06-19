@@ -9,6 +9,11 @@ item.irontank:silver_gold_upgrade.name=Silver to Gold Tank Upgrade
 item.irontank:glass_copper_upgrade.name=Glass to Copper Tank Upgrade
 item.irontank:glass_iron_upgrade.name=Glass to Iron Tank Upgrade
 item.irontank:silver_diamond_upgrade.name=Silver to Diamond Tank Upgrade
+item.irontank:diamond_aluminium_upgrade.name=Diamond to Aluminium Tank Upgrade
+item.irontank:emerald_stainlesssteel_upgrade.name=Emerald to Stainless Steel Tank Upgrade
+item.irontank:aluminium_stainlesssteel_upgrade.name=Aluminium to Stainless Steel Tank Upgrade
+item.irontank:stainlesssteel_titanium_upgrade.name=Stainless Steel to Titanium Tank Upgrade
+item.irontank:titanium_tungstensteel_upgrade.name=Titanium to Tungsten Steel Tank Upgrade
 
 # Block localizations
 tile.irontank:irontank.name=Iron Tank
@@ -18,6 +23,10 @@ tile.irontank:emeraldtank.name=Emerald Tank
 tile.irontank:obsidiantank.name=Obsidian Tank
 tile.irontank:coppertank.name=Copper Tank
 tile.irontank:silvertank.name=Silver Tank
+tile.irontank:aluminiumtank.name=Aluminium Tank
+tile.irontank:stainlesssteeltank.name=Stainless Steel Tank
+tile.irontank:titaniumtank.name=Titanium Tank
+tile.irontank:tungstensteeltank.name=Tungsten Steel Tank
 
 # Misc localizations
 itemGroup.irontank=Iron Tanks

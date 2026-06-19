@@ -26,6 +26,11 @@ public class ModItems {
 	public static final ItemGeneric diamondObsidianUpgrade = new ItemTankChanger(TankChangerType.DIAMONDOBSIDIAN);
 	public static final ItemGeneric diamondEmeraldUpgrade = new ItemTankChanger(TankChangerType.DIAMONDEMERALD);
 	public static final ItemGeneric silverDiamondUpgrade = new ItemTankChanger(TankChangerType.SILVERDIAMOND);
+	public static final ItemGeneric diamondAluminiumUpgrade = new ItemTankChanger(TankChangerType.DIAMONDALUMINIUM);
+	public static final ItemGeneric emeraldStainlessSteelUpgrade = new ItemTankChanger(TankChangerType.EMERALDSTAINLESSSTEEL);
+	public static final ItemGeneric aluminiumStainlessSteelUpgrade = new ItemTankChanger(TankChangerType.ALUMINIUMSTAINLESSSTEEL);
+	public static final ItemGeneric stainlessSteelTitaniumUpgrade = new ItemTankChanger(TankChangerType.STAINLESSSTEELTITANIUM);
+	public static final ItemGeneric titaniumTungstenSteelUpgrade = new ItemTankChanger(TankChangerType.TITANIUMTUNGSTENSTEEL);
 
 	public static void init() {
 		GameRegistry.registerItem(ironGoldUpgrade, TankChangerType.IRONGOLD.name);
@@ -38,5 +43,10 @@ public class ModItems {
 		GameRegistry.registerItem(diamondObsidianUpgrade, TankChangerType.DIAMONDOBSIDIAN.name);
 		GameRegistry.registerItem(diamondEmeraldUpgrade, TankChangerType.DIAMONDEMERALD.name);
 		GameRegistry.registerItem(silverDiamondUpgrade, TankChangerType.SILVERDIAMOND.name);
+		GameRegistry.registerItem(diamondAluminiumUpgrade, TankChangerType.DIAMONDALUMINIUM.name);
+		GameRegistry.registerItem(emeraldStainlessSteelUpgrade, TankChangerType.EMERALDSTAINLESSSTEEL.name);
+		GameRegistry.registerItem(aluminiumStainlessSteelUpgrade, TankChangerType.ALUMINIUMSTAINLESSSTEEL.name);
+		GameRegistry.registerItem(stainlessSteelTitaniumUpgrade, TankChangerType.STAINLESSSTEELTITANIUM.name);
+		GameRegistry.registerItem(titaniumTungstenSteelUpgrade, TankChangerType.TITANIUMTUNGSTENSTEEL.name);
 	}
 }
