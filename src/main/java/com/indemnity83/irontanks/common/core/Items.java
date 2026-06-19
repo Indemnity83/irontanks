@@ -34,6 +34,21 @@ public class Items {
     @GameRegistry.ObjectHolder(IronTanks.MODID + ":silver_gold_upgrade")
     public static UpgradeItem silverGoldUpgrade;
 
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":diamond_aluminium_upgrade")
+    public static UpgradeItem diamondAluminiumUpgrade;
+
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":emerald_stainlesssteel_upgrade")
+    public static UpgradeItem emeraldStainlessSteelUpgrade;
+
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":aluminium_stainlesssteel_upgrade")
+    public static UpgradeItem aluminiumStainlessSteelUpgrade;
+
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":stainlesssteel_titanium_upgrade")
+    public static UpgradeItem stainlessSteelTitaniumUpgrade;
+
+    @GameRegistry.ObjectHolder(IronTanks.MODID + ":titanium_tungstensteel_upgrade")
+    public static UpgradeItem titaniumTungstenSteelUpgrade;
+
     public static void init() {
     }
 
@@ -48,5 +63,10 @@ public class Items {
         goldDiamondUpgrade.initModel();
         ironGoldUpgrade.initModel();
         silverGoldUpgrade.initModel();
+        diamondAluminiumUpgrade.initModel();
+        emeraldStainlessSteelUpgrade.initModel();
+        aluminiumStainlessSteelUpgrade.initModel();
+        stainlessSteelTitaniumUpgrade.initModel();
+        titaniumTungstenSteelUpgrade.initModel();
     }
 }

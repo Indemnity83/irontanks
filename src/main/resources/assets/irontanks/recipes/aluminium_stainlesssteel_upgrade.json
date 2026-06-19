@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:aluminium_stainlesssteel_upgrade"
+  },
+  "pattern": [
+    " g ",
+    "gsg",
+    "tgt"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#ingotAluminium"
+    },
+    "t": {
+      "item": "#ingotStainlessSteel"
+    },
+    "g": {
+      "item": "#paneGlassColorless"
+    }
+  }
+}

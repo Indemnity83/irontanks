@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:stainlesssteel_titanium_upgrade"
+  },
+  "pattern": [
+    " g ",
+    "gsg",
+    "tgt"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "#ingotStainlessSteel"
+    },
+    "t": {
+      "item": "#ingotTitanium"
+    },
+    "g": {
+      "item": "#paneGlassColorless"
+    }
+  }
+}

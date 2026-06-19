@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "irontanks:aluminium_tank"
+  },
+  "pattern": [
+    " g ",
+    "gtg",
+    "mgm"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "m": {
+      "item": "#ingotAluminium"
+    },
+    "g": {
+      "item": "#blockGlassColorless"
+    },
+    "t": {
+      "item": "#diamondTank"
+    }
+  }
+}

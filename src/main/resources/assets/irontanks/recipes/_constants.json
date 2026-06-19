@@ -110,6 +110,78 @@
     ]
   },
   {
+    "name": "emeraldTank",
+    "ingredient": [
+      {
+        "item": "irontanks:emerald_tank"
+      }
+    ]
+  },
+  {
+    "name": "aluminiumTank",
+    "ingredient": [
+      {
+        "item": "irontanks:aluminium_tank"
+      }
+    ]
+  },
+  {
+    "name": "stainlessSteelTank",
+    "ingredient": [
+      {
+        "item": "irontanks:stainlesssteel_tank"
+      }
+    ]
+  },
+  {
+    "name": "titaniumTank",
+    "ingredient": [
+      {
+        "item": "irontanks:titanium_tank"
+      }
+    ]
+  },
+  {
+    "name": "ingotAluminium",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotAluminium"
+      },
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotAluminum"
+      }
+    ]
+  },
+  {
+    "name": "ingotStainlessSteel",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotStainlessSteel"
+      }
+    ]
+  },
+  {
+    "name": "ingotTitanium",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotTitanium"
+      }
+    ]
+  },
+  {
+    "name": "ingotTungstenSteel",
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "ingotTungstenSteel"
+      }
+    ]
+  },
+  {
     "name": "blockGlassColorless",
     "ingredient": [
       {

@@ -1,0 +1,23 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "irontanks:tank",
+    "textures": {
+      "particle": "irontanks:blocks/tungstensteeltank/side",
+      "end": "irontanks:blocks/tungstensteeltank/end",
+      "side": "irontanks:blocks/tungstensteeltank/side"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "joined_below": {
+      "true": {
+        "textures": {
+          "side": "irontanks:blocks/tungstensteeltank/side_stacked"
+        }
+      },
+      "false": {}
+    }
+  }
+}
