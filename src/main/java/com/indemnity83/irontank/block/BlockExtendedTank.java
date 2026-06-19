@@ -41,6 +41,7 @@ public class BlockExtendedTank extends BlockTank {
 		this.setBlockName(type.name);
 		this.setCreativeTab(IronTankTabs.MainTab);
 		this.setResistance(type.resistance);
+		this.setHardness(type.hardness);
 	}
 
 	public TileEntity createNewTileEntity(World world, int metadata) {
