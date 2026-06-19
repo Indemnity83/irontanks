@@ -60,10 +60,9 @@ public final class IronTanksContent {
         String name = tier.name().toLowerCase(Locale.ROOT) + "_tank";
 
         ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, id(name));
-        float blastResistance = tier == TankTier.OBSIDIAN ? 1200.0F : 10.0F;
         BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
                 .setId(blockKey)
-                .strength(5.0F, blastResistance)
+                .strength(tier.hardness(), tier.blastResistance())
                 .sound(SoundType.METAL)
                 .noOcclusion()
                 .requiresCorrectToolForDrops();

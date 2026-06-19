@@ -34,6 +34,19 @@ class TankTierTest {
     }
 
     @Test
+    void hardnessAndBlastResistanceFollowTheTierTable() {
+        // Tiers get tougher up the ladder; obsidian stays explosion-proof.
+        assertThat(TankTier.GLASS.hardness()).isEqualTo(0.3F);
+        assertThat(TankTier.GLASS.blastResistance()).isEqualTo(0.3F);
+        assertThat(TankTier.COPPER.hardness()).isEqualTo(4.0F);
+        assertThat(TankTier.DIAMOND.hardness()).isEqualTo(8.0F);
+        assertThat(TankTier.TUNGSTENSTEEL.hardness()).isEqualTo(12.0F);
+        assertThat(TankTier.TUNGSTENSTEEL.blastResistance()).isEqualTo(14.0F);
+        assertThat(TankTier.OBSIDIAN.hardness()).isEqualTo(50.0F);
+        assertThat(TankTier.OBSIDIAN.blastResistance()).isEqualTo(1200.0F);
+    }
+
+    @Test
     void bottleIsExactlyOneThirdOfABucket() {
         assertThat(TankTier.DROPLETS_PER_BOTTLE).isEqualTo(27_000);
         // Three bottles fill a bucket exactly — no rounding remainder in droplets.
