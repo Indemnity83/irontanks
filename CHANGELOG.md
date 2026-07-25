@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.0](https://github.com/Indemnity83/irontanks/compare/mc1.12.2-v2.3.0...mc1.12.2-v2.4.0) (2026-07-25)
+
+
+### Added
+
+* add Russian translations for extended tank tiers ([#173](https://github.com/Indemnity83/irontanks/issues/173)) ([d213e93](https://github.com/Indemnity83/irontanks/commit/d213e9345c0fc328b63e6a28047257f7393d75d8))
+
+
+### Fixed
+
+* correct Russian creative tank tooltip spelling ([#208](https://github.com/Indemnity83/irontanks/issues/208)) ([fbb4429](https://github.com/Indemnity83/irontanks/commit/fbb442940651face1f2c01a4653eebb97c03969c))
+
 ## [2.3.0](https://github.com/Indemnity83/irontanks/compare/mc1.12.2-v2.2.0...mc1.12.2-v2.3.0) (2026-06-19)
 
 
