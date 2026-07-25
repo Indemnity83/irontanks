@@ -101,7 +101,7 @@ jobs:
           path: ${{ matrix.loader }}/build/libs/irontanks-${{ steps.version.outputs.full_version }}.jar
 
       - name: Publish to Modrinth and CurseForge
-        uses: Kir-Antipov/mc-publish@995edadc13559a8b28d0b7e6571229f067ec7659 # v3.3
+        uses: Kir-Antipov/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3
         with:
           loaders: ${{ matrix.loader }}
           game-versions: ${{ steps.version.outputs.minecraft_version }}
