@@ -33,5 +33,5 @@ tile.irontanks.tungstensteel_tank.name=Вольфрамостальная цис
 # Misc localizations
 irontanks.tooltip.capacity=Удерживает %s ведер
 irontanks.tooltip.void_tank=Уничтожает жидкости
-irontanks.tooltip.creative_tank=Хранит неограниченое кол-во жидкости
+irontanks.tooltip.creative_tank=Хранит неограниченное кол-во жидкости
 
