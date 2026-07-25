@@ -9,6 +9,11 @@ item.irontanks.silver_gold_upgrade.name=Улучшение из серебрян
 item.irontanks.glass_copper_upgrade.name=Улучшение из стеклянной в медную цистерну
 item.irontanks.glass_iron_upgrade.name=Улучшение из стеклянной в железную цистерну
 item.irontanks.silver_diamond_upgrade.name=Улучшение из серебряной в алмазную цистерну
+item.irontanks.diamond_aluminium_upgrade.name=Улучшение из алмазной в алюминиевую цистерну
+item.irontanks.emerald_stainlesssteel_upgrade.name=Улучшение из изумрудной в нержавеющую стальную цистерну
+item.irontanks.aluminium_stainlesssteel_upgrade.name=Улучшение из алюминиевой в нержавеющую стальную цистерну
+item.irontanks.stainlesssteel_titanium_upgrade.name=Улучшение из нержавеющей стальной в титановую цистерну
+item.irontanks.titanium_tungstensteel_upgrade.name=Улучшение из титановой в вольфрамостальную цистерну
 
 # Block localizations
 tile.irontanks.iron_tank.name=Железная цистерна
@@ -19,9 +24,14 @@ tile.irontanks.copper_tank.name=Медная цистерна
 tile.irontanks.emerald_tank.name=Изумрудная цистерна
 tile.irontanks.silver_tank.name=Серебряная цистерна
 tile.irontanks.void_tank.name=Пустотная цистерна
-tile.irontanks.creative_tank.name=Креативная цистерна
+tile.irontanks.creative_tank.name=Творческая цистерна
+tile.irontanks.aluminium_tank.name=Алюминиевая цистерна
+tile.irontanks.stainlesssteel_tank.name=Нержавеющая стальная цистерна
+tile.irontanks.titanium_tank.name=Титановая цистерна
+tile.irontanks.tungstensteel_tank.name=Вольфрамостальная цистерна
 
 # Misc localizations
 irontanks.tooltip.capacity=Удерживает %s ведер
 irontanks.tooltip.void_tank=Уничтожает жидкости
 irontanks.tooltip.creative_tank=Хранит неограниченое кол-во жидкости
+
