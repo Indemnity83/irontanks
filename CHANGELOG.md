@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/Indemnity83/irontanks/compare/mc1.11.2-v2.3.0...mc1.11.2-v2.3.1) (2026-07-25)
+
+
+### Fixed
+
+* correct Russian creative tank tooltip spelling ([#209](https://github.com/Indemnity83/irontanks/issues/209)) ([2b24e17](https://github.com/Indemnity83/irontanks/commit/2b24e1795637956c9ca286169c8bb1de2f855177))
+
 ## [2.3.0](https://github.com/Indemnity83/irontanks/compare/mc1.11.2-v2.2.0...mc1.11.2-v2.3.0) (2026-06-19)
 
 
