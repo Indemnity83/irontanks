@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **This branch is `mc/26.1`** — a NeoForge **and** Fabric multiloader line for Minecraft 26.1.
+> **This branch is `mc/26.2`** — a NeoForge **and** Fabric multiloader line for Minecraft 26.2.
 > The `mc/1.x` branches are the older single-module Forge lines (see **Branch Strategy**). Always
 > confirm your branch with `git branch --show-current` before starting.
 
@@ -19,7 +19,7 @@ single block holds more fluid the better its material, and obsidian-clad tanks a
 - **Vertical stacking** — connected tanks form a column that shares one fluid (liquids settle to the
   bottom, gases rise) and renders as one continuous body.
 
-On the `mc/26.1` line Iron Tanks is **standalone** — no BuildCraft dependency. It interoperates with
+On the `mc/26.2` line Iron Tanks is **standalone** — no BuildCraft dependency. It interoperates with
 any mod through the platform fluid APIs (NeoForge capabilities / Fabric Transfer API), so pipes and
 pumps can fill and drain tanks out of the box.
 
@@ -37,13 +37,16 @@ releasable line with its own build toolchain:
 
 | Branch | Minecraft | Loaders | Build toolchain |
 |---|---|---|---|
+| **`mc/26.2`** | 26.2 | **NeoForge + Fabric** (multiloader) | Loom 1.17 + ModDevGradle 2.x, **JDK 25**, Gradle 9.x |
 | **`mc/26.1`** | 26.1.2 | **NeoForge + Fabric** (multiloader) | Loom 1.16 + ModDevGradle 2.x, **JDK 25**, Gradle 9.x |
 | **`mc/1.12.2`** | 1.12.2 | Forge | ForgeGradle 2.3, JDK 8, Gradle 4.10.3 |
 | **`mc/1.11.2`** | 1.11.2 | Forge | ForgeGradle 2.2, JDK 8 |
 | **`mc/1.7.10`** | 1.7.10 | Forge | RetroFuturaGradle 1.4.x, JDK 17–21, Gradle 8.x |
 
-There is no shared trunk — all work targets the appropriate `mc/*` branch. The `mc/26.1` line is a
-ground-up multiloader rewrite; it does **not** share code or build setup with the `mc/1.x` Forge lines.
+There is no shared trunk — all work targets the appropriate `mc/*` branch. The `mc/26.x` lines are a
+ground-up multiloader rewrite; they do **not** share code or build setup with the `mc/1.x` Forge lines.
+`mc/26.2` is a compatibility fork of `mc/26.1` — same feature set, different Minecraft (see
+**Version Management**).
 
 ### Worktree Layout
 
@@ -53,6 +56,7 @@ This repo is checked out as **git worktrees in sibling directories**, one per br
 | Directory | Branch |
 |---|---|
 | `../irontanks-assets/` | `assets` — source art / recipe sources; **holds the primary `.git`** |
+| `../irontanks-mc-26.2/` | `mc/26.2` |
 | `../irontanks-mc-26.1/` | `mc/26.1` (main) |
 | `../irontanks-mc-1.12.2/` | `mc/1.12.2` |
 | `../irontanks-mc-1.11.2/` | `mc/1.11.2` |
@@ -161,13 +165,13 @@ JDK 25 (the project toolchain).
 
 ### Version Management
 
-The `mc/26.1` line uses **release-please** (`release-type: simple`, component `mc26.1`) with **SemVer
+The `mc/26.2` line uses **release-please** (`release-type: simple`, component `mc26.2`) with **SemVer
 build metadata**, publishing **two artifacts per release** (one per loader).
 
 **How it works:**
 1. Create a feature/fix branch; commit with single-line imperative subjects (see **Commit Messages**)
 2. Open a PR with a conventional-commit **title, no scope** (`fix: …`, `feat: …`), release-notes body
-3. Squash-merge into `mc/26.1` using the conventional-commit title
+3. Squash-merge into `mc/26.2` using the conventional-commit title
 4. `prepare-release.yml` runs release-please, opening/updating the release PR for the branch
 5. Merge the release PR → release-please tags and creates a GitHub Release
 6. `build-release.yml` builds both loader jars and publishes them to Modrinth/CurseForge
@@ -176,9 +180,9 @@ build metadata**, publishing **two artifacts per release** (one per loader).
 `feat!:`/`BREAKING CHANGE:` → major.
 
 **Naming conventions** (component-based, two artifacts):
-- Git tag: `mc26.1-v{semver}` (e.g. `mc26.1-v2.2.0`)
+- Git tag: `mc26.2-v{semver}` (e.g. `mc26.2-v3.3.1`)
 - Artifacts / published version: `{semver}+mc{minecraft_version}.{loader}`
-  (e.g. `2.2.0+mc26.1.2.fabric`, `2.2.0+mc26.1.2.neoforge`)
+  (e.g. `3.3.1+mc26.2.fabric`, `3.3.1+mc26.2.neoforge`)
 - Display name: `Iron Tanks v{semver} for {loader} {minecraft_version}`
 
 **Do NOT manually edit version numbers.** Let release-please manage `.release-please-manifest.json`;
@@ -191,7 +195,7 @@ version-type `alpha`). `build-prerelease.yml` (manual) publishes `…-pre.N` bet
 
 ## Architecture
 
-The `mc/26.1` line is a **multiloader** Gradle project with three subprojects:
+The `mc/26.2` line is a **multiloader** Gradle project with three subprojects:
 
 ```
 core/        Pure Java — NO Minecraft on its classpath. Fully unit-tested.
@@ -250,7 +254,7 @@ Shared assets and data live **once** in the top-level `resources/` directory. Ea
 into its own resource source set (`sourceSets.main.resources.srcDir(rootProject.file('resources'))`),
 so the files reach both the mod jar and the dev resource root — no per-loader duplication.
 - `resources/assets/irontanks/{blockstates,models/{block,item},items,textures/{block,item},lang}` —
-  block/item models, the `items/*.json` 26.1 item-model definitions, textures, `en_us.json`.
+  block/item models, the `items/*.json` 26.2 item-model definitions, textures, `en_us.json`.
 - `resources/data/irontanks/recipe/` — `minecraft:crafting_shaped` recipes using conventional `c:` tags
   (`#c:ingots/iron`, `#c:glass_blocks/colorless`, …) — the modern "ore dictionary".
 - `resources/data/c/tags/item/…` — declares optional convention tags we reference but don't populate
@@ -298,7 +302,7 @@ Use conventional-commit format for PR titles, **without a scope** (`<type>: <des
 - The subject must **start with a lowercase letter** (enforced by `check-pr.yml`).
 
 Examples: `feat: add emerald tank`, `fix: prevent tanks from losing fluid on save`,
-`build: bump fabric-api to the latest 26.1.2 release`.
+`build: bump fabric-api to the latest 26.2 release`.
 
 **PR body should read like release notes:** WHAT changed and WHY it matters to players; short
 Summary / Changes / Notes sections; bullet points; minimal implementation detail.
@@ -338,7 +342,7 @@ Publishing needs repo **secrets** `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `GRADLE_
 `PERSONAL_TOKEN` and **variables** `MODRINTH_PROJECT_ID`, `CURSEFORGE_PROJECT_ID`.
 
 **Dependabot** (`.github/dependabot.yml`) covers each `mc/*` branch with `chore`-prefixed commits; the
-`mc/26.1` block pins Loom/ModDevGradle major versions and keeps the Gradle wrapper on 9.x.
+`mc/26.2` block pins Loom/ModDevGradle major versions and keeps the Gradle wrapper on 9.x.
 
 ## Documentation
 
@@ -349,4 +353,4 @@ Publishing needs repo **secrets** `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `GRADLE_
 - [Iron Tanks wiki](https://github.com/Indemnity83/irontanks/wiki) — tank tiers, capacities, recipes
 
 **Release configuration:** `.release-please-manifest.json` (current version), `release-please-config.json`
-(component `mc26.1`, changelog sections), and the workflows above.
+(component `mc26.2`, changelog sections), and the workflows above.
