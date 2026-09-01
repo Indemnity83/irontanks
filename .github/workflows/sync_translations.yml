@@ -1,10 +1,10 @@
 name: Sync Translations
 
 # Keeps Crowdin and the repo in sync: pushes new source strings up on every change to
-# mc/26.1, and pulls finished translations back down daily (and on demand) as a PR.
+# mc/26.2, and pulls finished translations back down daily (and on demand) as a PR.
 on:
   push:
-    branches: ['mc/26.1']
+    branches: ['mc/26.2']
     paths: ['resources/assets/irontanks/lang/en_us.json']
   schedule:
     - cron: '0 6 * * *'
@@ -40,7 +40,7 @@ jobs:
           # specific languages (e.g. "feat: add German and Russian translations").
           pull_request_title: 'fix: update translations'
           pull_request_body: 'Automated translation update from [Crowdin](https://crowdin.com).'
-          pull_request_base_branch_name: 'mc/26.1'
+          pull_request_base_branch_name: 'mc/26.2'
         env:
           # PERSONAL_TOKEN (not GITHUB_TOKEN) so the opened PR triggers the check-code / check-pr gates.
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}

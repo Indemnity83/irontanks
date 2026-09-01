@@ -56,8 +56,8 @@ This repo is checked out as **git worktrees in sibling directories**, one per br
 | Directory | Branch |
 |---|---|
 | `../irontanks-assets/` | `assets` — source art / recipe sources; **holds the primary `.git`** |
-| `../irontanks-mc-26.2/` | `mc/26.2` |
-| `../irontanks-mc-26.1/` | `mc/26.1` (main) |
+| `../irontanks-mc-26.2/` | `mc/26.2` (main) |
+| `../irontanks-mc-26.1/` | `mc/26.1` |
 | `../irontanks-mc-1.12.2/` | `mc/1.12.2` |
 | `../irontanks-mc-1.11.2/` | `mc/1.11.2` |
 | `../irontanks-mc-1.7.10/` | `mc/1.7.10` |
@@ -83,7 +83,7 @@ scripts and agents:
 
 | Setting | Value |
 |---|---|
-| `main-branch` | `mc/26.1` |
+| `main-branch` | `mc/26.2` |
 | `perennial-branches` | `assets` |
 | `perennial-regex` | `^mc/` — every `mc/*` line is perennial (protected), including future ones |
 | `observed-regex` | `^release-please--` |
@@ -103,7 +103,7 @@ Prefer these over plain `git` for the standard feature-branch flow:
 
 **Exceptions that stay plain `git`:**
 - **Work targeting a legacy line.** `git town hack` parents new branches to `main-branch`
-  (`mc/26.1`), which is the wrong parent for a `mc/1.x` branch — and an unrelated history besides.
+  (`mc/26.2`), which is the wrong parent for a `mc/1.x` branch — and an unrelated history besides.
   Branch off the target line directly and open the PR with `gh pr create --base mc/<version>`
   (`gh` may also need an explicit `--head <branch>`).
 - Read-only inspection (`git status`, `git log`, `git diff`, `git branch --show-current`).
@@ -115,7 +115,7 @@ Git Town perennial branches via `^mc/` — see [Git Town](#git-town) above). All
 auto mode — goes through a feature branch and a PR into the matching `mc/*` branch.
 
 1. Create a feature branch with **Git Town** so it is parented correctly:
-   `git town hack descriptive-branch-name` (Git Town's `main-branch` is `mc/26.1`, so the new branch
+   `git town hack descriptive-branch-name` (Git Town's `main-branch` is `mc/26.2`, so the new branch
    is parented to it automatically — don't use a bare `git checkout -b`)
 2. Make commits on the feature branch
 3. Push the feature branch: `git push -u origin descriptive-branch-name` (or `git town propose`)
