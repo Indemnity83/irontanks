@@ -42,6 +42,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    // Block drops and mining tags are pure data in the shared /resources pack, so the pure-logic
+    // tests validate them too. Point them at the pack rather than leaving them to guess a path.
+    systemProperty 'irontanks.resources.dir', rootProject.file('resources').absolutePath
     testLogging {
         events 'passed', 'skipped', 'failed'
         exceptionFormat = 'full'
