@@ -102,7 +102,7 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidResour
         }
     }
 
-    /** This tank's vertical column, ordered bottom-to-top (creative tanks stay isolated). */
+    /** This tank's vertical column, ordered bottom-to-top (void and creative tanks stay isolated). */
     public List<TankBlockEntity> columnTanks() {
         return column();
     }
@@ -168,7 +168,7 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidResour
         return !changed.isEmpty();
     }
 
-    /** This column, ordered bottom-to-top. Creative tanks never connect, so they stay isolated. */
+    /** This column, ordered bottom-to-top. Void and creative tanks never connect, so they stay isolated. */
     private List<TankBlockEntity> column() {
         Deque<TankBlockEntity> tanks = new ArrayDeque<>();
         tanks.add(this);
@@ -193,8 +193,9 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidResour
         return new ArrayList<>(tanks);
     }
 
+    /** Column membership is owned by {@link TankTier#joinsColumn()} so every consumer agrees. */
     private static boolean connects(TankBlockEntity a, TankBlockEntity b) {
-        return a.tier() != TankTier.CREATIVE && b.tier() != TankTier.CREATIVE;
+        return a.tier().joinsColumn() && b.tier().joinsColumn();
     }
 
     @Nullable

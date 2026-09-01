@@ -221,20 +221,20 @@ public class TankBlock extends BaseEntityBlock {
         return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
-    /** Mirrors the fluid-connection rule: tanks join unless either side is a creative tank. */
+    /** Mirrors the fluid-connection rule ({@link TankTier#joinsColumn()}): only column members join. */
     private boolean joinsWithBelow(BlockState below) {
-        return tier != TankTier.CREATIVE
+        return tier.joinsColumn()
                 && below.getBlock() instanceof TankBlock belowTank
-                && belowTank.tier() != TankTier.CREATIVE;
+                && belowTank.tier().joinsColumn();
     }
 
     /** Hide the shared top/bottom face between two connecting tanks so a vertical stack looks seamless. */
     @Override
     protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
         if (direction.getAxis() == Direction.Axis.Y
-                && tier != TankTier.CREATIVE
+                && tier.joinsColumn()
                 && neighborState.getBlock() instanceof TankBlock neighbor
-                && neighbor.tier() != TankTier.CREATIVE) {
+                && neighbor.tier().joinsColumn()) {
             return true;
         }
         return super.skipRendering(state, neighborState, direction);
