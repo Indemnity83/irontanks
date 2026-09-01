@@ -6,7 +6,8 @@ package com.indemnity83.irontanks.core;
  * <p>A column is described by per-tank capacities ordered <em>bottom-to-top</em> plus a single
  * aggregate amount — every tank in a connected column holds one fluid, so its contents are fully
  * described by a total. Liquids settle toward the bottom; gases rise toward the top. All amounts are
- * in millibuckets. This class holds no Minecraft types, so it is unit-testable without a game.
+ * in <strong>droplets</strong>, the canonical unit in {@code core} (see {@link TankTier}) — never
+ * millibuckets. This class holds no Minecraft types, so it is unit-testable without a game.
  *
  * <p>The loader glue gathers the column (capacities + current total) from the world, calls
  * {@link #settle} / {@link #fillable} / {@link #drainable} here, and writes the result back to each
@@ -26,7 +27,7 @@ public final class FluidColumn {
     }
 
     /**
-     * Distributes {@code total} millibuckets across {@code capacities}, filling each tank to capacity
+     * Distributes {@code total} droplets across {@code capacities}, filling each tank to capacity
      * in settle order — bottom-up for liquids, top-down for gases — and returns the per-tank amounts
      * (always indexed bottom-to-top, matching {@code capacities}).
      *

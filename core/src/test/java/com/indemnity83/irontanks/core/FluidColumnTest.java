@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 
 class FluidColumnTest {
 
-    // A three-tank column, bottom-to-top, each holding 1000 mB capacity.
+    // A three-tank column, bottom-to-top, each of capacity 1000. The settle/fillable/drainable math is
+    // pure arithmetic, so these cases use round numbers rather than real capacities — but note that in
+    // production every amount crossing FluidColumn is in DROPLETS, never millibuckets (see TankTier).
+    // The droplet-exactness of bucket/bottle mixing is covered by the last test in this class.
     private static final long[] COLUMN = {1000, 1000, 1000};
 
     @Test
@@ -18,13 +21,13 @@ class FluidColumnTest {
 
     @Test
     void liquidSettlesToTheBottom() {
-        // 1500 mB of liquid fills the bottom tank, then half-fills the middle, leaving the top empty.
+        // 1500 of liquid fills the bottom tank, then half-fills the middle, leaving the top empty.
         assertThat(FluidColumn.settle(COLUMN, 1500, false)).containsExactly(1000, 500, 0);
     }
 
     @Test
     void gasRisesToTheTop() {
-        // Same 1500 mB of gas fills the top tank first, then the middle.
+        // The same 1500 of gas fills the top tank first, then the middle.
         assertThat(FluidColumn.settle(COLUMN, 1500, true)).containsExactly(0, 500, 1000);
     }
 
