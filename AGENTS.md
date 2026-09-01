@@ -27,21 +27,46 @@ This repo uses a **branch-per-Minecraft-version** strategy. Each `mc/*` branch i
 
 | Branch | Minecraft | Build toolchain | Notes |
 |---|---|---|---|
-| **`mc/1.12.2`** | 1.12.2 | ForgeGradle 2.3-SNAPSHOT, JDK 8, Gradle 4.10.3 | **Primary development target** (newest, current `2.x` line) |
+| **`mc/26.1`** | 26.1.2 | Loom 1.16 + ModDevGradle 2.x, JDK 25, Gradle 9.x | Repo **default branch** and Git Town `main-branch`. A separate NeoForge + Fabric multiloader line — shares no code, toolchain, or git history with the Forge lines below |
+| **`mc/1.12.2`** | 1.12.2 | ForgeGradle 2.3-SNAPSHOT, JDK 8, Gradle 4.10.3 | **Primary Forge-line development target** (newest of the `mc/1.x` Forge branches, current `2.x` line) |
 | **`mc/1.11.2`** | 1.11.2 | ForgeGradle 2.2-SNAPSHOT, JDK 8 | Backport target; API is close to 1.12.2 |
 | **`mc/1.7.10`** | 1.7.10 | RetroFuturaGradle 1.4.x, JDK 17–21, Gradle 8.x | Backport target; large API gap — usually manual |
 
-`mc/1.12.2` is the GitHub default branch. There is no shared trunk — all work targets the appropriate `mc/*` branch.
+The GitHub default branch is `mc/26.1`. There is no shared trunk — all work targets the appropriate `mc/*` branch. Among the Forge lines, `mc/1.12.2` is the newest and where Forge work starts.
+
+### Worktree Layout
+
+This repo is checked out as **git worktrees in sibling directories**, one per branch. The primary `.git` lives in `irontanks-assets/` (the `assets` branch — source art and recipe sources, no Gradle build); every other line is a linked worktree:
+
+| Directory | Branch |
+|---|---|
+| `../irontanks-assets/` | `assets` — **holds the primary `.git`** |
+| `../irontanks-mc-26.1/` | `mc/26.1` (repo default; multiloader line) |
+| `../irontanks-mc-1.12.2/` | `mc/1.12.2` |
+| `../irontanks-mc-1.11.2/` | `mc/1.11.2` |
+| `../irontanks-mc-1.7.10/` | `mc/1.7.10` |
+
+**The working-directory path tells you which line you're on** — `../irontanks-mc-1.7.10/` is the `mc/1.7.10` branch. Confirm with `git branch --show-current`; list them with `git worktree list`. Don't assume these paths exist — discover them.
+
+Because the worktrees share one `.git`, a commit in one is immediately visible to the others. Work on another line via `git -C <path> ...` rather than switching branches in place — that keeps each directory's build outputs and dev-run state intact, which matters here because every line needs a different JDK.
+
+⚠️ **`remote.origin.fetch` must be the full `+refs/heads/*:refs/remotes/origin/*`.** A narrowed refspec (pinned to a single branch) leaves the other `origin/mc/*` refs stale indefinitely — they never update, so `git log origin/mc/<version>` silently reports outdated remote state and `git worktree add --track` fails with "not a branch". Verify with `git config --get-all remote.origin.fetch` before trusting any cross-branch comparison.
+
+### Git Town
+
+Git Town is configured repo-wide, and that config is shared by every worktree: `main-branch` is `mc/26.1`, `perennial-regex` is `^mc/` (so every `mc/*` line is perennial/protected), `perennial-branches` is `assets`, and `observed-regex` is `^release-please--`.
+
+⚠️ **Do not use `git town hack` on this branch.** It parents new branches to `main-branch` (`mc/26.1`), which is the wrong parent for a Forge line — and an unrelated history besides. Git Town's `sync` / `propose` / `ship` are oriented at the `mc/26.1` main line for the same reason. On the `mc/1.x` lines use plain `git` and `gh`, as described in [Branch Protection Rules](#branch-protection-rules-critical) below.
 
 ### Branch Protection Rules (CRITICAL)
 
 **Never push or commit directly to an `mc/*` branch.** These are protected. All work — including in auto mode — goes through a feature branch and a PR into the matching `mc/*` branch.
 
 **Required workflow for any new work:**
-1. Create a feature branch first: `git checkout -b descriptive-branch-name`
+1. Create a feature branch first: `git checkout -b descriptive-branch-name` (plain `git` — deliberately **not** `git town hack`, which would parent the branch to `mc/26.1`; see [Git Town](#git-town) above)
 2. Make commits on the feature branch
 3. Push the feature branch: `git push origin descriptive-branch-name`
-4. Open a PR targeting the `mc/*` branch you started from
+4. Open a PR targeting the `mc/*` branch you started from: `gh pr create --base mc/<version> --head descriptive-branch-name`. **Pass `--base` explicitly** — `gh` otherwise defaults to the repo default branch (`mc/26.1`), an unrelated history.
 
 **The only exception** is cherry-picking already-merged commits between `mc/*` branches for porting. Even then, confirm with the user before pushing.
 
@@ -53,6 +78,7 @@ Versions diverge mainly in their Minecraft API and Gradle toolchain, not in the 
 
 - **`mc/1.12.2` ↔ `mc/1.11.2`** — APIs are close. `git cherry-pick` usually applies cleanly or with minor conflicts.
 - **`mc/1.7.10`** — the API gap is large (pre-`ResourceLocation`/blockstate-JSON era) and it builds on a different toolchain (RetroFuturaGradle, JDK 17–21). Expect to **reimplement the change by hand** rather than cherry-pick.
+- **`mc/26.1`** — a ground-up NeoForge + Fabric multiloader rewrite with **no shared git history** with the Forge lines: `git merge` between them refuses outright (`refusing to merge unrelated histories`) and there is no common base to diff against. Nothing cherry-picks in either direction — port by hand, or not at all.
 
 **When fixing a bug:**
 1. Fix on the branch where it was reported (usually `mc/1.12.2`).
