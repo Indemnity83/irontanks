@@ -111,10 +111,23 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
         return column();
     }
 
-    /** Whether the connecting tank directly above currently holds fluid (used to merge fluid visually). */
+    /** Whether the connecting tank directly above holds the same fluid (used to merge fluid visually). */
     public boolean hasFluidAbove() {
-        TankBlockEntity above = neighbour(this, Direction.UP);
-        return above != null && connects(this, above) && above.amount() > 0;
+        return sharesFluidWith(Direction.UP);
+    }
+
+    /** Whether the connecting tank directly below holds the same fluid (used to merge fluid visually). */
+    public boolean hasFluidBelow() {
+        return sharesFluidWith(Direction.DOWN);
+    }
+
+    /** A mixed column must keep its surfaces, so the neighbour has to hold this exact fluid to merge. */
+    private boolean sharesFluidWith(Direction direction) {
+        TankBlockEntity other = neighbour(this, direction);
+        return other != null
+                && connects(this, other)
+                && other.amount() > 0
+                && other.fluidVariant().equals(fluid);
     }
 
     // ==================== ticking ====================
