@@ -43,42 +43,30 @@ public final class TankFluidHandler extends SnapshotJournal<TankFluidHandler.Sna
     @Override
     public FluidResource getResource(int index) {
         checkIndex(index);
-        TankColumn<FluidResource> column = column();
-        FluidResource current = column.shared();
-        // A stored potion is bottle-only: hide it from the fluid API so pipes/buckets can't drain it.
-        return column.isPotion(current) ? FluidResource.EMPTY : current;
+        // Empty for a column no transfer can move (a stored potion is bottle-only; a mixed column is
+        // refused outright), so pipes/buckets never see contents they can't take.
+        return column().reportedFluid();
     }
 
     @Override
     public long getAmountAsLong(int index) {
         checkIndex(index);
-        TankColumn<FluidResource> column = column();
-        if (column.isPotion(column.shared())) {
-            return 0; // potion is bottle-only: report empty to the fluid API
-        }
         // The column stores droplets; the NeoForge transfer API speaks millibuckets.
-        return column.total() / TankTier.DROPLETS_PER_MB;
+        return column().reportedTotal() / TankTier.DROPLETS_PER_MB;
     }
 
     @Override
     public long getCapacityAsLong(int index, FluidResource resource) {
         checkIndex(index);
-        TankColumn<FluidResource> column = column();
-        if (column.isPotion(column.shared())) {
-            return 0; // sealed while holding a potion
-        }
-        return column.capacity() / TankTier.DROPLETS_PER_MB;
+        // Per the ResourceHandler contract, 0 for any resource isValid rejects — otherwise a router
+        // computing free room as capacity - amount would keep picking a tank that refuses the fluid.
+        return column().capacityFor(resource) / TankTier.DROPLETS_PER_MB;
     }
 
     @Override
     public boolean isValid(int index, FluidResource resource) {
         checkIndex(index);
-        TankColumn<FluidResource> column = column();
-        FluidResource current = column.shared();
-        if (column.isPotion(current) || column.isPotion(resource)) {
-            return false; // potions never move through the fluid API
-        }
-        return current.isEmpty() || current.equals(resource);
+        return column().accepts(resource);
     }
 
     @Override
