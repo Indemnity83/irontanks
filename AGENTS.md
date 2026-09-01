@@ -45,9 +45,69 @@ releasable line with its own build toolchain:
 There is no shared trunk — all work targets the appropriate `mc/*` branch. The `mc/26.1` line is a
 ground-up multiloader rewrite; it does **not** share code or build setup with the `mc/1.x` Forge lines.
 
+### Worktree Layout
+
+This repo is checked out as **git worktrees in sibling directories**, one per branch. The primary
+`.git` lives in `irontanks-assets/` (the `assets` branch); every other line is a linked worktree:
+
+| Directory | Branch |
+|---|---|
+| `../irontanks-assets/` | `assets` — source art / recipe sources; **holds the primary `.git`** |
+| `../irontanks-mc-26.1/` | `mc/26.1` (main) |
+| `../irontanks-mc-1.12.2/` | `mc/1.12.2` |
+| `../irontanks-mc-1.11.2/` | `mc/1.11.2` |
+| `../irontanks-mc-1.7.10/` | `mc/1.7.10` |
+
+**The working-directory path tells you which line you're on** — `../irontanks-mc-1.7.10/` is the
+`mc/1.7.10` branch. Confirm with `git branch --show-current`; list them with `git worktree list`.
+Don't assume these paths exist — discover them, and note `assets` is content-only (no Gradle build).
+
+Because the worktrees share one `.git`, a commit in one is immediately visible to the others. Work on
+another line via `git -C <path> …` rather than switching branches in place — that keeps each
+directory's build outputs and dev-run state intact.
+
+⚠️ **`remote.origin.fetch` must be the full `+refs/heads/*:refs/remotes/origin/*`.** A narrowed
+refspec (pinned to a single branch) leaves the other `origin/mc/*` refs stale indefinitely — they
+never update, so `git log origin/mc/<version>` silently reports outdated remote state and
+`git worktree add --track` fails with "not a branch". Verify with
+`git config --get-all remote.origin.fetch` before trusting any cross-branch comparison.
+
+### Git Town
+
+Git Town is configured for this repo and used headlessly — no interactive prompts, safe to run from
+scripts and agents:
+
+| Setting | Value |
+|---|---|
+| `main-branch` | `mc/26.1` |
+| `perennial-branches` | `assets` |
+| `perennial-regex` | `^mc/` — every `mc/*` line is perennial (protected), including future ones |
+| `observed-regex` | `^release-please--` |
+| `forge-type` / `github-connector` | `github` / `gh` |
+| `ship-strategy` | `api` |
+
+Prefer these over plain `git` for the standard feature-branch flow:
+
+| Instead of… | Use |
+|---|---|
+| `git checkout -b <branch>` (off main) | `git town hack <branch>` |
+| `git checkout -b <branch>` (stacked on current) | `git town append <branch>` |
+| `git pull` / merging main into a feature branch | `git town sync` |
+| Opening a PR by hand | `git town propose` |
+| Squash-merging a PR | `git town ship` |
+| Deleting a merged/obsolete feature branch | `git town delete` |
+
+**Exceptions that stay plain `git`:**
+- **Work targeting a legacy line.** `git town hack` parents new branches to `main-branch`
+  (`mc/26.1`), which is the wrong parent for a `mc/1.x` branch — and an unrelated history besides.
+  Branch off the target line directly and open the PR with `gh pr create --base mc/<version>`
+  (`gh` may also need an explicit `--head <branch>`).
+- Read-only inspection (`git status`, `git log`, `git diff`, `git branch --show-current`).
+
 ### Branch Protection Rules (CRITICAL)
 
-**Never push or commit directly to an `mc/*` branch.** These are protected. All work — including in
+**Never push or commit directly to an `mc/*` branch.** These are protected (and configured as
+Git Town perennial branches via `^mc/` — see [Git Town](#git-town) above). All work — including in
 auto mode — goes through a feature branch and a PR into the matching `mc/*` branch.
 
 1. Create a feature branch with **Git Town** so it is parented correctly:
@@ -65,6 +125,10 @@ when no feature branch has been created yet. A wrong push to a protected branch 
 The `mc/26.1` multiloader line and the `mc/1.x` Forge lines have completely different architecture and
 toolchains, so changes do **not** cherry-pick between them — port by hand. Within the Forge lines,
 `mc/1.12.2 ↔ mc/1.11.2` still cherry-pick cleanly; `mc/1.7.10` is usually manual.
+
+The `mc/*` lines have **unrelated git histories** (no common ancestor), so `git merge` between them
+refuses outright (`refusing to merge unrelated histories`) and there is no shared base to diff
+against. Cherry-pick only works within the Forge lines; everything else is a hand port.
 
 ## Build Commands
 
