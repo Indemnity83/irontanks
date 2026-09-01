@@ -47,11 +47,18 @@ public final class TankColumn<F> {
 
     // ==================== aggregation ====================
 
-    /** Total contents of the column, in droplets. */
+    /**
+     * Total contents of the column, in droplets. A cell holding no fluid contributes nothing whatever
+     * its amount says: a tank whose stored fluid no longer resolves (its mod was removed) can load with
+     * a leftover amount, and since every operation redistributes {@code total()} as the column's single
+     * fluid, counting that blank amount would turn it into real fluid.
+     */
     public long total() {
         long total = 0;
         for (TankCell<F> cell : cells) {
-            total += cell.amount();
+            if (!kind.isEmpty(cell.fluid())) {
+                total += cell.amount();
+            }
         }
         return total;
     }

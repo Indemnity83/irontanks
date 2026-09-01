@@ -228,7 +228,10 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidResour
         super.loadAdditional(input);
         amount = input.getLongOr("Amount", 0L) * TankTier.DROPLETS_PER_MB + input.getIntOr("Rem", 0);
         fluid = input.read("Fluid", FluidResource.CODEC).orElse(FluidResource.EMPTY);
-        if (amount <= 0) {
+        // Keep the "amount == 0 iff no fluid" invariant the rest of the mod relies on. A stored fluid
+        // whose mod has been removed no longer decodes, so an unreadable fluid empties the tank too --
+        // otherwise the leftover amount would be handed to the next fluid inserted.
+        if (amount <= 0 || fluid.isEmpty()) {
             fluid = FluidResource.EMPTY;
             amount = 0;
         }

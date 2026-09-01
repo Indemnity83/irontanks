@@ -139,6 +139,22 @@ class TankColumnTest {
                 .isFalse();
     }
 
+    @Test
+    void aCellHoldingNoFluidContributesNothingEvenIfItsAmountSurvived() {
+        // A tank whose stored fluid no longer resolves (its mod was removed) can come back with a
+        // positive amount and no fluid. That blank amount must never be aggregated: the next insert
+        // redistributes total() as the inserted fluid, so counting it would mint real fluid from
+        // nothing — 16 free buckets in a half-full iron tank. See issue #254.
+        FakeCell phantom = new FakeCell(TankTier.GLASS, 1000, null, 800);
+        TankColumn<FakeFluid> col = column(phantom);
+        assertThat(col.total()).isZero();
+        assertThat(col.room()).isEqualTo(1000);
+
+        assertThat(col.insert(WATER, 200, 1, IGNORE)).isEqualTo(200);
+        assertThat(phantom.fluid()).isEqualTo(WATER);
+        assertThat(phantom.amount()).isEqualTo(200);
+    }
+
     // ==================== insert ====================
 
     @Test
