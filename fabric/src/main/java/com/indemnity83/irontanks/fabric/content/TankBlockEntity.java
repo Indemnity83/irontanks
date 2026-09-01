@@ -4,6 +4,7 @@ import com.indemnity83.irontanks.core.TankCell;
 import com.indemnity83.irontanks.core.TankColumn;
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.VoidTank;
+import com.indemnity83.irontanks.fabric.IronTanksFabric;
 import com.indemnity83.irontanks.fabric.compat.LogisticsTanks;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -231,6 +232,19 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
         if (amount <= 0) {
             fluid = FluidVariant.blank();
             amount = 0;
+        }
+        // Saved contents can exceed this block's capacity when a smaller tank was swapped in under the
+        // fluid (all tank blocks share one BlockEntityType, so the block entity survives a /setblock,
+        // WorldEdit paste or NBT edit). Clamp it here, the way UpgradeItem already does, and say so —
+        // the fluid above capacity is gone, and an admin should be able to see why.
+        long capacity = capacity();
+        if (amount > capacity) {
+            IronTanksFabric.LOGGER.warn(
+                    "Tank at {} holds {} droplets but only has room for {}; dropping the excess",
+                    worldPosition,
+                    amount,
+                    capacity);
+            amount = capacity;
         }
     }
 
