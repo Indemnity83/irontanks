@@ -108,19 +108,41 @@ Prefer these over plain `git` for the standard feature-branch flow:
 
 | Instead of… | Use |
 |---|---|
-| `git checkout -b <branch>` (off main) | `git town hack <branch>` |
-| `git checkout -b <branch>` (stacked on current) | `git town append <branch>` |
+| `git checkout -b <branch>` (off `mc/26.2`) | `git town hack <branch>` |
+| `git checkout -b <branch>` (off any other `mc/*` line, or stacked on current) | `git town append <branch>` |
 | `git pull` / merging main into a feature branch | `git town sync` |
 | Opening a PR by hand | `git town propose` |
 | Squash-merging a PR | `git town ship` |
 | Deleting a merged/obsolete feature branch | `git town delete` |
 
+**`hack` vs `append` — which line are you on?** `git town hack` always parents the new branch to
+`main-branch` (`mc/26.2`); it has no `--parent` flag. So it is only correct when your work targets
+`mc/26.2`. **On this branch it is the wrong command** — for work targeting `mc/26.1`, use
+`git town append` instead, which parents to the *current* branch:
+
+```bash
+cd ../irontanks-mc-26.1                       # the worktree for the line you're targeting
+git town append fix-something-on-26-1         # parented to mc/26.1, not mc/26.2
+# … commits …
+git town propose                              # PR opens against mc/26.1 automatically
+```
+
+A perennial branch is a perfectly good *parent* — being protected doesn't stop children being
+appended to it. Because Git Town records the parent, `sync`, `propose` and `ship` all target the
+right line; none of them behave correctly for a branch created with a bare `git checkout -b`.
+
+Add `--detached` if you don't want `append` to also fast-forward the perennial root as it goes.
+
 **Exceptions that stay plain `git`:**
-- **Work targeting a legacy line.** `git town hack` parents new branches to `main-branch`
-  (`mc/26.2`), which is the wrong parent for a `mc/1.x` branch — and an unrelated history besides.
-  Branch off the target line directly and open the PR with `gh pr create --base mc/<version>`
-  (`gh` may also need an explicit `--head <branch>`).
+- **Work targeting a `mc/1.x` Forge line.** `git town append` would parent correctly, but those
+  branches have histories unrelated to the `mc/26.x` lines, so `git town sync` across them is not
+  something you want. Branch off the target line directly and open the PR with
+  `gh pr create --base mc/<version>` (`gh` may also need an explicit `--head <branch>`).
 - Read-only inspection (`git status`, `git log`, `git diff`, `git branch --show-current`).
+
+⚠️ **`git town --dry-run` is not side-effect-free.** It creates no branch, but it still writes the
+new branch's `git-town-branch.<name>.branchtype` entry into the repo config. Clean up with
+`git config --remove-section git-town-branch.<name>` if you dry-run a branch you don't create.
 
 ### Branch Protection Rules (CRITICAL)
 
@@ -128,9 +150,14 @@ Prefer these over plain `git` for the standard feature-branch flow:
 Git Town perennial branches via `^mc/` — see [Git Town](#git-town) above). All work — including in
 auto mode — goes through a feature branch and a PR into the matching `mc/*` branch.
 
-1. Create a feature branch with **Git Town** so it is parented correctly:
-   `git town hack descriptive-branch-name` (Git Town's `main-branch` is `mc/26.2`, so the new branch
-   is parented to it automatically — don't use a bare `git checkout -b`)
+1. Create a feature branch with **Git Town** so it is parented correctly — don't use a bare
+   `git checkout -b`. **On this branch that means `append`, not `hack`:**
+   - targeting `mc/26.1` (this line) → from this worktree,
+     `git town append descriptive-branch-name`
+   - targeting `mc/26.2` → `git town hack descriptive-branch-name`
+
+   (`hack` always parents to `main-branch`, which is `mc/26.2`; `append` parents to the branch you
+   are on. See [Git Town](#git-town) above.)
 2. Make commits on the feature branch
 3. Push the feature branch: `git push -u origin descriptive-branch-name` (or `git town propose`)
 4. Open a PR targeting the `mc/*` branch you started from
