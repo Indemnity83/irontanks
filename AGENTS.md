@@ -13,15 +13,29 @@ single block holds more fluid the better its material, and obsidian-clad tanks a
 
 - **Tiered tanks** (capacity in buckets): Glass 16 → Copper 27 → Iron 32 → Silver 43 → Gold 48 →
   Diamond 64 → Emerald 96. Obsidian (64) is explosion-proof.
-- **In-place upgrade items** promote a placed tank to the next tier without losing contents.
-- **Void tank** — destroys the fluid it holds, a little each tick.
+- **Optional high tiers**, gated on conventional material tags that ship empty and light up in packs
+  that add the metal: Aluminium 96 → Stainless Steel 128 → Titanium 256 → Tungstensteel 512.
+- **In-place upgrade items** promote a placed tank along the upgrade graph without losing contents
+  (`TankUpgrade` — a graph, not a chain: glass forks to copper/iron, and gold has two routes in).
+- **Void tank** (8) — destroys the fluid it holds, a little each tick.
 - **Creative tank** — infinite supply of whatever fluid is placed in it.
 - **Vertical stacking** — connected tanks form a column that shares one fluid (liquids settle to the
   bottom, gases rise) and renders as one continuous body.
+- **Potion storage** — a tank holds a potion deposited by bottle, and gives it back by bottle. Stored
+  potions are *sealed* from the fluid API so pipes and buckets can't drain them into plain water.
+- **Contents readout** — right-click empty-handed for a one-line description on the action bar; the
+  same line drives the Jade HUD when Jade is installed.
 
-On the `mc/26.1` line Iron Tanks is **standalone** — no BuildCraft dependency. It interoperates with
-any mod through the platform fluid APIs (NeoForge capabilities / Fabric Transfer API), so pipes and
-pumps can fill and drain tanks out of the box.
+On the `mc/26.1` line Iron Tanks is **standalone** — no BuildCraft dependency, and every integration
+below is optional and soft. It interoperates with any mod through the platform fluid APIs (NeoForge
+capabilities / Fabric Transfer API), so pipes and pumps can fill and drain tanks out of the box.
+
+- **Logistics** (optional) — when the logistics mod is installed, iron tanks join a shared cross-mod
+  fluid column driven through the logistics API. Compile-only; the integration package is the only
+  code that names `com.logistics.*` types and is class-loaded behind a mod-present check.
+- **Jade** (optional) — look-at HUD showing the column's contents. Compile-only, same pattern.
+- **Crash reporting** (opt-in, default **OFF**) — sanitized, Iron-Tanks-only Sentry reporting, driven
+  by `/irontanks diagnostics enable|disable`. See **Crash Reporting** below and `CRASH_REPORTING.md`.
 
 - **Mod ID:** `irontanks`
 - **Java package:** `com.indemnity83.irontanks` (loader-agnostic logic under `…irontanks.core`)
@@ -37,13 +51,16 @@ releasable line with its own build toolchain:
 
 | Branch | Minecraft | Loaders | Build toolchain |
 |---|---|---|---|
+| **`mc/26.2`** | 26.2 | **NeoForge + Fabric** (multiloader) | Loom 1.17 + ModDevGradle 2.x, **JDK 25**, Gradle 9.x |
 | **`mc/26.1`** | 26.1.2 | **NeoForge + Fabric** (multiloader) | Loom 1.16 + ModDevGradle 2.x, **JDK 25**, Gradle 9.x |
 | **`mc/1.12.2`** | 1.12.2 | Forge | ForgeGradle 2.3, JDK 8, Gradle 4.10.3 |
 | **`mc/1.11.2`** | 1.11.2 | Forge | ForgeGradle 2.2, JDK 8 |
 | **`mc/1.7.10`** | 1.7.10 | Forge | RetroFuturaGradle 1.4.x, JDK 17–21, Gradle 8.x |
 
-There is no shared trunk — all work targets the appropriate `mc/*` branch. The `mc/26.1` line is a
-ground-up multiloader rewrite; it does **not** share code or build setup with the `mc/1.x` Forge lines.
+There is no shared trunk — all work targets the appropriate `mc/*` branch. The `mc/26.x` lines are a
+ground-up multiloader rewrite; they do **not** share code or build setup with the `mc/1.x` Forge lines.
+`mc/26.2` is a compatibility fork of `mc/26.1` — same feature set, different Minecraft (see
+**Version Management**).
 
 ### Worktree Layout
 
@@ -83,7 +100,7 @@ scripts and agents:
 | `main-branch` | `mc/26.2` |
 | `perennial-branches` | `assets` |
 | `perennial-regex` | `^mc/` — every `mc/*` line is perennial (protected), including future ones |
-| `observed-regex` | `^release-please--` |
+| `observed-regex` | `^(release-please--\|l10n/)` — release-please and Crowdin translation branches |
 | `forge-type` / `github-connector` | `github` / `gh` |
 | `ship-strategy` | `api` |
 
@@ -123,13 +140,24 @@ when no feature branch has been created yet. A wrong push to a protected branch 
 
 ### Cross-Version Porting
 
-The `mc/26.1` multiloader line and the `mc/1.x` Forge lines have completely different architecture and
-toolchains, so changes do **not** cherry-pick between them — port by hand. Within the Forge lines,
-`mc/1.12.2 ↔ mc/1.11.2` still cherry-pick cleanly; `mc/1.7.10` is usually manual.
+Whether a change ports mechanically depends on which pair of lines you are crossing. **Check for a
+merge base before assuming** — `git merge-base <a> <b>` answers it in one command.
 
-The `mc/*` lines have **unrelated git histories** (no common ancestor), so `git merge` between them
-refuses outright (`refusing to merge unrelated histories`) and there is no shared base to diff
-against. Cherry-pick only works within the Forge lines; everything else is a hand port.
+| Pair | Shared history? | How to port |
+|---|---|---|
+| `mc/26.1 ↔ mc/26.2` | **Yes** — `mc/26.2` was forked from `mc/26.1` | `git cherry-pick` (usually clean) |
+| `mc/1.12.2 ↔ mc/1.11.2` | Yes | `git cherry-pick` (usually clean) |
+| `mc/1.7.10 ↔ other Forge lines` | Yes, distant | Cherry-pick often conflicts; usually manual |
+| **`mc/26.x ↔ mc/1.x`** | **No common ancestor** | **Hand port only** |
+
+The `mc/26.x` multiloader lines and the `mc/1.x` Forge lines have completely different architecture
+and toolchains *and* unrelated git histories, so `git merge` between them refuses outright
+(`refusing to merge unrelated histories`), there is no shared base to diff against, and cherry-pick
+is not an option. Those are hand ports.
+
+Between the two 26.x lines the opposite is true: they share the fork point and the same file layout,
+so a fix normally cherry-picks with the same commit message on both sides. The `backport` skill
+handles this flow, and `converge-branches` shrinks the standing diff between them.
 
 ## Build Commands
 
@@ -177,9 +205,9 @@ build metadata**, publishing **two artifacts per release** (one per loader).
 `feat!:`/`BREAKING CHANGE:` → major.
 
 **Naming conventions** (component-based, two artifacts):
-- Git tag: `mc26.1-v{semver}` (e.g. `mc26.1-v2.2.0`)
+- Git tag: `mc26.1-v{semver}` (e.g. `mc26.1-v3.3.1`)
 - Artifacts / published version: `{semver}+mc{minecraft_version}.{loader}`
-  (e.g. `2.2.0+mc26.1.2.fabric`, `2.2.0+mc26.1.2.neoforge`)
+  (e.g. `3.3.1+mc26.1.2.fabric`, `3.3.1+mc26.1.2.neoforge`)
 - Display name: `Iron Tanks v{semver} for {loader} {minecraft_version}`
 
 **Do NOT manually edit version numbers.** Let release-please manage `.release-please-manifest.json`;
@@ -208,12 +236,35 @@ than the source-injection / Architectury approaches; Iron Tanks is the testbed f
 
 ### `core` — loader-agnostic logic (`com.indemnity83.irontanks.core`)
 
-- `TankTier` — the capacity table (buckets + millibuckets). Canonical unit is **millibuckets** (mB),
-  `BUCKET_VOLUME = 1000`.
-- `FluidColumn` — the crown jewel: `settle` (distribute a total across a column, liquids bottom-up /
-  gases top-down), `fillable`, `drainable`, `totalCapacity`. Pure arithmetic on `long` amounts.
-- `VoidTank` — the 20 mB/tick self-destruction rate.
+**Units — read this first.** The canonical fluid unit in `core` is the **droplet**
+(`TankTier.DROPLETS_PER_BUCKET = 81_000`, matching Fabric's `FluidConstants.BUCKET`). Droplets are
+used because a bottle is exactly one third of a bucket (`DROPLETS_PER_BOTTLE = 27_000`), which is
+*not* a whole number of millibuckets — in droplets every bucket/bottle operation is exact integer
+arithmetic. Fabric is droplet-native and needs no conversion; **NeoForge speaks millibuckets and
+converts at its adapter boundary** using `DROPLETS_PER_MB` (81). Nothing inside `core` is in mB.
+
+- `TankTier` — the capacity table: buckets, hardness, blast resistance, and the droplet constants
+  above. Includes the special `VOID` and `CREATIVE` tiers and the optional high tiers.
+- `FluidColumn` — pure distribution math on `long` droplet amounts: `settle` (distribute a total
+  across a column, liquids bottom-up / gases top-down), `fillable`, `drainable`, `totalCapacity`.
+- `TankColumn<F>` — the whole column *algorithm*, owned once here instead of copied into each
+  loader's transfer-API adapter: `insert`/`extract`, `depositBottle`/`extractBottle`, `rebalance`,
+  and the aggregation helpers (`total`, `capacity`, `room`, `shared`, `mixed`). Its rules:
+  - **Mixed columns** (two distinct fluids joined together) are never aggregated — every operation
+    refuses, mirroring `rebalance()` leaving them unsettled.
+  - **Potions** are sealed from the fluid path: `insert`/`extract` reject them, so they move only
+    through `depositBottle`/`extractBottle`.
+  - **Creative** tanks are an endless source/sink and never join a column.
+  - A `quantum` parameter floors the moved amount for loaders coarser than droplets (Fabric passes
+    1; NeoForge passes `DROPLETS_PER_MB`), so a sub-quantum remainder is never partially filled.
+  - An `onMutate` hook runs exactly once immediately before the first write, so a loader captures
+    its transaction snapshot only when the column is actually about to change.
+- `TankCell<F>` / `FluidKind<F>` — the two seams that let `TankColumn` work without Minecraft types.
+  Each loader's `TankBlockEntity` implements `TankCell` directly; `FluidKind` supplies the handful of
+  facts about the loader's fluid type (`empty`, `isEmpty`, `isGas`, `isPotion`).
+- `VoidTank` — the 20 mB/tick self-destruction rate (`RATE`, expressed in droplets).
 - `TankUpgrade` — the upgrade graph (which tier promotes to which).
+- `crash/` — the opt-in crash reporter, also pure Java (see **Crash Reporting**).
 
 `core` has JUnit tests and no MC dependency, so `./gradlew :core:test` runs instantly. It's the only
 module with a test source set; **JaCoCo** measures its coverage (`:core:jacocoTestReport`, pinned to a
@@ -224,26 +275,75 @@ Java-25-capable tool version) and CI uploads the report to **Codecov** (see **CI
 Each loader has near-identical, mostly-vanilla classes plus a loader-specific fluid adapter:
 
 - `content/TankBlock` — `BaseEntityBlock`; `joined_below` blockstate property (stacked side texture) +
-  `skipRendering` (seamless seam) + `useItemOn` (bucket interaction) + ticker.
-- `content/TankBlockEntity` — stores one fluid + amount (mB); column traversal + balance via `core`;
-  void/creative behavior; NBT (`ValueInput/Output`) + client sync.
+  `skipRendering` (seamless seam) + `useItemOn` (bucket and bottle interaction) + `useWithoutItem`
+  (the action-bar readout) + ticker.
+- `content/TankBlockEntity` — stores one fluid + amount **in droplets**; implements `core`'s
+  `TankCell`; column traversal + balance via `core`; void/creative behavior; NBT (`ValueInput/Output`,
+  persisted as whole mB in `Amount` plus a droplet remainder in `Rem`) + client sync.
 - `content/TankBlockItem` — `appendHoverText` shows the capacity / void / creative tooltips.
 - `content/UpgradeItem` — `useOn` swaps the tank block in place, preserving fluid.
 - `content/IronTanksContent` — registers blocks, items, the shared `BlockEntityType`, and the tab.
+  **All tank blocks share one `BlockEntityType`.**
+- `content/TankReadout` — the one-line contents description used by both the empty-hand readout and
+  the Jade HUD; renders a stored potion as its effect line (amplifier + duration).
+- `content/{FluidResourceKind,FluidVariantKind}` — the loader's `FluidKind` implementation.
 - Fluid adapter — the only genuinely loader-specific logic:
   - NeoForge: `content/TankFluidHandler` implements `ResourceHandler<FluidResource>`, registered via
-    `Capabilities.Fluid.BLOCK` (`IronTanksCapabilities`). Works in mB.
+    `Capabilities.Fluid.BLOCK` (`IronTanksCapabilities`). **Speaks millibuckets**, so it converts
+    mB↔droplets (×81) at its boundary and passes `quantum = DROPLETS_PER_MB` into `core`.
   - Fabric: `content/TankFluidStorage` implements `Storage<FluidVariant>`, registered via
-    `FluidStorage.SIDED`. **Fabric measures fluid in droplets** (`FluidConstants.BUCKET` = 81000); this
-    adapter converts mB↔droplets (×81) at the boundary so `core` and the tile stay in mB.
+    `FluidStorage.SIDED`. Droplet-native, so no conversion and `quantum = 1`.
 - `client/TankBlockEntityRenderer` (+ `TankRenderState`) — draws the fluid level; resolves the fluid's
   sprite/tint through `ModelManager.getFluidStateModelSet()` → `FluidModel`. Registered per loader
   (NeoForge `EntityRenderersEvent`, Fabric `ClientModInitializer` + `BlockEntityRenderers.register`).
+- `compat/` — the optional integrations (see below).
+- `crash/` — `CrashReportingBootstrap` (wires `core`'s reporter to the loader), `CrashReportNotifier`
+  (the once-per-session operator notice), `IronTanksDiagnosticsCommand`, and the loader's
+  `PlatformInfo`.
 - Entry points — NeoForge `@Mod IronTanksNeoForge` (registers during `RegisterEvent`); Fabric
   `IronTanksFabric` (`ModInitializer`) + `IronTanksFabricClient` (`ClientModInitializer`).
 
 The fluid adapters expose the **whole vertical column** as one logical tank, so a pipe/bucket filling
 any tank in a stack fills the column (then `core` re-settles it).
+
+> **Note on Fabric's layout:** the Fabric module has a separate `src/client` source set, so its
+> client-only classes live under `fabric/src/client/java/…/fabric/client/` rather than beside the
+> rest. NeoForge keeps everything in `src/main`.
+
+### Optional integrations (`compat/`)
+
+Both are **compile-only** and must never be on the runtime critical path:
+
+- **Logistics** — `compat/LogisticsTanks` is a neutral seam holding no `com.logistics.*` references,
+  so the content classes that call it link cleanly whether or not logistics is installed. The
+  `compat/logistics/` package is the *only* code that names logistics types and is class-loaded
+  behind a mod-present check, so its absence can never cause a `NoClassDefFoundError`.
+  `LogisticsTankCell` adapts a `TankBlockEntity` to the logistics cell contract (converting
+  droplets↔mB) so a cross-mod column settles as one shared body.
+- **Jade** — `compat/JadeTankPlugin` renders `TankReadout` on the look-at HUD. Same pattern.
+
+**When adding an integration, follow this shape:** a neutral seam in the loader package, all
+third-party types quarantined in one sub-package, and class-loading gated on a mod-present check.
+
+### Crash Reporting
+
+Opt-in (**default OFF**), Iron-Tanks-only, sanitized Sentry reporting. It lives in `core/crash/`
+because it needs no Minecraft:
+
+- `CrashReporting` — the orchestrator. Builds a **dedicated** `SentryClient` and never calls
+  `Sentry.init()`, so it cannot clobber a global Sentry SDK another mod might bundle.
+- `IronTanksConfig` / `CrashReportingConfig` — `config/irontanks.json`, read/written with Gson.
+  Best-effort: a missing or corrupt file yields defaults rather than throwing into mod load.
+- `Log4j2Bridge` — attaches a forwarding appender to the Log4j2 **root** logger and filters by logger
+  name so only Iron Tanks' own `ERROR` events with a throwable are captured.
+- `LogScrubber` — strips identifying substrings before anything leaves the process; deliberately
+  biased toward over-redaction.
+- `PlatformInfo` — the loader/environment facts `core` cannot discover on its own.
+
+Each loader calls `CrashReporting.bootstrap` once at init and exposes
+`/irontanks diagnostics enable|disable`, which keep the persisted config and the live Sentry client
+in lock-step. Sentry, Gson and Log4j2 are `compileOnly` in `core` (Minecraft supplies the latter two
+at runtime; Sentry ships jar-in-jar). Player-facing documentation is `CRASH_REPORTING.md`.
 
 ### Resources
 
@@ -254,11 +354,17 @@ so the files reach both the mod jar and the dev resource root — no per-loader 
   block/item models, the `items/*.json` 26.1 item-model definitions, textures, `en_us.json`.
 - `resources/data/irontanks/recipe/` — `minecraft:crafting_shaped` recipes using conventional `c:` tags
   (`#c:ingots/iron`, `#c:glass_blocks/colorless`, …) — the modern "ore dictionary".
-- `resources/data/c/tags/item/…` — declares optional convention tags we reference but don't populate
-  (an empty `c:ingots/silver`) so the silver recipes load without errors and light up automatically if
-  another mod adds silver.
+- `resources/data/irontanks/loot_table/blocks/` — every tank drops itself when mined.
+- `resources/data/c/tags/item/ingots/…` — declares optional convention tags we reference but don't
+  populate (an empty `c:ingots/silver`, and the same for the optional high-tier metals) so those
+  recipes load without errors and light up automatically if another mod adds the material.
+- `resources/data/minecraft/tags/block/mineable/` — tool tags, so tanks break with the right tool.
 - Only loader-specific metadata stays per-module: `neoforge/.../META-INF/neoforge.mods.toml` and
   `fabric/.../fabric.mod.json`.
+
+**Adding a tank tier is a checklist, not architecture:** a `TankTier` entry, `TankUpgrade` paths,
+per-loader registration, blockstate + block/item models + `items/*.json` + textures, a lang key, a
+recipe, a loot table, and the `mineable` tag. The `release-qa` skill audits exactly this list.
 
 ### Conventions
 
@@ -269,6 +375,13 @@ so the files reach both the mod jar and the dev resource root — no per-loader 
 - **Tiers are data-driven:** adding a tier is a `TankTier` entry + per-loader registration + its asset
   set + recipes, not new architecture.
 - Special tanks (void/creative) are tier-driven branches in the shared `TankBlockEntity`, not subclasses.
+- **Everything in `core` is droplets.** Converting to or from millibuckets is the NeoForge adapter's
+  job and happens only at its boundary. A `long` amount crossing into `core` is always droplets — if
+  you find yourself writing `1000` to mean a bucket, you are 81× off.
+- **Optional integrations stay soft:** compile-only, third-party types quarantined in one package,
+  class-loading behind a mod-present check. Iron Tanks must run with none of them installed.
+- **Both loaders stay in parity.** The `neoforge/` and `fabric/` glue classes are deliberate mirrors —
+  a fix to one is almost always a fix to the other. Check the twin before opening a PR.
 
 ## Code Style
 
@@ -334,9 +447,23 @@ GitHub Actions in `.github/workflows/`:
   jars (matrix `[fabric, neoforge]`) and, when publishing, uploads to Modrinth/CurseForge via `mc-publish`
   with `loaders: <loader>` (no BuildCraft dependency).
 - **`build-snapshot.yml`** / **`build-prerelease.yml`** — manual alpha/beta builds, per loader.
+- **`sync_translations.yml`** — Crowdin round-trip: uploads `en_us.json` on push and opens a
+  translation PR from the long-lived `l10n/crowdin` branch on a daily cron. Runs with
+  `contents: write` + `pull-requests: write` and the `PERSONAL_TOKEN` PAT (so its PRs trigger the
+  check gates). The `schedule:`/`workflow_dispatch:` triggers only ever fire from the **default
+  branch** and its push filter is branch-pinned, so the workflow serves exactly one `mc/*` line —
+  and on this branch both point at `mc/26.2`, so the copy here never runs. Translation sync happens
+  on the 26.2 line; bring new languages to `mc/26.1` by porting the lang files.
 
-Publishing needs repo **secrets** `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `GRADLE_ENCRYPTION_KEY`,
-`PERSONAL_TOKEN` and **variables** `MODRINTH_PROJECT_ID`, `CURSEFORGE_PROJECT_ID`.
+Repo **secrets**: `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `GRADLE_ENCRYPTION_KEY`, `PERSONAL_TOKEN`
+(publishing and release automation); `CODECOV_TOKEN` (coverage upload); `CROWDIN_PROJECT_ID`,
+`CROWDIN_PERSONAL_TOKEN` (translation sync); `SENTRY_AUTH_TOKEN` (uploads source context for the
+crash reporter — the build skips that step when it is absent). Repo **variables**:
+`MODRINTH_PROJECT_ID`, `CURSEFORGE_PROJECT_ID`.
+
+The Sentry **DSN is not a secret** — it is a compiled-in constant (`CrashReporting.DEFAULT_DSN`),
+since DSNs are write-only and designed to be embedded in shipped clients. Operators can point it
+elsewhere with `crashReporting.dsnOverride` in `config/irontanks.json`.
 
 **Dependabot** (`.github/dependabot.yml`) covers each `mc/*` branch with `chore`-prefixed commits; the
 `mc/26.1` block pins Loom/ModDevGradle major versions and keeps the Gradle wrapper on 9.x.
@@ -346,6 +473,8 @@ Publishing needs repo **secrets** `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `GRADLE_
 - `CLAUDE.md` — primary development guidance for Claude Code (keep in sync with this file)
 - `AGENTS.md` (this file) — the same guidance for other coding agents
 - `README.md` — user-facing project overview
+- `CRASH_REPORTING.md` — the player/operator-facing privacy document for the opt-in crash reporter;
+  linked from the in-game notice, so keep it accurate
 - `CHANGELOG.md` — auto-generated release notes
 - [Iron Tanks wiki](https://github.com/Indemnity83/irontanks/wiki) — tank tiers, capacities, recipes
 
