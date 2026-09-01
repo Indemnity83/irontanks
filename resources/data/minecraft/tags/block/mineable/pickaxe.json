@@ -1,0 +1,18 @@
+{
+  "values": [
+    "irontanks:glass_tank",
+    "irontanks:copper_tank",
+    "irontanks:iron_tank",
+    "irontanks:silver_tank",
+    "irontanks:gold_tank",
+    "irontanks:diamond_tank",
+    "irontanks:obsidian_tank",
+    "irontanks:emerald_tank",
+    "irontanks:aluminium_tank",
+    "irontanks:stainlesssteel_tank",
+    "irontanks:titanium_tank",
+    "irontanks:tungstensteel_tank",
+    "irontanks:void_tank",
+    "irontanks:creative_tank"
+  ]
+}
