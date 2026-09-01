@@ -58,6 +58,8 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           MATRIX_LOADER: ${{ matrix.loader }}
         run: |
+          set -euo pipefail
+
           if [[ "$GH_EVENT" == "workflow_dispatch" ]]; then
             TAG="$INPUT_TAG"
           else
@@ -72,9 +74,30 @@ jobs:
             VERSION="${TAG#v}"
           fi
           VERSION="${VERSION#v}"
+          if [[ -z "$VERSION" ]]; then
+            echo "::error::Could not resolve a version from tag: '$TAG'"
+            exit 1
+          fi
 
           MC_VERSION="$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)"
           LOADER="$MATRIX_LOADER"
+
+          # The stores must advertise the same range the jars declare, or store-side version filters
+          # hide the mod from players on later patches of the line. Both loaders build their declared
+          # range from minecraft_compatibility_versions ("<min>,<next>", min inclusive / next exclusive
+          # — see the processResources blocks in fabric/build.gradle and neoforge/build.gradle), so
+          # derive the published set from the same property with the same half-open semantics.
+          COMPAT="$(grep '^minecraft_compatibility_versions=' gradle.properties | cut -d'=' -f2)"
+          COMPAT="${COMPAT// /}"
+          COMPAT_MIN="${COMPAT%%,*}"
+          COMPAT_NEXT="${COMPAT#*,}"
+          if [[ "$COMPAT" != *,* || -z "$COMPAT_MIN" || -z "$COMPAT_NEXT" || "$COMPAT_NEXT" == *,* ]]; then
+            echo "::error::minecraft_compatibility_versions must be formatted as '<min>,<next>' (got: '$COMPAT')"
+            exit 1
+          fi
+          # Identical to the range fabric.mod.json declares; mc-publish resolves it against the game's
+          # version manifest, so every release in [min, next) is published, including future patches.
+          GAME_VERSIONS=">=${COMPAT_MIN} <${COMPAT_NEXT}"
 
           # SemVer build metadata distinguishes the two loader jars: 2.2.0+mc26.1.2.fabric
           FULL_VERSION="${VERSION}+mc${MC_VERSION}.${LOADER}"
@@ -84,9 +107,10 @@ jobs:
             echo "version=$VERSION"
             echo "full_version=$FULL_VERSION"
             echo "minecraft_version=$MC_VERSION"
+            echo "game_versions=$GAME_VERSIONS"
             echo "loader=$LOADER"
           } >> "$GITHUB_OUTPUT"
-          echo "📦 $LOADER: irontanks-$FULL_VERSION.jar (MC $MC_VERSION)"
+          echo "📦 $LOADER: irontanks-$FULL_VERSION.jar (MC $MC_VERSION, published for $GAME_VERSIONS)"
 
       - name: Build with Gradle
         run: ./gradlew :${{ matrix.loader }}:jar --console=plain
@@ -123,7 +147,12 @@ jobs:
         uses: Kir-Antipov/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3
         with:
           loaders: ${{ matrix.loader }}
-          game-versions: ${{ steps.version.outputs.minecraft_version }}
+          game-versions: ${{ steps.version.outputs.game_versions }}
+          # Releases ship against release versions of the game only. mc-publish's default filter also
+          # adds "min-major | min-minor", which would silently truncate the range if it ever spanned
+          # more than one minor line — pin it to "releases" so the published set matches the declared
+          # range exactly.
+          game-version-filter: releases
 
           modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
