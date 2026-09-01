@@ -4,7 +4,7 @@
 block holds, and obsidian-clad tanks shrug off explosions. Stack them and they merge into one tall
 tank; upgrade them in place without spilling a drop.
 
-[![Check Code](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml/badge.svg?branch=mc/26.2)](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml)
+[![Check Code](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml/badge.svg)](https://github.com/Indemnity83/irontanks/actions/workflows/check-code.yml)
 [![codecov](https://codecov.io/gh/Indemnity83/irontanks/branch/mc%2F26.2/graph/badge.svg)](https://codecov.io/gh/Indemnity83/irontanks/tree/mc%2F26.2)
 [![Modrinth](https://img.shields.io/modrinth/dt/iron-tanks?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/iron-tanks)
 [![CurseForge](https://img.shields.io/curseforge/dt/236226?logo=curseforge&label=CurseForge)](https://www.curseforge.com/minecraft/mc-mods/iron-tanks)
