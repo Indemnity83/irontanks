@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.3.0...mc26.1-v3.3.1) (2026-09-01)
+
+
+### Fixed
+
+* drop the tank block when a placed tank is mined ([#233](https://github.com/Indemnity83/irontanks/issues/233)) ([4a13dd0](https://github.com/Indemnity83/irontanks/commit/4a13dd00e4487fdc90698c5bf6b84553aa7cca80))
+
 ## [3.3.0](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.2.0...mc26.1-v3.3.0) (2026-06-19)
 
 
