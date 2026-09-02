@@ -387,6 +387,44 @@ class TankColumnTest {
     }
 
     @Test
+    void rebalanceClampsAColumnHoldingMoreThanItsCapacity() {
+        // A tank can end up over-full when the block is swapped under its own fluid — every tank block
+        // shares one BlockEntityType, so /setblock, WorldEdit, a structure block or an NBT edit keep the
+        // contents while the capacity shrinks. Settling runs from the block-entity ticker, so refusing
+        // to settle crashed the server on every chunk load; saturate and drop the excess instead.
+        FakeCell overfull = FakeCell.of(1000, WATER, 5000);
+        List<TankCell<FakeFluid>> changed = column(overfull).rebalance();
+        assertThat(overfull.amount()).isEqualTo(1000);
+        assertThat(overfull.fluid()).isEqualTo(WATER);
+        assertThat(changed).containsExactly(overfull);
+    }
+
+    @Test
+    void rebalanceClampsAnOverfullGasColumnFromTheTop() {
+        FakeCell bottom = FakeCell.of(1000);
+        FakeCell top = FakeCell.of(1000, GAS, 9000);
+        column(bottom, top).rebalance();
+        assertThat(top.amount()).isEqualTo(1000);
+        assertThat(bottom.amount()).isEqualTo(1000);
+    }
+
+    @Test
+    void extractingFromAnOverfullColumnSettlesItInsteadOfThrowing() {
+        // Draining an over-full tank (bucket, pipe, pump) also re-settles the column, so it has to
+        // survive the same over-capacity state the ticker does.
+        FakeCell overfull = FakeCell.of(1000, WATER, 5000);
+        assertThat(column(overfull).extract(WATER, 200, 1, IGNORE)).isEqualTo(200);
+        assertThat(overfull.amount()).isEqualTo(1000);
+    }
+
+    @Test
+    void insertingIntoAnOverfullColumnAddsNothing() {
+        FakeCell overfull = FakeCell.of(1000, WATER, 5000);
+        assertThat(column(overfull).insert(WATER, 200, 1, IGNORE)).isZero();
+        assertThat(overfull.amount()).isEqualTo(5000);
+    }
+
+    @Test
     void rebalanceLeavesMixedAndEmptyColumnsAlone() {
         assertThat(column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000, LAVA, 400))
                         .rebalance())
