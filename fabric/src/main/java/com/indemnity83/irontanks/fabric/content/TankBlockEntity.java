@@ -2,6 +2,7 @@ package com.indemnity83.irontanks.fabric.content;
 
 import com.indemnity83.irontanks.core.TankCell;
 import com.indemnity83.irontanks.core.TankColumn;
+import com.indemnity83.irontanks.core.TankContents;
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.VoidTank;
 import com.indemnity83.irontanks.fabric.IronTanksFabric;
@@ -60,9 +61,16 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
         return amount;
     }
 
-    /** Sets contents without side effects; used inside transactions where a revert is possible. */
+    /**
+     * Sets contents without side effects; used inside transactions where a revert is possible.
+     *
+     * <p>Every write into a tank funnels through here — the ticker, the fluid storage, the upgrade item
+     * and the cross-mod logistics column engine — so this is where {@link TankContents} normalizes it.
+     * The logistics engine settles a shared column itself and writes each cell directly, never going
+     * through {@link TankColumn}, so it is the one path the clamp inside the column maths cannot cover.
+     */
     public void setContentsRaw(FluidVariant fluid, long amount) {
-        this.amount = Math.max(0, amount);
+        this.amount = TankContents.storedAmount(FluidVariantKind.INSTANCE, fluid, amount, capacity());
         this.fluid = this.amount == 0 ? FluidVariant.blank() : fluid;
     }
 
