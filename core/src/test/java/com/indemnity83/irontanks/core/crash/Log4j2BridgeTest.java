@@ -29,6 +29,12 @@ class Log4j2BridgeTest {
     void forwardsIronTanksErrorsWithThrowable() {
         assertThat(Log4j2Bridge.shouldForward("irontanks", true)).isTrue();
         assertThat(Log4j2Bridge.shouldForward("irontanks/crash", true)).isTrue();
+        assertThat(Log4j2Bridge.shouldForward("irontanks.core", true)).isTrue();
+        assertThat(Log4j2Bridge.shouldForward("IronTanks/Crash", true)).isTrue();
+        assertThat(Log4j2Bridge.shouldForward("com.indemnity83.irontanks", true))
+                .isTrue();
+        assertThat(Log4j2Bridge.shouldForward("com.indemnity83.irontanks.core.crash", true))
+                .isTrue();
         assertThat(Log4j2Bridge.shouldForward("com.indemnity83.irontanks.core.FluidColumn", true))
                 .isTrue();
     }
@@ -38,6 +44,25 @@ class Log4j2BridgeTest {
         assertThat(Log4j2Bridge.shouldForward("net.minecraft.server.Main", true))
                 .isFalse();
         assertThat(Log4j2Bridge.shouldForward("com.someothermod.Thing", true)).isFalse();
+    }
+
+    @Test
+    void ignoresThirdPartyLoggersThatMerelyStartWithOurName() {
+        assertThat(Log4j2Bridge.shouldForward("IronTanksExtras", true)).isFalse();
+        assertThat(Log4j2Bridge.shouldForward("irontanks_addon", true)).isFalse();
+        assertThat(Log4j2Bridge.shouldForward("irontanksplus.core", true)).isFalse();
+        assertThat(Log4j2Bridge.shouldForward("irontanks-compat/net.example.Thing", true))
+                .isFalse();
+    }
+
+    @Test
+    void ignoresThirdPartyPackagesThatExtendOurPackageName() {
+        assertThat(Log4j2Bridge.shouldForward("com.indemnity83.irontanksplus.core", true))
+                .isFalse();
+        assertThat(Log4j2Bridge.shouldForward("com.indemnity83.irontanks_addon.Thing", true))
+                .isFalse();
+        assertThat(Log4j2Bridge.shouldForward("net.example.com.indemnity83.irontanks.Thing", true))
+                .isFalse();
     }
 
     @Test
