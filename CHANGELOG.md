@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.3.2](https://github.com/Indemnity83/irontanks/compare/mc26.2-v3.3.1...mc26.2-v3.3.2) (2026-09-02)
+
+
+### Fixed
+
+* make upgrade items work on the logistics glass tank ([#281](https://github.com/Indemnity83/irontanks/issues/281)) ([307e744](https://github.com/Indemnity83/irontanks/commit/307e744e5898c18175874536d9cbebc31d9c02a1))
+* point the crash-reporting privacy link at the current docs ([#277](https://github.com/Indemnity83/irontanks/issues/277)) ([cc9aed4](https://github.com/Indemnity83/irontanks/commit/cc9aed47f519df15ce5d91036253724e278631c5))
+* prevent a server crash when a tank holds more than its capacity ([#271](https://github.com/Indemnity83/irontanks/issues/271)) ([7ec0800](https://github.com/Indemnity83/irontanks/commit/7ec0800f2d7a77766f5a45655c544c4305928bfb))
+* show how full a gas tank really is ([#284](https://github.com/Indemnity83/irontanks/issues/284)) ([7cdf2c8](https://github.com/Indemnity83/irontanks/commit/7cdf2c857663680d97b23ab28aa62a9bff0746ba))
+* stop players drinking a potion the tank refused ([#273](https://github.com/Indemnity83/irontanks/issues/273)) ([f2a973a](https://github.com/Indemnity83/irontanks/commit/f2a973a42a75e28892a7a42c67c8d69737cb9960))
+* stop sending other mods' errors to the Iron Tanks crash reporter ([#276](https://github.com/Indemnity83/irontanks/issues/276)) ([7516cae](https://github.com/Indemnity83/irontanks/commit/7516cae5d3d098fb2fe3bba9240dcc2f74c99a5c))
+* stop tanks advertising fluid they will never transfer ([#287](https://github.com/Indemnity83/irontanks/issues/287)) ([c866818](https://github.com/Indemnity83/irontanks/commit/c8668187b37285f3392a6aeb63bf91e82c2b7c12))
+* stop tanks keeping a phantom volume when their fluid fails to load ([#270](https://github.com/Indemnity83/irontanks/issues/270)) ([6b6efec](https://github.com/Indemnity83/irontanks/commit/6b6efec3d9547f5c85fca53ac32a9edfe02c3c88))
+* stop void tanks from draining the whole stack ([#272](https://github.com/Indemnity83/irontanks/issues/272)) ([0641436](https://github.com/Indemnity83/irontanks/commit/0641436ba144e3ff3725813112938748c9b19437))
+
 ## [3.3.1](https://github.com/Indemnity83/irontanks/compare/mc26.1-v3.3.0...mc26.1-v3.3.1) (2026-09-01)
 
 
