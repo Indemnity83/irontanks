@@ -20,6 +20,13 @@ public interface TankCell<F> {
     /** The fluid currently held, or the kind's empty value. */
     F fluid();
 
-    /** Raw write of {@code fluid} + {@code amount} (droplets), no client sync — the caller handles that. */
+    /**
+     * Raw write of {@code fluid} + {@code amount} (droplets), no client sync — the caller handles that.
+     *
+     * <p>Implementations keep the invariant <b>{@code amount == 0} if and only if there is no fluid</b>,
+     * in both directions: a non-positive amount clears the fluid, and an empty fluid clears the amount.
+     * Anything that reads the raw amount (tooltips, the neighbour check, the renderer) would otherwise
+     * show a fluid level for a cell holding nothing.
+     */
     void setContents(F fluid, long amount);
 }
