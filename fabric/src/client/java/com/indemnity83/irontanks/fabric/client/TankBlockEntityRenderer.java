@@ -1,5 +1,7 @@
 package com.indemnity83.irontanks.fabric.client;
 
+import com.indemnity83.irontanks.core.FluidBody;
+import com.indemnity83.irontanks.fabric.content.FluidVariantKind;
 import com.indemnity83.irontanks.fabric.content.TankBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -21,17 +23,16 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Draws the fluid level inside a tank: the fluid's own still sprite and tint, at a surface height that
- * tracks the tank's fill ratio. Geometry is submitted as custom quads inset to match the glass model's
- * inner box (2..14 px).
+ * Draws the fluid level inside a tank: the fluid's own still sprite and tint, at a surface that tracks
+ * the tank's fill ratio. A liquid rests on the block floor and a gas hangs from the ceiling — {@link
+ * FluidBody} works out the box and which faces to draw. Geometry is submitted as custom quads inset to
+ * match the glass model's inner box (2..14 px).
  */
 public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEntity, TankRenderState> {
 
     // The tank model's inner box is 2..14 px; inset the fluid horizontally to avoid z-fighting the walls.
     private static final float MIN = 2.5F / 16F;
     private static final float MAX = 13.5F / 16F;
-    // Fluid sits on the block floor (0); a full tank fills the whole block height — no top/bottom padding.
-    private static final float FLOOR = 0.0F;
 
     public TankBlockEntityRenderer(BlockEntityRendererProvider.Context context) {}
 
@@ -53,10 +54,16 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
         long amount = tank.amount();
         Level level = tank.getLevel();
         state.hasFluid = !tank.fluidVariant().isBlank() && amount > 0 && capacity > 0 && level != null;
-        state.fillRatio = state.hasFluid ? Math.min(1.0F, (float) amount / capacity) : 0.0F;
-        // If connected fluid continues above, hide this tank's surface and let its fluid reach the top so
-        // the two tanks read as one continuous column.
-        state.renderTop = state.hasFluid && !tank.hasFluidAbove();
+        // core places the fluid: a liquid rests on the floor, a gas hangs from the ceiling, and the face
+        // where the same fluid continues into the next tank is dropped so a column reads as one body.
+        state.body = state.hasFluid
+                ? FluidBody.of(
+                        amount,
+                        capacity,
+                        FluidVariantKind.INSTANCE.isGas(tank.fluidVariant()),
+                        tank.hasFluidAbove(),
+                        tank.hasFluidBelow())
+                : FluidBody.EMPTY;
 
         if (state.hasFluid) {
             FluidState fluidState = tank.fluidVariant().getFluid().defaultFluidState();
@@ -85,23 +92,19 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 
     @Override
     public void submit(TankRenderState state, PoseStack pose, SubmitNodeCollector queue, CameraRenderState camera) {
-        if (!state.hasFluid || state.sprite == null || state.fillRatio <= 0.0F) {
+        if (!state.hasFluid || state.sprite == null || state.body.isEmpty()) {
             return;
         }
         TextureAtlasSprite sprite = state.sprite;
         // getTintColor may omit alpha (0x00RRGGBB); force opaque so the surface is visible.
         int color = (state.tintColor & 0xFF000000) == 0 ? state.tintColor | 0xFF000000 : state.tintColor;
         int light = state.lightCoords;
-        // Visible surface height tracks the fill ratio exactly — 1.0 when full, with no top padding.
-        float surface = state.fillRatio;
-        // Walls reach the surface where it's visible, or the full block height where fluid continues above.
-        float wallTop = state.renderTop ? surface : 1.0F;
-        boolean renderTop = state.renderTop;
+        FluidBody body = state.body;
 
         queue.submitCustomGeometry(
                 pose,
                 RenderTypes.translucentMovingBlock(),
-                (entry, buffer) -> renderFluid(entry, buffer, sprite, color, light, surface, wallTop, renderTop));
+                (entry, buffer) -> renderFluid(entry, buffer, sprite, color, light, body));
     }
 
     private static void renderFluid(
@@ -110,29 +113,35 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
             TextureAtlasSprite sprite,
             int color,
             int light,
-            float surface,
-            float wallTop,
-            boolean renderTop) {
-        if (renderTop) {
-            // Top surface (normal +Y), seen from above.
+            FluidBody body) {
+        float bottom = body.bottom();
+        float top = body.top();
+        if (body.renderTop()) {
+            // A liquid's free surface (normal +Y), seen from above.
             quad(
-                    entry, buffer, sprite, color, light, 0, 1, 0, MIN, surface, MIN, MIN, surface, MAX, MAX, surface,
-                    MAX, MAX, surface, MIN);
+                    entry, buffer, sprite, color, light, 0, 1, 0, MIN, top, MIN, MIN, top, MAX, MAX, top, MAX, MAX, top,
+                    MIN);
+        }
+        if (body.renderBottom()) {
+            // A gas's free surface (normal -Y): it hangs from the ceiling, so its surface faces down.
+            quad(
+                    entry, buffer, sprite, color, light, 0, -1, 0, MAX, bottom, MIN, MAX, bottom, MAX, MIN, bottom, MAX,
+                    MIN, bottom, MIN);
         }
         // North (-Z) and South (+Z) walls.
         quad(
-                entry, buffer, sprite, color, light, 0, 0, -1, MIN, FLOOR, MIN, MAX, FLOOR, MIN, MAX, wallTop, MIN, MIN,
-                wallTop, MIN);
+                entry, buffer, sprite, color, light, 0, 0, -1, MIN, bottom, MIN, MAX, bottom, MIN, MAX, top, MIN, MIN,
+                top, MIN);
         quad(
-                entry, buffer, sprite, color, light, 0, 0, 1, MAX, FLOOR, MAX, MIN, FLOOR, MAX, MIN, wallTop, MAX, MAX,
-                wallTop, MAX);
+                entry, buffer, sprite, color, light, 0, 0, 1, MAX, bottom, MAX, MIN, bottom, MAX, MIN, top, MAX, MAX,
+                top, MAX);
         // West (-X) and East (+X) walls.
         quad(
-                entry, buffer, sprite, color, light, -1, 0, 0, MIN, FLOOR, MAX, MIN, FLOOR, MIN, MIN, wallTop, MIN, MIN,
-                wallTop, MAX);
+                entry, buffer, sprite, color, light, -1, 0, 0, MIN, bottom, MAX, MIN, bottom, MIN, MIN, top, MIN, MIN,
+                top, MAX);
         quad(
-                entry, buffer, sprite, color, light, 1, 0, 0, MAX, FLOOR, MIN, MAX, FLOOR, MAX, MAX, wallTop, MAX, MAX,
-                wallTop, MIN);
+                entry, buffer, sprite, color, light, 1, 0, 0, MAX, bottom, MIN, MAX, bottom, MAX, MAX, top, MAX, MAX,
+                top, MIN);
     }
 
     private static void quad(
