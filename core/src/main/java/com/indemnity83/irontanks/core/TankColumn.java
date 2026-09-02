@@ -232,6 +232,9 @@ public final class TankColumn<F> {
      * Re-settles the column's existing contents (liquids down, gases up) and writes each cell's share.
      * Returns the cells whose contents changed (empty if nothing moved, the column is empty, or it holds
      * mixed fluids and is therefore left alone). The caller syncs the returned cells.
+     *
+     * <p>A column found holding more than it can (a tank swapped under its own fluid) is saturated to
+     * capacity and the excess is dropped — this runs from the block-entity ticker, so it must never fail.
      */
     public List<TankCell<F>> rebalance() {
         F shared = shared();
@@ -265,7 +268,13 @@ public final class TankColumn<F> {
         for (int i = 0; i < cells.size(); i++) {
             capacities[i] = cells.get(i).capacity();
         }
-        return FluidColumn.settle(capacities, totalDroplets, kind.isGas(fluid));
+        // Saturate rather than let FluidColumn.settle reject the column: the contents come from the
+        // world, not from our own arithmetic, and a tank can legitimately be found holding more than it
+        // can (every tank block shares one BlockEntityType, so /setblock, WorldEdit, a structure block
+        // or an NBT edit swap a smaller tank in under its fluid and keep the block entity). Settling
+        // runs from the block-entity ticker, so throwing there crashed the server on every chunk load.
+        long capacity = FluidColumn.totalCapacity(capacities);
+        return FluidColumn.settle(capacities, Math.min(totalDroplets, capacity), kind.isGas(fluid));
     }
 
     /** Floors a non-negative {@code value} to a whole multiple of {@code quantum}. */
