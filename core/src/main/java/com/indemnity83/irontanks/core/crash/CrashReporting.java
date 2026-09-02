@@ -38,6 +38,13 @@ public final class CrashReporting {
     public static final String DEFAULT_DSN =
             "https://ccf7650d1be5ce1b785b1ff51dd064f3@o148290.ingest.us.sentry.io/4511502294908928";
 
+    /**
+     * The operator-facing crash-reporting &amp; privacy document, linked from the in-game notice by
+     * every loader. Pinned to {@code blob/HEAD} rather than to a branch so it always resolves to the
+     * repository's default branch and can never rot when a per-Minecraft-version line is archived.
+     */
+    public static final String PRIVACY_URL = "https://github.com/Indemnity83/irontanks/blob/HEAD/CRASH_REPORTING.md";
+
     private static final long FLUSH_TIMEOUT_MS = 2_000L;
 
     private static final AtomicBoolean ACTIVE = new AtomicBoolean(false);
