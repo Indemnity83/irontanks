@@ -88,7 +88,7 @@ class TankColumnTest {
 
         @Override
         public void setContents(FakeFluid fluid, long amount) {
-            this.amount = Math.max(0, amount);
+            this.amount = fluid == null ? 0 : Math.max(0, amount);
             this.fluid = this.amount == 0 ? null : fluid;
         }
     }
@@ -153,6 +153,20 @@ class TankColumnTest {
         assertThat(col.insert(WATER, 200, 1, IGNORE)).isEqualTo(200);
         assertThat(phantom.fluid()).isEqualTo(WATER);
         assertThat(phantom.amount()).isEqualTo(200);
+    }
+
+    @Test
+    void writingACellWithNoFluidClearsItsAmount() {
+        // The cell contract is "amount == 0 iff no fluid", both ways round. A foreign engine can write
+        // a blank fluid with a leftover amount (the logistics compat cell forwards whatever it is
+        // handed), and everything that reads a cell's raw amount — the readout, the neighbour check,
+        // the renderer — would then draw a fluid level for a tank holding nothing. Writing no fluid
+        // empties the cell instead. See PR #270.
+        FakeCell cell = FakeCell.of(1000, WATER, 800);
+        cell.setContents(null, 800);
+        assertThat(cell.fluid()).isNull();
+        assertThat(cell.amount()).isZero();
+        assertThat(column(cell).total()).isZero();
     }
 
     // ==================== insert ====================

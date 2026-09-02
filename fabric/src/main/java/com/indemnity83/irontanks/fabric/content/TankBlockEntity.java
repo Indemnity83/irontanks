@@ -61,7 +61,7 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
 
     /** Sets contents without side effects; used inside transactions where a revert is possible. */
     public void setContentsRaw(FluidVariant fluid, long amount) {
-        this.amount = Math.max(0, amount);
+        this.amount = fluid.isBlank() ? 0 : Math.max(0, amount);
         this.fluid = this.amount == 0 ? FluidVariant.blank() : fluid;
     }
 
