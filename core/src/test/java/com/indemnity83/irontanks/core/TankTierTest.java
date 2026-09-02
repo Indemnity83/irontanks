@@ -73,4 +73,31 @@ class TankTierTest {
         // Three bottles fill a bucket exactly — no rounding remainder in droplets.
         assertThat(3 * TankTier.DROPLETS_PER_BOTTLE).isEqualTo(TankTier.DROPLETS_PER_BUCKET);
     }
+
+    @Test
+    void onlyOrdinaryTiersJoinTheSharedColumn() {
+        // Void and creative tanks stay isolated single-cell columns. A void tank that joined the column
+        // would be refilled from its neighbours every tick and annihilate the whole stack (#255);
+        // a creative tank would feed an endless source into a shared body.
+        assertThat(TankTier.VOID.joinsColumn()).isFalse();
+        assertThat(TankTier.CREATIVE.joinsColumn()).isFalse();
+        for (TankTier tier : TankTier.values()) {
+            if (tier != TankTier.VOID && tier != TankTier.CREATIVE) {
+                assertThat(tier.joinsColumn()).as("%s joins the column", tier).isTrue();
+            }
+        }
+    }
+
+    @Test
+    void aTankNeverRendersJoinedToATankItDoesNotShareFluidWith() {
+        // joined_below drives the seamless side texture, so it has to follow the same rule as the fluid
+        // column: a seam is hidden only where the two tanks really do share one body of fluid.
+        assertThat(TankTier.IRON.joinsWith(TankTier.GOLD)).isTrue();
+        assertThat(TankTier.IRON.joinsWith(TankTier.VOID)).isFalse();
+        assertThat(TankTier.VOID.joinsWith(TankTier.IRON)).isFalse();
+        assertThat(TankTier.VOID.joinsWith(TankTier.VOID)).isFalse();
+        assertThat(TankTier.IRON.joinsWith(TankTier.CREATIVE)).isFalse();
+        // Nothing below (or a non-tank block) never joins.
+        assertThat(TankTier.IRON.joinsWith(null)).isFalse();
+    }
 }

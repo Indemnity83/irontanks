@@ -1,6 +1,5 @@
 package com.indemnity83.irontanks.fabric.compat.logistics;
 
-import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.fabric.content.TankBlockEntity;
 import com.logistics.core.lib.fluids.IFluidKey;
 import com.logistics.core.lib.fluids.SimpleFluidKey;
@@ -63,7 +62,6 @@ final class LogisticsTankCell implements TankCell {
     public boolean joinsColumn() {
         // Creative and void tanks stay isolated single-cell columns — creative would feed an endless
         // source into a shared body, and void would silently destroy a neighbour's fluid.
-        TankTier tier = tank.tier();
-        return tier != TankTier.CREATIVE && tier != TankTier.VOID;
+        return tank.tier().joinsColumn();
     }
 }
