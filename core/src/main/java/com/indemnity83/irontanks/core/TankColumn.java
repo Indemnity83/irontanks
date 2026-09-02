@@ -15,6 +15,9 @@ import java.util.Objects;
  * <ul>
  *   <li><b>Mixed columns</b> (two distinct fluids joined together) are never aggregated — every
  *       operation refuses, mirroring {@link #rebalance()} leaving them unsettled.
+ *   <li><b>The read side matches the transfer side:</b> {@link #reportedFluid}/{@link #reportedTotal}/
+ *       {@link #reportedCapacity}/{@link #accepts}/{@link #capacityFor} advertise only what a transfer
+ *       would actually honor, so a pump is never told about fluid it can never move.
  *   <li><b>Potions</b> are sealed from the fluid path: {@link #insert}/{@link #extract} reject them, so
  *       they move only through {@link #depositBottle}/{@link #extractBottle}.
  *   <li><b>Creative</b> tanks are an endless source/sink and never join a column (single-cell column).
@@ -112,6 +115,58 @@ public final class TankColumn<F> {
     /** Whether {@code fluid} is a sealed potion (delegates to the kind). */
     public boolean isPotion(F fluid) {
         return kind.isPotion(fluid);
+    }
+
+    // ==================== read side (what the column advertises) ====================
+
+    /**
+     * Whether no fluid can move through this column at all — it is {@link #mixed()}, or it holds a
+     * potion, which is sealed to the bottle path. These are exactly the states {@link #insert} and
+     * {@link #extract} refuse outright, so the read side reports such a column as empty: advertising
+     * contents no transfer will ever move leaves a pump retrying the same tank every tick forever.
+     */
+    public boolean inert() {
+        return mixed() || kind.isPotion(shared());
+    }
+
+    /** The fluid the column advertises, or the kind's empty value when it is {@link #inert()}. */
+    public F reportedFluid() {
+        return inert() ? kind.empty() : shared();
+    }
+
+    /** The contents the column advertises, in droplets; 0 when it is {@link #inert()}. */
+    public long reportedTotal() {
+        return inert() ? 0 : total();
+    }
+
+    /** The capacity the column advertises, in droplets; 0 when it is {@link #inert()}. */
+    public long reportedCapacity() {
+        return inert() ? 0 : capacity();
+    }
+
+    /**
+     * Whether {@code resource} could be inserted at all — the same rules {@link #insert} applies, minus
+     * the "is there room" question. Backs the transfer APIs' validity check, so an advertised "yes" is
+     * always one a transfer would honor.
+     */
+    public boolean accepts(F resource) {
+        if (kind.isEmpty(resource) || kind.isPotion(resource) || inert()) {
+            return false;
+        }
+        F current = shared();
+        return kind.isEmpty(current) || Objects.equals(current, resource);
+    }
+
+    /**
+     * The capacity the column advertises for {@code resource}, in droplets — 0 for anything {@link
+     * #accepts} refuses, so free room computed as {@code capacity - amount} never promises space a
+     * transfer will not honor. An empty {@code resource} asks for the capacity in general.
+     */
+    public long capacityFor(F resource) {
+        if (kind.isEmpty(resource)) {
+            return reportedCapacity();
+        }
+        return accepts(resource) ? capacity() : 0;
     }
 
     // ==================== fluid-API operations ====================

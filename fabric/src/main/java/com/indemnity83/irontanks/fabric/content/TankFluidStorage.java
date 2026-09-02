@@ -88,22 +88,19 @@ public final class TankFluidStorage extends SnapshotParticipant<TankFluidStorage
 
         @Override
         public FluidVariant getResource() {
-            // A stored potion is bottle-only: present the tank as blank so pipes/pumps can't drain it.
-            TankColumn<FluidVariant> column = column();
-            FluidVariant current = column.shared();
-            return column.isPotion(current) ? FluidVariant.blank() : current;
+            // Blank for a column no transfer can move (a stored potion is bottle-only; a mixed column
+            // is refused outright), so pipes/pumps never see contents they can't take.
+            return column().reportedFluid();
         }
 
         @Override
         public long getAmount() {
-            TankColumn<FluidVariant> column = column();
-            return column.isPotion(column.shared()) ? 0 : column.total();
+            return column().reportedTotal();
         }
 
         @Override
         public long getCapacity() {
-            TankColumn<FluidVariant> column = column();
-            return column.isPotion(column.shared()) ? 0 : column.capacity();
+            return column().reportedCapacity();
         }
     }
 
