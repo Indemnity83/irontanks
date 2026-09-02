@@ -226,20 +226,41 @@ public class TankBlock extends BaseEntityBlock {
         return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
-    /** Mirrors the fluid-connection rule ({@link TankTier#joinsColumn()}): only column members join. */
+    /** Mirrors the fluid-connection rule ({@link TankTier#joinsWith}): only column members join. */
     private boolean joinsWithBelow(BlockState below) {
-        return tier.joinsColumn()
-                && below.getBlock() instanceof TankBlock belowTank
-                && belowTank.tier().joinsColumn();
+        return tier.joinsWith(tierOf(below));
+    }
+
+    /**
+     * Recomputes {@link #JOINED_BELOW} for a tank that is already placed in the world, and pushes the
+     * corrected state to clients. {@link #updateShape} only fires when the block below actually changes,
+     * so a tank saved while the tier under it still joined the column keeps a stale {@code joined_below}
+     * forever — the tank sitting on an old void tank would go on rendering the seamless side texture
+     * against a tank it no longer shares fluid with, showing half a seam. The block entity calls this
+     * once on its first tick after load, so existing worlds heal themselves with no block update needed.
+     */
+    public static void refreshJoinedBelow(Level level, BlockPos pos, BlockState state) {
+        if (!(state.getBlock() instanceof TankBlock tank)) {
+            return;
+        }
+        boolean joined = tank.joinsWithBelow(level.getBlockState(pos.below()));
+        if (state.getValue(JOINED_BELOW) != joined) {
+            // Clients only: this is a cosmetic correction and every tank fixes itself, so there is no
+            // need to storm the neighbourhood with block updates as chunks load.
+            level.setBlock(pos, state.setValue(JOINED_BELOW, joined), Block.UPDATE_CLIENTS);
+        }
+    }
+
+    /** The tier of {@code state} if it is a tank, else {@code null} — what {@link TankTier#joinsWith} wants. */
+    @Nullable
+    private static TankTier tierOf(BlockState state) {
+        return state.getBlock() instanceof TankBlock tank ? tank.tier() : null;
     }
 
     /** Hide the shared top/bottom face between two connecting tanks so a vertical stack looks seamless. */
     @Override
     protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
-        if (direction.getAxis() == Direction.Axis.Y
-                && tier.joinsColumn()
-                && neighborState.getBlock() instanceof TankBlock neighbor
-                && neighbor.tier().joinsColumn()) {
+        if (direction.getAxis() == Direction.Axis.Y && tier.joinsWith(tierOf(neighborState))) {
             return true;
         }
         return super.skipRendering(state, neighborState, direction);

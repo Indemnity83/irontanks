@@ -82,6 +82,15 @@ public enum TankTier {
         return this != CREATIVE && this != VOID;
     }
 
+    /**
+     * Whether a tank of this tier renders joined to the tank directly below it — the same rule the fluid
+     * column uses, so the seamless side texture never claims a connection the fluid does not have.
+     * {@code below} is {@code null} when the block underneath is not a tank at all.
+     */
+    public boolean joinsWith(TankTier below) {
+        return below != null && joinsColumn() && below.joinsColumn();
+    }
+
     /** Explosion resistance for this tier's tank; obsidian is high enough to be blast-proof. */
     public float blastResistance() {
         return blastResistance;
