@@ -2,8 +2,10 @@ package com.indemnity83.irontanks.fabric.content;
 
 import com.indemnity83.irontanks.core.TankCell;
 import com.indemnity83.irontanks.core.TankColumn;
+import com.indemnity83.irontanks.core.TankContents;
 import com.indemnity83.irontanks.core.TankTier;
 import com.indemnity83.irontanks.core.VoidTank;
+import com.indemnity83.irontanks.fabric.IronTanksFabric;
 import com.indemnity83.irontanks.fabric.compat.LogisticsTanks;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -59,9 +61,16 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
         return amount;
     }
 
-    /** Sets contents without side effects; used inside transactions where a revert is possible. */
+    /**
+     * Sets contents without side effects; used inside transactions where a revert is possible.
+     *
+     * <p>Every write into a tank funnels through here — the ticker, the fluid storage, the upgrade item
+     * and the cross-mod logistics column engine — so this is where {@link TankContents} normalizes it.
+     * The logistics engine settles a shared column itself and writes each cell directly, never going
+     * through {@link TankColumn}, so it is the one path the clamp inside the column maths cannot cover.
+     */
     public void setContentsRaw(FluidVariant fluid, long amount) {
-        this.amount = fluid.isBlank() ? 0 : Math.max(0, amount);
+        this.amount = TankContents.storedAmount(FluidVariantKind.INSTANCE, fluid, amount, capacity());
         this.fluid = this.amount == 0 ? FluidVariant.blank() : fluid;
     }
 
@@ -228,12 +237,22 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
         super.loadAdditional(input);
         amount = input.getLongOr("Amount", 0L) * TankTier.DROPLETS_PER_MB + input.getIntOr("Rem", 0);
         fluid = input.read("Fluid", FluidVariant.CODEC).orElse(FluidVariant.blank());
-        // Keep the "amount == 0 iff no fluid" invariant the rest of the mod relies on. A stored fluid
-        // whose mod has been removed no longer decodes, so an unreadable fluid empties the tank too --
-        // otherwise the leftover amount would be handed to the next fluid inserted.
-        if (amount <= 0 || fluid.isBlank()) {
+        if (amount <= 0) {
             fluid = FluidVariant.blank();
             amount = 0;
+        }
+        // Saved contents can exceed this block's capacity when a smaller tank was swapped in under the
+        // fluid (all tank blocks share one BlockEntityType, so the block entity survives a /setblock,
+        // WorldEdit paste or NBT edit). Clamp it here, the way UpgradeItem already does, and say so —
+        // the fluid above capacity is gone, and an admin should be able to see why.
+        long capacity = capacity();
+        if (amount > capacity) {
+            IronTanksFabric.LOGGER.warn(
+                    "Tank at {} holds {} droplets but only has room for {}; dropping the excess",
+                    worldPosition,
+                    amount,
+                    capacity);
+            amount = capacity;
         }
     }
 
