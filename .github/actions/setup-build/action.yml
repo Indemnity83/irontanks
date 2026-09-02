@@ -8,6 +8,22 @@ inputs:
     description: Gradle cache encryption key (pass secrets.GRADLE_ENCRYPTION_KEY)
     required: false
 
+  cache-read-only:
+    description: |
+      When 'true', the Gradle cache is read but never written.
+
+      Defaults to "read-only unless this is a push", which deliberately overrides
+      setup-gradle's own default of "writable only on the repository default branch".
+      That default assumes a single-trunk repo; Iron Tanks is branch-per-Minecraft-version
+      with unrelated histories and a different toolchain per line, so a cache entry written
+      on the default branch is worthless to every other `mc/*` line. Each line therefore has
+      to seed its own cache, which happens when a PR merges (a push to the protected `mc/*`
+      branch). Pull requests stay read-only so concurrent PR jobs can't churn through the
+      repo's 10 GB cache budget and evict the entries their base branch just wrote, and so
+      only reviewed, merged code can populate a cache.
+    required: false
+    default: ${{ github.event_name != 'push' }}
+
 runs:
   using: composite
   steps:
@@ -20,3 +36,4 @@ runs:
       uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
       with:
         cache-encryption-key: ${{ inputs.cache-encryption-key }}
+        cache-read-only: ${{ inputs.cache-read-only }}
