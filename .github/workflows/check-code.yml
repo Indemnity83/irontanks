@@ -60,7 +60,10 @@ jobs:
           fail_ci_if_error: false
 
   # Smoke-build each loader jar (compile + assemble). Loaders have no test source set,
-  # so a clean jar is their coverage. Only runs once lint + test pass.
+  # so a clean jar is their coverage. Also verifies that the gradle.properties pins for the
+  # libraries Minecraft supplies (gson/log4j/slf4j) still match what this loader's compile
+  # classpath actually resolves — same configuration the jar needs, so it adds no real cost.
+  # Only runs once lint + test pass.
   build:
     name: build (${{ matrix.loader }})
     needs: [lint, test]
@@ -81,4 +84,6 @@ jobs:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Build ${{ matrix.loader }} jar
-        run: ./gradlew :${{ matrix.loader }}:jar --console=plain
+        run: >-
+          ./gradlew :${{ matrix.loader }}:jar
+          :${{ matrix.loader }}:checkMinecraftLibraryPins --console=plain

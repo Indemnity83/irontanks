@@ -198,12 +198,21 @@ handles this flow, and `converge-branches` shrinks the standing diff between the
 ./gradlew :fabric:jar           # Build just the Fabric mod jar
 ./gradlew spotlessCheck         # Lint: verify formatting (the CI gate)
 ./gradlew spotlessApply         # Auto-fix formatting (Java + JSON)
+./gradlew :neoforge:checkMinecraftLibraryPins # Verify the gson/log4j/slf4j pins match what MC forces
 ```
 
 **Requirements:** **JDK 25** and Gradle 9.x (via the wrapper). Versions live in `gradle.properties`
 (`minecraft_version`, `neoforge_version`, `fabric_loader_version`, `fabric_version`, `loom_version`,
 `moddev_version`, `java_version`). Keep the NeoForge/Fabric versions in sync with `minecraft_version`
 (see the recommended pairing comment in `gradle.properties`).
+
+`gson_version`, `log4j_version` and `slf4j_version` are **not** dependencies we choose — Minecraft
+supplies those libraries at runtime, and `core` pins them only so its crash handler compiles and unit-
+tests against the same versions. Nothing links the pins in a shipped jar, so drift is otherwise
+invisible until a moved signature throws `NoSuchMethodError` inside the crash handler.
+`checkMinecraftLibraryPins` (registered on both loaders, wired into `check`, and run in CI next to
+`:<loader>:jar`) resolves each loader's compile classpath and fails when a pin no longer matches. If it
+fails, take the version it reports — don't "fix" it by relaxing the check.
 
 **Build output:**
 - `neoforge/build/libs/irontanks-<version>.jar`
