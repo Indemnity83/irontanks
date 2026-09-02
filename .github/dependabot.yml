@@ -12,7 +12,7 @@ updates:
     ignore:
       # Loom and ModDevGradle are pinned to their current major lines; major bumps
       # change the build model and need a manual port.
-      - dependency-name: "net.fabricmc:fabric-loom"
+      - dependency-name: "net.fabricmc.fabric-loom"
         update-types: ["version-update:semver-major"]
       - dependency-name: "net.neoforged.moddev*"
         update-types: ["version-update:semver-major"]
@@ -21,7 +21,9 @@ updates:
         versions: [">=10.0"]
 
   - package-ecosystem: "github-actions"
-    directory: "/"
+    # "/" covers .github/workflows only; the shared composite action lives outside it
+    # and needs its own directory entry to be watched.
+    directories: ["/", "/.github/actions/setup-build"]
     target-branch: "mc/26.2"
     schedule:
       interval: "weekly"
@@ -40,7 +42,7 @@ updates:
     ignore:
       # Loom and ModDevGradle are pinned to their current major lines; major bumps
       # change the build model and need a manual port.
-      - dependency-name: "net.fabricmc:fabric-loom"
+      - dependency-name: "net.fabricmc.fabric-loom"
         update-types: ["version-update:semver-major"]
       - dependency-name: "net.neoforged.moddev*"
         update-types: ["version-update:semver-major"]
@@ -49,7 +51,9 @@ updates:
         versions: [">=10.0"]
 
   - package-ecosystem: "github-actions"
-    directory: "/"
+    # "/" covers .github/workflows only; the shared composite action lives outside it
+    # and needs its own directory entry to be watched.
+    directories: ["/", "/.github/actions/setup-build"]
     target-branch: "mc/26.1"
     schedule:
       interval: "weekly"
