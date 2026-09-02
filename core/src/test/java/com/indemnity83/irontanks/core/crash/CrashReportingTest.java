@@ -207,6 +207,14 @@ class CrashReportingTest {
     }
 
     @Test
+    void privacyUrlResolvesThroughTheDefaultBranch() {
+        // The in-game notice links operators here; a branch-pinned URL 404s as soon as that line is
+        // archived, so the link has to resolve through the repository's default branch instead.
+        assertThat(CrashReporting.PRIVACY_URL)
+                .isEqualTo("https://github.com/Indemnity83/irontanks/blob/HEAD/CRASH_REPORTING.md");
+    }
+
+    @Test
     void effectiveDsnFallsBackToBaseDsnWithoutConfig() {
         // After reset, config is null: effectiveDsn() skips the override and returns the base DSN.
         assertThat(CrashReporting.effectiveDsn()).isEqualTo(CrashReporting.DEFAULT_DSN);
