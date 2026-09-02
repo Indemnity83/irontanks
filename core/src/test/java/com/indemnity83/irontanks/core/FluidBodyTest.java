@@ -1,6 +1,7 @@
 package com.indemnity83.irontanks.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 import org.junit.jupiter.api.Test;
 
@@ -47,13 +48,41 @@ class FluidBodyTest {
     @Test
     void aFullTankFillsTheWholeBlockEitherWay() {
         assertThat(liquid(CAPACITY, false, false)).isEqualTo(new FluidBody(0.0F, 1.0F, true, false));
-        assertThat(gas(CAPACITY, false, false)).isEqualTo(new FluidBody(0.0F, 1.0F, false, true));
+
+        FluidBody full = gas(CAPACITY, false, false);
+        assertThat(full.top()).isEqualTo(FluidBody.CEILING);
+        assertThat(full.bottom()).isCloseTo(FluidBody.FLOOR, within(0.01F));
+        assertThat(full.renderBottom()).isTrue();
+        assertThat(full.renderTop()).isFalse();
     }
 
     @Test
     void anOverfullTankIsClampedToTheBlock() {
         assertThat(liquid(CAPACITY * 2, false, false).top()).isEqualTo(FluidBody.CEILING);
-        assertThat(gas(CAPACITY * 2, false, false).bottom()).isEqualTo(FluidBody.FLOOR);
+        assertThat(gas(CAPACITY * 2, false, false).bottom()).isCloseTo(FluidBody.FLOOR, within(0.01F));
+    }
+
+    @Test
+    void aFullGasKeepsItsSurfaceOffTheFloorSoItCannotZFightTheTankBelow() {
+        // A full gas hangs all the way down to the floor, which is exactly where a full liquid in the tank
+        // below draws its own top surface (a mixed column, or a creative tank, which never merges). Two
+        // coplanar translucent faces z-fight, so the gas's surface stops just short of the boundary.
+        FluidBody gas = gas(CAPACITY, false, false);
+        FluidBody liquidBelow = liquid(CAPACITY, false, false);
+
+        assertThat(gas.renderBottom()).isTrue();
+        assertThat(liquidBelow.renderTop()).isTrue();
+        // liquidBelow's surface sits at the top of its own block, i.e. the floor of the gas's block.
+        assertThat(liquidBelow.top()).isEqualTo(FluidBody.CEILING);
+        assertThat(gas.bottom()).isGreaterThan(FluidBody.FLOOR);
+    }
+
+    @Test
+    void aMergedGasStillMeetsItsNeighbourExactly() {
+        // The gap is only for a free surface; a body that continues into the tank below must still reach
+        // the block edge, or a full column would show a hairline seam at every boundary.
+        assertThat(gas(CAPACITY, false, true).bottom()).isEqualTo(FluidBody.FLOOR);
+        assertThat(gas(CAPACITY / 2, false, true).bottom()).isEqualTo(FluidBody.FLOOR);
     }
 
     @Test

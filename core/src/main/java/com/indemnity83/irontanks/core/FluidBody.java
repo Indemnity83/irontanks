@@ -30,6 +30,15 @@ public record FluidBody(float bottom, float top, boolean renderTop, boolean rend
     public static final FluidBody EMPTY = new FluidBody(FLOOR, FLOOR, false, false);
 
     /**
+     * How far a free surface is held off the block boundary it would otherwise land on. Only a gas needs
+     * it: a completely full gas's underside sits at the floor, exactly where the top of a full liquid in
+     * the tank below is drawn, and two coplanar translucent faces z-fight. A thousandth of a block is far
+     * too small to see, and it is never applied where the body merges into its neighbour, so a continuous
+     * column still meets edge to edge.
+     */
+    private static final float SURFACE_GAP = 1.0F / 1024.0F;
+
+    /**
      * The body to draw for a tank holding {@code amount} of {@code capacity} droplets.
      *
      * @param gas whether the fluid is lighter than air (settles toward the top of a column)
@@ -43,8 +52,10 @@ public record FluidBody(float bottom, float top, boolean renderTop, boolean rend
         // An overfull tank still only has one block to fill.
         float fill = Math.min(1.0F, (float) amount / capacity);
         if (gas) {
-            // Hangs from the ceiling; the free surface is underneath it.
-            return new FluidBody(fluidBelow ? FLOOR : CEILING - fill, CEILING, false, !fluidBelow);
+            // Hangs from the ceiling; the free surface is underneath it, held just clear of the floor so a
+            // full gas never draws that face into the block boundary (see SURFACE_GAP).
+            float bottom = fluidBelow ? FLOOR : Math.max(SURFACE_GAP, CEILING - fill);
+            return new FluidBody(bottom, CEILING, false, !fluidBelow);
         }
         // Rests on the floor; the free surface is on top.
         return new FluidBody(FLOOR, fluidAbove ? CEILING : fill, !fluidAbove, false);
