@@ -17,10 +17,12 @@ single block holds more fluid the better its material, and obsidian-clad tanks a
   that add the metal: Aluminium 96 → Stainless Steel 128 → Titanium 256 → Tungstensteel 512.
 - **In-place upgrade items** promote a placed tank along the upgrade graph without losing contents
   (`TankUpgrade` — a graph, not a chain: glass forks to copper/iron, and gold has two routes in).
-- **Void tank** (8) — destroys the fluid it holds, a little each tick.
+- **Void tank** (8) — destroys the fluid it holds, a little each tick. It never joins a stack's
+  shared column, so it only ever destroys what is pumped or poured into it directly.
 - **Creative tank** — infinite supply of whatever fluid is placed in it.
 - **Vertical stacking** — connected tanks form a column that shares one fluid (liquids settle to the
-  bottom, gases rise) and renders as one continuous body.
+  bottom, gases rise) and renders as one continuous body. Void and creative tanks stay out of the
+  column: each is its own isolated tank and renders with its own seams.
 - **Potion storage** — a tank holds a potion deposited by bottle, and gives it back by bottle. Stored
   potions are *sealed* from the fluid API so pipes and buckets can't drain them into plain water.
 - **Contents readout** — right-click empty-handed for a one-line description on the action bar; the
@@ -281,7 +283,9 @@ converts at its adapter boundary** using `DROPLETS_PER_MB` (81). Nothing inside 
     refuses, mirroring `rebalance()` leaving them unsettled.
   - **Potions** are sealed from the fluid path: `insert`/`extract` reject them, so they move only
     through `depositBottle`/`extractBottle`.
-  - **Creative** tanks are an endless source/sink and never join a column.
+  - **Creative and void** tanks never join a column — each is its own single-cell column. Creative
+    would feed an endless source into a shared body; void would destroy its neighbours' fluid,
+    because settling refills its cell as fast as it drains (`TankTier.joinsColumn()`).
   - A `quantum` parameter floors the moved amount for loaders coarser than droplets (Fabric passes
     1; NeoForge passes `DROPLETS_PER_MB`), so a sub-quantum remainder is never partially filled.
   - An `onMutate` hook runs exactly once immediately before the first write, so a loader captures
@@ -289,7 +293,9 @@ converts at its adapter boundary** using `DROPLETS_PER_MB` (81). Nothing inside 
 - `TankCell<F>` / `FluidKind<F>` — the two seams that let `TankColumn` work without Minecraft types.
   Each loader's `TankBlockEntity` implements `TankCell` directly; `FluidKind` supplies the handful of
   facts about the loader's fluid type (`empty`, `isEmpty`, `isGas`, `isPotion`).
-- `VoidTank` — the 20 mB/tick self-destruction rate (`RATE`, expressed in droplets).
+- `VoidTank` — the 20 mB/tick self-destruction rate (`RATE`, expressed in droplets). Applies to the
+  void tank's own contents only; it is never part of a shared column, so it is not passive overflow
+  protection for the tanks around it.
 - `TankUpgrade` — the upgrade graph (which tier promotes to which).
 - `crash/` — the opt-in crash reporter, also pure Java (see **Crash Reporting**).
 
@@ -402,6 +408,9 @@ recipe, a loot table, and the `mineable` tag. The `release-qa` skill audits exac
 - **Tiers are data-driven:** adding a tier is a `TankTier` entry + per-loader registration + its asset
   set + recipes, not new architecture.
 - Special tanks (void/creative) are tier-driven branches in the shared `TankBlockEntity`, not subclasses.
+  `TankTier.joinsColumn()` / `joinsWith()` are the single source of truth for which tanks share fluid and
+  which render joined — column traversal, `joined_below`, `skipRendering`, the upgrade item and the
+  Logistics bridge all ask there, so they cannot disagree.
 - **Everything in `core` is droplets.** Converting to or from millibuckets is the NeoForge adapter's
   job and happens only at its boundary. A `long` amount crossing into `core` is always droplets — if
   you find yourself writing `1000` to mean a bucket, you are 81× off.

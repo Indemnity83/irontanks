@@ -4,7 +4,7 @@
       "model": "irontanks:block/void_tank"
     },
     "joined_below=true": {
-      "model": "irontanks:block/void_tank_stacked"
+      "model": "irontanks:block/void_tank"
     }
   }
 }

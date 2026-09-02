@@ -74,6 +74,6 @@ public class UpgradeItem extends Item {
 
     private static boolean joinsBelow(Level level, BlockPos pos) {
         return level.getBlockState(pos.below()).getBlock() instanceof TankBlock below
-                && below.tier() != TankTier.CREATIVE;
+                && below.tier().joinsColumn();
     }
 }

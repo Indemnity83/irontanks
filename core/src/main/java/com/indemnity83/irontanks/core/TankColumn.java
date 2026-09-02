@@ -20,7 +20,9 @@ import java.util.Objects;
  *       would actually honor, so a pump is never told about fluid it can never move.
  *   <li><b>Potions</b> are sealed from the fluid path: {@link #insert}/{@link #extract} reject them, so
  *       they move only through {@link #depositBottle}/{@link #extractBottle}.
- *   <li><b>Creative</b> tanks are an endless source/sink and never join a column (single-cell column).
+ *   <li><b>Creative and void</b> tanks never join a column — each is its own single-cell column. Creative
+ *       would feed an endless source into a shared body; void would destroy its neighbours' fluid,
+ *       because settling refills its cell as fast as it drains. See {@link TankTier#joinsColumn()}.
  * </ul>
  *
  * <p>Loaders that report fluid in coarser units than droplets pass a {@code quantum} to insert/extract:

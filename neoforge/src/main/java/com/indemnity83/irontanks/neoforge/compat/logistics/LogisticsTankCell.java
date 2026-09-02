@@ -71,7 +71,6 @@ final class LogisticsTankCell implements TankCell {
     public boolean joinsColumn() {
         // Creative and void tanks stay isolated single-cell columns — creative would feed an endless
         // source into a shared body, and void would silently destroy a neighbour's fluid.
-        TankTier tier = tank.tier();
-        return tier != TankTier.CREATIVE && tier != TankTier.VOID;
+        return tank.tier().joinsColumn();
     }
 }

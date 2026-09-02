@@ -69,6 +69,28 @@ public enum TankTier {
         return hardness;
     }
 
+    /**
+     * Whether tanks of this tier join the shared vertical fluid column. Creative and void tanks stay
+     * isolated single-cell columns: a creative tank would feed an endless source into a shared body, and
+     * a void tank would silently destroy its neighbours' fluid — settling keeps its cell topped up, so
+     * the per-tick drain in {@link VoidTank} would eat the whole stack instead of only its own contents.
+     *
+     * <p>This is the single membership rule; every consumer (column traversal, the block's joined/seamless
+     * rendering, the in-place upgrade, and the Logistics bridge) asks here so they cannot diverge.
+     */
+    public boolean joinsColumn() {
+        return this != CREATIVE && this != VOID;
+    }
+
+    /**
+     * Whether a tank of this tier renders joined to the tank directly below it — the same rule the fluid
+     * column uses, so the seamless side texture never claims a connection the fluid does not have.
+     * {@code below} is {@code null} when the block underneath is not a tank at all.
+     */
+    public boolean joinsWith(TankTier below) {
+        return below != null && joinsColumn() && below.joinsColumn();
+    }
+
     /** Explosion resistance for this tier's tank; obsidian is high enough to be blast-proof. */
     public float blastResistance() {
         return blastResistance;
