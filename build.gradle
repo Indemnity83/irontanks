@@ -39,3 +39,56 @@ spotless {
         gson().indentWithSpaces(2)
     }
 }
+
+// Gson, Log4j2 and SLF4J come from Minecraft at runtime; `core` only pins them (gradle.properties) so
+// its crash handler can compile and be unit-tested. Nothing links those pins in a shipped jar, so a pin
+// that drifts from what Minecraft actually forces is invisible to every CI job until a moved signature
+// throws NoSuchMethodError — inside the crash handler, turning a reportable crash into a secondary one.
+// `checkMinecraftLibraryPins` re-reads the versions each loader's compile classpath resolves and fails
+// when a pin no longer matches. It walks the dependency graph only (metadata, no artifact downloads) on
+// a configuration the loader already resolves in order to compile, so it costs nothing extra next to
+// :<loader>:jar. Keys are exactly the coordinates core declares in its dependencies block.
+def minecraftProvidedPins = [
+    'com.google.code.gson:gson'          : 'gson_version',
+    'org.apache.logging.log4j:log4j-core': 'log4j_version',
+    'org.slf4j:slf4j-api'                : 'slf4j_version',
+]
+
+configure([project(':fabric'), project(':neoforge')]) {
+    tasks.register('checkMinecraftLibraryPins') {
+        group = 'verification'
+        description = 'Fails when a gradle.properties pin drifts from the version Minecraft forces onto this loader\'s compile classpath.'
+        doLast {
+            var resolved = [:]
+            configurations.compileClasspath.incoming.resolutionResult.allComponents { component ->
+                var id = component.moduleVersion
+                if (id != null) {
+                    resolved["${id.group}:${id.name}".toString()] = id.version
+                }
+            }
+            var problems = minecraftProvidedPins.collect { coordinate, property ->
+                var pinned = rootProject.property(property)
+                var actual = resolved[coordinate]
+                if (actual == null) {
+                    return "${coordinate} is pinned as ${property}=${pinned} but is not on the ${project.name} " +
+                            "compile classpath at all — Minecraft no longer supplies it, so drop the pin and core's " +
+                            "dependency on it, or bundle the library deliberately."
+                }
+                if (actual != pinned) {
+                    return "${coordinate} resolves to ${actual} on the ${project.name} compile classpath but " +
+                            "gradle.properties pins ${property}=${pinned} — update the pin to ${actual}."
+                }
+                return null
+            }.findAll()
+            if (problems) {
+                throw new GradleException(
+                        "Minecraft-provided library pins are stale:\n  " + problems.join('\n  '))
+            }
+        }
+    }
+
+    // Runs as part of `check`/`build` locally; CI invokes it explicitly alongside :<loader>:jar.
+    plugins.withId('java') {
+        tasks.named('check') { dependsOn 'checkMinecraftLibraryPins' }
+    }
+}
