@@ -31,11 +31,12 @@ Each tier crams more fluid into the same one-block footprint:
 | [Diamond](https://github.com/Indemnity83/irontanks/wiki#diamond-tank) | 64 buckets | |
 | [Emerald](https://github.com/Indemnity83/irontanks/wiki#emerald-tank) | 96 buckets | |
 | [Obsidian](https://github.com/Indemnity83/irontanks/wiki#obsidian-tank) | 64 buckets | Explosion-proof |
-| **Void** | — | Destroys any fluid pumped into it |
+| **Void** | — | Destroys any fluid pumped into it (never shares fluid with a stack) |
 | **Creative** | ∞ | Infinite source of whatever you put in it (creative/testing) |
 
 - **Stack them.** Connected tanks share one fluid and render as a single continuous body — liquids
-  settle to the bottom, gases rise to the top.
+  settle to the bottom, gases rise to the top. Void and creative tanks are the exception: they stay
+  separate from the stack, so a void tank never eats its neighbours' fluid.
 - **Upgrade in place.** [Upgrade items](https://github.com/Indemnity83/irontanks/wiki#upgrades)
   promote a placed tank to a higher tier without losing its contents.
 
