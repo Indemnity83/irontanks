@@ -79,7 +79,30 @@ jobs:
             exit 1
           fi
 
-          MC_VERSION="$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)"
+          # Reads exactly one non-empty "<key>=<value>" out of gradle.properties into the named
+          # variable. A missing, duplicated, or empty key is a hard failure: pipefail alone only
+          # catches a missing key, while "minecraft_version=" published a "3.3.2+mc.neoforge" jar.
+          read_property() {
+            local __var="$1" key="$2" value count
+            count="$(grep -c "^${key}=" gradle.properties || true)"
+            if [[ "$count" != "1" ]]; then
+              echo "::error::gradle.properties must define exactly one '${key}=' entry (found ${count})"
+              return 1
+            fi
+            value="$(grep "^${key}=" gradle.properties | cut -d'=' -f2-)"
+            value="${value//[[:space:]]/}"
+            if [[ -z "$value" ]]; then
+              echo "::error::gradle.properties defines '${key}=' with an empty value"
+              return 1
+            fi
+            printf -v "$__var" '%s' "$value"
+          }
+
+          version_lt() {
+            [[ "$1" != "$2" && "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -n1)" == "$1" ]]
+          }
+
+          read_property MC_VERSION minecraft_version
           LOADER="$MATRIX_LOADER"
 
           # The stores must advertise the same range the jars declare, or store-side version filters
@@ -87,16 +110,24 @@ jobs:
           # range from minecraft_compatibility_versions ("<min>,<next>", min inclusive / next exclusive
           # — see the processResources blocks in fabric/build.gradle and neoforge/build.gradle), so
           # derive the published set from the same property with the same half-open semantics.
-          COMPAT="$(grep '^minecraft_compatibility_versions=' gradle.properties | cut -d'=' -f2)"
-          COMPAT="${COMPAT// /}"
+          read_property COMPAT minecraft_compatibility_versions
           COMPAT_MIN="${COMPAT%%,*}"
           COMPAT_NEXT="${COMPAT#*,}"
           if [[ "$COMPAT" != *,* || -z "$COMPAT_MIN" || -z "$COMPAT_NEXT" || "$COMPAT_NEXT" == *,* ]]; then
             echo "::error::minecraft_compatibility_versions must be formatted as '<min>,<next>' (got: '$COMPAT')"
             exit 1
           fi
-          # Identical to the range fabric.mod.json declares; mc-publish resolves it against the game's
-          # version manifest, so every release in [min, next) is published, including future patches.
+          # The jar is built for minecraft_version but advertised for [min, next). If a version bump
+          # moves one property and leaves the other behind, the release is advertised for every
+          # version except the one it was built against — refuse to publish that combination.
+          if version_lt "$MC_VERSION" "$COMPAT_MIN" || ! version_lt "$MC_VERSION" "$COMPAT_NEXT"; then
+            echo "::error::minecraft_version ($MC_VERSION) is outside minecraft_compatibility_versions '>=$COMPAT_MIN <$COMPAT_NEXT'"
+            exit 1
+          fi
+          # Character-for-character the range fabric.mod.json declares. NOTE: mc-publish expands this
+          # against Mojang's version manifest at publish time and the stores then record the resulting
+          # concrete list, so a release advertises only the versions that already exist when it is
+          # published — patches released later are NOT backfilled onto it (issue #239).
           GAME_VERSIONS=">=${COMPAT_MIN} <${COMPAT_NEXT}"
 
           # SemVer build metadata distinguishes the two loader jars: 2.2.0+mc26.1.2.fabric
@@ -148,10 +179,10 @@ jobs:
         with:
           loaders: ${{ matrix.loader }}
           game-versions: ${{ steps.version.outputs.game_versions }}
-          # Releases ship against release versions of the game only. mc-publish's default filter also
-          # adds "min-major | min-minor", which would silently truncate the range if it ever spanned
-          # more than one minor line — pin it to "releases" so the published set matches the declared
-          # range exactly.
+          # Releases ship against release versions of the game only, never snapshots. This is also
+          # mc-publish's own default at the pinned SHA (action.yml: `game-version-filter: releases`);
+          # stating it explicitly keeps the published set tied to the range above if that default
+          # ever changes under a version bump.
           game-version-filter: releases
 
           modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
