@@ -49,13 +49,30 @@ public final class Log4j2Bridge {
      * True when an event should be forwarded: it carries a throwable and originates from an Iron
      * Tanks logger. Parameterized over primitives so it's testable without constructing a Log4j2
      * {@link LogEvent}.
+     *
+     * <p>Matching is namespace-exact: the name must be one of our namespaces, or a child of one
+     * separated by {@code .} or {@code /}. A third-party logger that merely begins with our name —
+     * {@code IronTanksExtras}, {@code irontanksplus.core} — is another mod's, and its errors (and
+     * whatever user data they carry) must never reach our crash reporter.
      */
     public static boolean shouldForward(String loggerName, boolean hasThrowable) {
         if (!hasThrowable || loggerName == null) {
             return false;
         }
         String lower = loggerName.toLowerCase(Locale.ROOT);
-        return lower.startsWith("irontanks") || lower.contains("com.indemnity83.irontanks");
+        return inNamespace(lower, "irontanks") || inNamespace(lower, "com.indemnity83.irontanks");
+    }
+
+    /** True when {@code name} is exactly {@code namespace} or a {@code .}/{@code /}-separated child of it. */
+    private static boolean inNamespace(String name, String namespace) {
+        if (!name.startsWith(namespace)) {
+            return false;
+        }
+        if (name.length() == namespace.length()) {
+            return true;
+        }
+        char next = name.charAt(namespace.length());
+        return next == '.' || next == '/';
     }
 
     public void attach() {
