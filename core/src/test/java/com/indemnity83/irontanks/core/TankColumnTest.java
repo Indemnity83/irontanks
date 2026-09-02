@@ -139,6 +139,77 @@ class TankColumnTest {
                 .isFalse();
     }
 
+    // ==================== read side (advertised state) ====================
+
+    @Test
+    void reportsTheSharedFluidOfAPlainColumn() {
+        TankColumn<FakeFluid> col = column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000));
+        assertThat(col.reportedFluid()).isEqualTo(WATER);
+        assertThat(col.reportedTotal()).isEqualTo(400);
+        assertThat(col.reportedCapacity()).isEqualTo(2000);
+    }
+
+    @Test
+    void reportsAMixedColumnAsEmpty() {
+        // Two pre-filled tanks joined by a third: every transfer refuses, so the read side must not
+        // advertise the first fluid paired with the summed total of all of them.
+        TankColumn<FakeFluid> col =
+                column(FakeCell.of(1000, WATER, 1000), FakeCell.of(1000), FakeCell.of(1000, LAVA, 1000));
+        assertThat(col.mixed()).isTrue();
+        assertThat(col.reportedFluid()).isNull();
+        assertThat(col.reportedTotal()).isZero();
+        assertThat(col.reportedCapacity()).isZero();
+        assertThat(col.accepts(WATER)).isFalse();
+        assertThat(col.accepts(LAVA)).isFalse();
+        assertThat(col.capacityFor(WATER)).isZero();
+    }
+
+    @Test
+    void reportsASealedPotionColumnAsEmpty() {
+        TankColumn<FakeFluid> col = column(FakeCell.of(1000, POTION, 400));
+        assertThat(col.reportedFluid()).isNull();
+        assertThat(col.reportedTotal()).isZero();
+        assertThat(col.reportedCapacity()).isZero();
+        assertThat(col.accepts(WATER)).isFalse();
+        assertThat(col.capacityFor(WATER)).isZero();
+    }
+
+    @Test
+    void acceptsAgreesWithWhatInsertWillActuallyDo() {
+        // Every advertised "yes" must be backed by a transfer that moves something, and vice versa.
+        assertThat(column(FakeCell.of(1000)).accepts(WATER)).isTrue();
+        assertThat(column(FakeCell.of(1000, WATER, 400)).accepts(WATER)).isTrue();
+        assertThat(column(FakeCell.of(1000, WATER, 400)).accepts(LAVA)).isFalse();
+        assertThat(column(FakeCell.of(1000)).accepts(POTION)).isFalse();
+        assertThat(column(FakeCell.of(1000, POTION, 400)).accepts(WATER)).isFalse();
+        assertThat(column(FakeCell.of(1000)).accepts(null)).isFalse();
+        assertThat(column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000, LAVA, 400))
+                        .accepts(WATER))
+                .isFalse();
+    }
+
+    @Test
+    void capacityForIsZeroForAResourceTheColumnRefuses() {
+        // A column holding water advertises no room for lava: a router computing free room as
+        // capacity - amount must not pick this tank as a lava destination.
+        TankColumn<FakeFluid> col = column(FakeCell.of(1000, WATER, 400));
+        assertThat(col.capacityFor(WATER)).isEqualTo(1000);
+        assertThat(col.capacityFor(LAVA)).isZero();
+        assertThat(col.capacityFor(POTION)).isZero();
+    }
+
+    @Test
+    void capacityForTheEmptyResourceReportsTheGeneralCapacity() {
+        // The transfer API asks with an empty resource to mean "capacity in general" — full capacity
+        // for a usable column, still nothing for one no transfer can touch.
+        assertThat(column(FakeCell.of(1000)).capacityFor(null)).isEqualTo(1000);
+        assertThat(column(FakeCell.of(1000, WATER, 400)).capacityFor(null)).isEqualTo(1000);
+        assertThat(column(FakeCell.of(1000, WATER, 400), FakeCell.of(1000, LAVA, 400))
+                        .capacityFor(null))
+                .isZero();
+        assertThat(column(FakeCell.of(1000, POTION, 400)).capacityFor(null)).isZero();
+    }
+
     @Test
     void aCellHoldingNoFluidContributesNothingEvenIfItsAmountSurvived() {
         // A tank whose stored fluid no longer resolves (its mod was removed) can come back with a

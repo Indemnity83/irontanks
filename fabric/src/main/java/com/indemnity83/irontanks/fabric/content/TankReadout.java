@@ -1,5 +1,6 @@
 package com.indemnity83.irontanks.fabric.content;
 
+import com.indemnity83.irontanks.core.TankColumn;
 import com.indemnity83.irontanks.core.TankTier;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +22,16 @@ public final class TankReadout {
     private TankReadout() {}
 
     public static Component describe(TankBlockEntity tank) {
-        long total = 0;
-        long capacity = 0;
-        FluidVariant fluid = FluidVariant.blank();
-        for (TankBlockEntity t : tank.columnTanks()) {
-            total += t.amount();
-            capacity += t.capacity();
-            if (fluid.isBlank() && !t.fluidVariant().isBlank()) {
-                fluid = t.fluidVariant();
-            }
+        TankColumn<FluidVariant> column = tank.asColumn();
+        if (column.mixed()) {
+            // Two fluids joined into one column: nothing here transfers, so say that rather than name
+            // one of them and report the summed total of all of them.
+            return Component.translatable("irontanks.readout.mixed");
         }
+
+        FluidVariant fluid = column.shared();
+        long total = column.total();
+        long capacity = column.capacity();
         if (fluid.isBlank() || total <= 0) {
             return Component.translatable("irontanks.readout.empty");
         }
@@ -53,18 +54,12 @@ public final class TankReadout {
     }
 
     /**
-     * Whether the tank column holds a potion (water carrying a {@code potion_contents} component). Jade's
-     * native fluid bar already shows plain fluids, so the HUD adds our line only for potions — which are
-     * sealed from the fluid API and so would otherwise be invisible there.
+     * Whether the fluid API hides this column's contents — it holds a potion (sealed to the bottle path)
+     * or is mixed (no transfer will move it), and either way reports itself blank. Jade's native fluid
+     * bar already shows plain fluids, so the HUD adds our line exactly where that bar shows nothing.
      */
-    public static boolean isPotion(TankBlockEntity tank) {
-        for (TankBlockEntity t : tank.columnTanks()) {
-            FluidVariant fluid = t.fluidVariant();
-            if (!fluid.isBlank() && fluid.get(DataComponents.POTION_CONTENTS) != null) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean hiddenFromFluidApi(TankBlockEntity tank) {
+        return tank.asColumn().inert();
     }
 
     /** The potion's effect line ("Strength II (3:00)"), or its base name when it has no effects. */
