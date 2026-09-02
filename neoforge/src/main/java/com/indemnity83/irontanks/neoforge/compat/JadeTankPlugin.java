@@ -30,10 +30,10 @@ public class JadeTankPlugin implements IWailaPlugin, IBlockComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
-        // Only potions: Jade's built-in fluid bar already shows plain fluids and their amount, so adding
-        // our line there would just duplicate it. Potions are sealed from the fluid API (no bar), so our
-        // line is the only thing that identifies them.
-        if (accessor.getBlockEntity() instanceof TankBlockEntity tank && TankReadout.isPotion(tank)) {
+        // Only what the fluid API hides: Jade's built-in fluid bar already shows plain fluids and their
+        // amount, so adding our line there would just duplicate it. A stored potion and a mixed column
+        // both report themselves empty to that API (no bar), so our line is all that identifies them.
+        if (accessor.getBlockEntity() instanceof TankBlockEntity tank && TankReadout.hiddenFromFluidApi(tank)) {
             tooltip.add(TankReadout.describe(tank));
         }
     }

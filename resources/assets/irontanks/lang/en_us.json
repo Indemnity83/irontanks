@@ -32,6 +32,7 @@
   "irontanks.tooltip.void_tank": "Destroys fluids",
   "irontanks.tooltip.creative_tank": "Dispenses an infinite amount",
   "irontanks.readout.empty": "Empty",
+  "irontanks.readout.mixed": "Mixed contents — nothing can flow in or out",
   "irontanks.readout.line": "%1$s · %2$s",
   "irontanks.readout.amount": "%1$s / %2$s mB",
   "irontanks.readout.potion": "%1$s × %2$s",
