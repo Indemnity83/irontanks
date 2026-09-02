@@ -1,5 +1,6 @@
 package com.indemnity83.irontanks.neoforge.content;
 
+import com.indemnity83.irontanks.core.BottleOutcome;
 import com.indemnity83.irontanks.core.TankTier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -92,9 +93,16 @@ public class TankBlock extends BaseEntityBlock {
             BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
             if (stack.is(Items.POTION) || stack.is(Items.GLASS_BOTTLE)) {
-                return bottleInteraction(stack, level, pos, player, hand, tank)
-                        ? InteractionResult.SUCCESS
-                        : InteractionResult.PASS;
+                // A refusal is CONSUME, not PASS or FAIL. Only a Success consumesAction(), and the
+                // game modes fall through to the item's own use behavior for anything that isn't one
+                // — so a FAIL here would still let the player drink the potion the tank declined.
+                // CONSUME is a Success with SwingSource.NONE: it ends the interaction without an
+                // arm swing or use animation.
+                return switch (bottleInteraction(stack, level, pos, player, hand, tank)) {
+                    case TRANSFERRED -> InteractionResult.SUCCESS;
+                    case REFUSED -> InteractionResult.CONSUME;
+                    case NOT_HANDLED -> InteractionResult.PASS;
+                };
             }
             if (FluidUtil.interactWithFluidHandler(player, hand, level, pos, hit.getDirection())) {
                 return InteractionResult.SUCCESS;
@@ -115,38 +123,53 @@ public class TankBlock extends BaseEntityBlock {
 
     /**
      * Deposits a potion (held {@link Items#POTION}) into the tank or draws one out into a held
-     * {@link Items#GLASS_BOTTLE}. Returns whether a full bottle's worth actually transferred — on the
-     * client this is a non-committing dry run so the result matches the server without mutating state.
+     * {@link Items#GLASS_BOTTLE}. Reports whether a full bottle transferred, the tank refused, or the
+     * item was never the tank's to move — on the client this is a non-committing dry run so the result
+     * matches the server without mutating state.
      */
-    private static boolean bottleInteraction(
+    private static BottleOutcome bottleInteraction(
             ItemStack stack, Level level, BlockPos pos, Player player, InteractionHand hand, TankBlockEntity tank) {
-        boolean commit = !level.isClientSide();
         TankFluidHandler handler = new TankFluidHandler(tank);
-
         if (stack.is(Items.POTION)) {
             PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
-            if (contents == null) {
-                return false; // not a real potion; let vanilla handle it (e.g. drinking)
-            }
-            FluidResource resource = isPlainWater(contents)
-                    ? FluidResource.of(Fluids.WATER)
-                    : FluidResource.of(Fluids.WATER).with(DataComponents.POTION_CONTENTS, contents);
-            try (Transaction tx = Transaction.openRoot()) {
-                if (!handler.depositBottle(resource, tx)) {
-                    return false;
-                }
-                if (!commit) {
-                    return true;
-                }
-                tx.commit();
-            }
-            level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-            consumeAndReturn(player, hand, stack, new ItemStack(Items.GLASS_BOTTLE));
-            return true;
+            boolean realPotion = contents != null;
+            boolean stored = realPotion && depositPotion(contents, level, pos, player, hand, stack, handler);
+            return BottleOutcome.deposit(realPotion, stored);
         }
+        return BottleOutcome.draw(drawBottle(level, pos, player, hand, stack, handler));
+    }
 
-        // Empty glass bottle: only water can be bottled (a non-water fluid leaves the bottle empty).
-        // currentFluid() (not the pipe-facing getResource) so a sealed potion is still bottle-drawable.
+    /** Stores a held potion as water carrying its contents. Returns whether a full bottle transferred. */
+    private static boolean depositPotion(
+            PotionContents contents,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            ItemStack stack,
+            TankFluidHandler handler) {
+        FluidResource resource = isPlainWater(contents)
+                ? FluidResource.of(Fluids.WATER)
+                : FluidResource.of(Fluids.WATER).with(DataComponents.POTION_CONTENTS, contents);
+        try (Transaction tx = Transaction.openRoot()) {
+            if (!handler.depositBottle(resource, tx)) {
+                return false;
+            }
+            if (level.isClientSide()) {
+                return true;
+            }
+            tx.commit();
+        }
+        level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+        consumeAndReturn(player, hand, stack, new ItemStack(Items.GLASS_BOTTLE));
+        return true;
+    }
+
+    /** Fills a held glass bottle from the tank. Returns whether a full bottle transferred. */
+    private static boolean drawBottle(
+            Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack, TankFluidHandler handler) {
+        // Only water can be bottled (a non-water fluid leaves the bottle empty). currentFluid() (not
+        // the pipe-facing getResource) so a sealed potion is still bottle-drawable.
         FluidResource current = handler.currentFluid();
         if (current.isEmpty() || current.getFluid() != Fluids.WATER) {
             return false;
@@ -155,7 +178,7 @@ public class TankBlock extends BaseEntityBlock {
             if (!handler.extractBottle(current, tx)) {
                 return false;
             }
-            if (!commit) {
+            if (level.isClientSide()) {
                 return true;
             }
             tx.commit();
