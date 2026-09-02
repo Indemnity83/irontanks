@@ -1,5 +1,6 @@
 package com.indemnity83.irontanks.neoforge.client;
 
+import com.indemnity83.irontanks.core.FluidBody;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.jetbrains.annotations.Nullable;
@@ -10,9 +11,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class TankRenderState extends BlockEntityRenderState {
     public boolean hasFluid;
-    public float fillRatio;
-    /** Draw the fluid's top surface here; false when connected fluid continues above, so columns merge. */
-    public boolean renderTop;
+    /** Where the fluid sits in the block and which of its faces to draw (see {@link FluidBody}). */
+    public FluidBody body = FluidBody.EMPTY;
 
     @Nullable
     public TextureAtlasSprite sprite;
