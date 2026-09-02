@@ -87,4 +87,17 @@ class TankTierTest {
             }
         }
     }
+
+    @Test
+    void aTankNeverRendersJoinedToATankItDoesNotShareFluidWith() {
+        // joined_below drives the seamless side texture, so it has to follow the same rule as the fluid
+        // column: a seam is hidden only where the two tanks really do share one body of fluid.
+        assertThat(TankTier.IRON.joinsWith(TankTier.GOLD)).isTrue();
+        assertThat(TankTier.IRON.joinsWith(TankTier.VOID)).isFalse();
+        assertThat(TankTier.VOID.joinsWith(TankTier.IRON)).isFalse();
+        assertThat(TankTier.VOID.joinsWith(TankTier.VOID)).isFalse();
+        assertThat(TankTier.IRON.joinsWith(TankTier.CREATIVE)).isFalse();
+        // Nothing below (or a non-tank block) never joins.
+        assertThat(TankTier.IRON.joinsWith(null)).isFalse();
+    }
 }

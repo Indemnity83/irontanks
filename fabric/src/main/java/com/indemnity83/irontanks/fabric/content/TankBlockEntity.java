@@ -37,6 +37,8 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
 
     private FluidVariant fluid = FluidVariant.blank();
     private long amount;
+    /** Not persisted: cleared on load so the first tick can repair a stale {@code joined_below}. */
+    private boolean joinedBelowChecked;
 
     public TankBlockEntity(BlockPos pos, BlockState state) {
         super(IronTanksContent.TANK_BLOCK_ENTITY, pos, state);
@@ -126,6 +128,12 @@ public class TankBlockEntity extends BlockEntity implements TankCell<FluidVarian
     private void tick() {
         if (level == null || level.isClientSide()) {
             return;
+        }
+        if (!joinedBelowChecked) {
+            // Runs once per load: repairs a joined_below saved before the tank below stopped joining the
+            // column (an old void tank), which no neighbour update would ever recompute.
+            joinedBelowChecked = true;
+            TankBlock.refreshJoinedBelow(level, worldPosition, getBlockState());
         }
         boolean changed = false;
         TankTier tier = tier();
