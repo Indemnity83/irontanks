@@ -93,11 +93,14 @@ public class TankBlock extends BaseEntityBlock {
             BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
             if (stack.is(Items.POTION) || stack.is(Items.GLASS_BOTTLE)) {
-                // A refusal is FAIL, not PASS: PASS falls through to the item's own use behavior,
-                // which would drink the very potion the tank just declined to store.
+                // A refusal is CONSUME, not PASS or FAIL. Only a Success consumesAction(), and the
+                // game modes fall through to the item's own use behavior for anything that isn't one
+                // — so a FAIL here would still let the player drink the potion the tank declined.
+                // CONSUME is a Success with SwingSource.NONE: it ends the interaction without an
+                // arm swing or use animation.
                 return switch (bottleInteraction(stack, level, pos, player, hand, tank)) {
                     case TRANSFERRED -> InteractionResult.SUCCESS;
-                    case REFUSED -> InteractionResult.FAIL;
+                    case REFUSED -> InteractionResult.CONSUME;
                     case NOT_HANDLED -> InteractionResult.PASS;
                 };
             }

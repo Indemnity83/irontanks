@@ -9,7 +9,9 @@ package com.indemnity83.irontanks.core;
  * <ul>
  *   <li>{@link #TRANSFERRED} — a full bottle moved; the tank consumed the interaction.
  *   <li>{@link #REFUSED} — the tank owned the interaction and said no (full, wrong fluid, mixed
- *       column, nothing to give). Nothing else may act on the item.
+ *       column, nothing to give). Nothing else may act on the item, so a loader must map this to a
+ *       result that <em>consumes</em> the interaction — not a "failed" one, which the game modes
+ *       treat the same as a hand-off and still fall through.
  *   <li>{@link #NOT_HANDLED} — the item is not one the tank knows how to move; the game may handle
  *       it normally.
  * </ul>
