@@ -23,8 +23,7 @@ public final class CrashReportNotifier {
 
     private static final Set<UUID> NOTIFIED_THIS_SESSION = ConcurrentHashMap.newKeySet();
 
-    private static final String DETAILS_URL =
-            "https://github.com/Indemnity83/irontanks/blob/mc/26.1/CRASH_REPORTING.md";
+    private static final String DETAILS_URL = CrashReporting.PRIVACY_URL;
     private static final String ENABLE_COMMAND = "/irontanks diagnostics enable";
     private static final String DISABLE_COMMAND = "/irontanks diagnostics disable";
     private static final String HIDE_COMMAND = "/irontanks diagnostics notify off";
